@@ -48,13 +48,13 @@
   };
 </script>
 
-  <meta name="description" content="前言">
+  <meta name="description" content="前言因为原有的论坛升级不了（没钱买商业版的！）而且那个论坛看久了觉得又老又丑，所以打算重新搭建一个论坛。在网上找了半个月了，发现国内的程序太笨重了，还是在国外的社交网站上找到了几个，原本想搭建Flarum的论坛的，但是flarum经历了8年的开发还是bate版的，而且插件也不是很友好，就算了。重新找了一个国外比较火的nodebb。也就是我们论坛现在的程序。基于node.js的。还算可以。">
 <meta name="keywords" content="搭建">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nodebb论坛搭建过程">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;07&#x2F;15&#x2F;nodebb%E8%AE%BA%E5%9D%9B%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B&#x2F;index.html">
 <meta property="og:site_name" content="LionKing">
-<meta property="og:description" content="前言">
+<meta property="og:description" content="前言因为原有的论坛升级不了（没钱买商业版的！）而且那个论坛看久了觉得又老又丑，所以打算重新搭建一个论坛。在网上找了半个月了，发现国内的程序太笨重了，还是在国外的社交网站上找到了几个，原本想搭建Flarum的论坛的，但是flarum经历了8年的开发还是bate版的，而且插件也不是很友好，就算了。重新找了一个国外比较火的nodebb。也就是我们论坛现在的程序。基于node.js的。还算可以。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;10&#x2F;I54YMEcLo6pzbqJ.png">
 <meta property="og:updated_time" content="2019-11-10T14:06:24.958Z">
@@ -245,7 +245,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><a id="more"></a><p>因为原有的论坛升级不了（没钱买商业版的！）而且那个论坛看久了觉得又老又丑，所以打算重新搭建一个论坛。在网上找了半个月了，发现国内的程序太笨重了，还是在国外的社交网站上找到了几个，原本想搭建Flarum的论坛的，但是flarum经历了8年的开发还是bate版的，而且插件也不是很友好，就算了。重新找了一个国外比较火的nodebb。也就是我们论坛现在的程序。基于node.js的。还算可以。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为原有的论坛升级不了（没钱买商业版的！）而且那个论坛看久了觉得又老又丑，所以打算重新搭建一个论坛。在网上找了半个月了，发现国内的程序太笨重了，还是在国外的社交网站上找到了几个，原本想搭建Flarum的论坛的，但是flarum经历了8年的开发还是bate版的，而且插件也不是很友好，就算了。重新找了一个国外比较火的nodebb。也就是我们论坛现在的程序。基于node.js的。还算可以。</p><a id="more"></a>
 <p>为了搭建这个论坛，从在自己的虚拟机模拟环境到在阿里云上搭建，花了我半个月的时间吧（上班也在看这东西），其中老是找老马重置阿里云服务器也是费了不少功夫，挺麻烦了，我估摸着重置服务器大概10+次了吧，各种各样的问题都有，错一步都不行。还是辛苦老马了，无时无刻都给我提供阿里云的验证码。</p>
 <p>下面的搭建步骤都是我经过十几次的错误总结出来的，因为这个程序在国内使用的组织不超过5个，所以很多网上的教程都是直接翻译外国人的，其实他们自己都看不懂自己在写什么。这套优秀的程序虽然我不懂为啥在国内火不起来（有可能是买不到nodebb的授权或者搭建很困难），但是既然被我发现了，那就要好好利用一下。</p>
 <p>说到搭建困难，这套程序的每一个步骤都是非常关键的，就算是你从github上下载源码，都不一定能搭建成功，而且这个程序中很多架构是需要翻墙才能加载的，阿里云不让翻，所以我也特地把教程中所有的用到“外网”的东西全都用国内大佬特制的命令“汉化”了</p>
