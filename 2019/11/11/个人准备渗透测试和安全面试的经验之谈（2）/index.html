@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="文章摘选自：https:&#x2F;&#x2F;github.com&#x2F;Leezj9671&#x2F;Pentest_Interview&#x2F;blob&#x2F;master&#x2F;%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="个人准备渗透测试和安全面试的经验之谈（2）">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;11&#x2F;%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="文章摘选自：https:&#x2F;&#x2F;github.com&#x2F;Leezj9671&#x2F;Pentest_Interview&#x2F;blob&#x2F;master&#x2F;%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-11T03:27:54.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>个人准备渗透测试和安全面试的经验之谈（2） | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          个人准备渗透测试和安全面试的经验之谈（2）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-11-11 23:10:29 / 修改时间：11:27:54" itemprop="dateCreated datePublished" datetime="2019-11-11T23:10:29+08:00">2019-11-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>文章摘选自：<a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#面试问题记录">面试问题记录</a><ul>
+<li><a href="#360">360</a><ul>
+<li><a href="#sql的存储引擎">SQL的存储引擎</a></li>
+<li><a href="#sql注入写shell的条件用法">SQL注入写shell的条件，用法</a></li>
+<li><a href="#gpc是什么开启了怎么绕过">GPC是什么？开启了怎么绕过</a></li>
+<li><a href="#mysql一个和两个什么区别">Mysql一个@和两个@什么区别</a></li>
+<li><a href="#iis解析漏洞不同版本有什么漏洞还有什么容器解析漏洞">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</a></li>
+<li><a href="#wireshark抓包数据报经过三层交换机路由的变化nat协议描述地址进入内网怎么变化">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</a></li>
+<li><a href="#linux计划任务黑客隐藏自己的计划任务会怎么做windows计划任务怎么设定">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</a></li>
+<li><a href="#挖过最难的漏洞是什么">挖过最难的漏洞是什么</a></li>
+</ul>
+</li>
+<li><a href="#ukelink">ukelink</a><ul>
+<li><a href="#病毒和蠕虫的区别">病毒和蠕虫的区别</a></li>
+<li><a href="#dns欺骗是什么">DNS欺骗是什么</a></li>
+<li><a href="#DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</a></li>
+<li><a href="#陆地land攻击是什么">陆地land攻击是什么</a></li>
+<li><a href="#xss有什么执行存储型的xss的危害和原理">xss有什么？执行存储型的xss的危害和原理</a></li>
+<li><a href="#渗透测试流程不够清晰太浅显">渗透测试流程？（不够清晰，太浅显</a></li>
+<li><a href="#有没有移动端的调试经验-apkipa包分析">有没有移动端的调试经验 apk,ipa包分析</a></li>
+<li><a href="#对于云安全的理解">对于云安全的理解</a></li>
+<li><a href="#虚拟机逃逸的理解">虚拟机逃逸的理解</a></li>
+<li><a href="#英语介绍一下自己">英语介绍一下自己</a></li>
+<li><a href="#职业路径">职业路径</a></li>
+<li><a href="#大学做过什么相关的事情">大学做过什么相关的事情</a></li>
+<li><a href="#在工作会做什么来不断提高自己的能力">在工作会做什么来不断提高自己的能力</a></li>
+</ul>
+</li>
+<li><a href="#卓望">卓望</a><ul>
+<li><a href="#渗透测试流程">渗透测试流程</a></li>
+<li><a href="#描述渗透项目做了什么">描述渗透项目，做了什么</a></li>
+<li><a href="#xss漏洞类型详情修复方案">xss漏洞类型、详情、修复方案</a></li>
+<li><a href="#sql注入原理类型waf绕过写shell提权修复方案">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</a></li>
+<li><a href="#终端的渗透经验">终端的渗透经验</a></li>
+<li><a href="#了解什么比较新的漏洞">了解什么比较新的漏洞</a></li>
+<li><a href="#企业内部安全">企业内部安全</a></li>
+</ul>
+</li>
+<li><a href="#安巽">安巽</a><ul>
+<li><a href="#算法了解过什么排序">算法？了解过什么排序？</a></li>
+<li><a href="#爬虫">爬虫</a><ul>
+<li><a href="#页面存在很多js的时候用什么">页面存在很多js的时候，用什么</a></li>
+<li><a href="#爬虫的待爬取url量级比较大的时候如何对其去重">爬虫的待爬取URL量级比较大的时候，如何对其去重</a></li>
+<li><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么">多线程 异步 协程 多路复用 用哪一个最快 为什么</a></li>
+</ul>
+</li>
+<li><a href="#浏览器的常用编码">浏览器的常用编码</a></li>
+<li><a href="#web常用的加密算法有什么">web常用的加密算法有什么</a></li>
+<li><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</a></li>
+<li><a href="#mysql中like查询会会非常缓慢如何进行优化">mysql中like查询会会非常缓慢，如何进行优化</a></li>
+<li><a href="#做了cdn的网站如何获取真实ip">做了cdn的网站如何获取真实IP</a></li>
+<li><a href="#渗透的时候如何隐藏自己的身份">渗透的时候如何隐藏自己的身份</a></li>
+<li><a href="#主机疑似遭到入侵要看哪里的日志">主机疑似遭到入侵，要看哪里的日志</a></li>
+<li><a href="#sql注入漏洞怎么修复">SQL注入漏洞怎么修复</a></li>
+</ul>
+</li>
+<li><a href="#长亭">长亭</a><ul>
+<li><a href="#安全研究的方面做过哪些渗透测试的工作">安全研究的方面？做过哪些渗透测试的工作？</a></li>
+<li><a href="#只给你一个网址如何进行渗透测试">只给你一个网址，如何进行渗透测试</a></li>
+<li><a href="#SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？">SQL注入，id=1如何检测？order by怎么利用？limit语句怎么利用？盲注有什么？</a></li>
+<li><a href="#sleep被禁用后还能怎么进行sql注入">sleep被禁用后还能怎么进行sql注入</a></li>
+<li><a href="#xss可以控制属性怎么利用">XSS可以控制属性怎么利用</a></li>
+<li><a href="#csrf怎么防护">CSRF怎么防护？</a></li>
+<li><a href="#请求头中哪些是有危害的">请求头中哪些是有危害的？</a></li>
+<li><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</a></li>
+<li><a href="#java中间件的漏洞举几个例子">JAVA中间件的漏洞，举几个例子？</a></li>
+<li><a href="#iis常见的漏洞">IIS常见的漏洞</a></li>
+<li><a href="#python有哪些框架其中出现过哪些漏洞">python有哪些框架，其中出现过哪些漏洞</a></li>
+<li><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</a></li>
+<li><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</a></li>
+<li><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</a></li>
+</ul>
+</li>
+<li><a href="#盛邦">盛邦</a><ul>
+<li><a href="#有没有做过协议分析和抓包分析">有没有做过协议分析和抓包分析</a></li>
+</ul>
+</li>
+<li><a href="#翼果">翼果</a><ul>
+<li><a href="#mysql查看版本">mysql查看版本？</a></li>
+<li><a href="#过安全狗">过安全狗</a></li>
+<li><a href="#编程能力平台逆向修改程序入口rootkit有没有研究过">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="面试问题记录"><a href="#面试问题记录" class="headerlink" title="面试问题记录"></a>面试问题记录</h1><blockquote>
+<p>CONTACT ME: github.com/leezj9671</p>
+</blockquote>
+<h2 id="360"><a href="#360" class="headerlink" title="360"></a>360</h2><h3 id="SQL的存储引擎"><a href="#SQL的存储引擎" class="headerlink" title="SQL的存储引擎"></a>SQL的存储引擎</h3><h3 id="SQL注入写shell的条件，用法"><a href="#SQL注入写shell的条件，用法" class="headerlink" title="SQL注入写shell的条件，用法"></a>SQL注入写shell的条件，用法</h3><h3 id="GPC是什么？开启了怎么绕过"><a href="#GPC是什么？开启了怎么绕过" class="headerlink" title="GPC是什么？开启了怎么绕过"></a>GPC是什么？开启了怎么绕过</h3><h3 id="Mysql一个-和两个-什么区别"><a href="#Mysql一个-和两个-什么区别" class="headerlink" title="Mysql一个@和两个@什么区别"></a>Mysql一个@和两个@什么区别</h3><h3 id="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><a href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞" class="headerlink" title="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"></a>IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</h3><h3 id="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><a href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化" class="headerlink" title="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"></a>wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</h3><h3 id="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><a href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定" class="headerlink" title="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"></a>linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</h3><p>三种主要的at batch cron，一般使用cron在规定的时间执行命令</p>
+<h3 id="挖过最难的漏洞是什么"><a href="#挖过最难的漏洞是什么" class="headerlink" title="挖过最难的漏洞是什么"></a>挖过最难的漏洞是什么</h3><h2 id="ukelink"><a href="#ukelink" class="headerlink" title="ukelink"></a>ukelink</h2><h3 id="病毒和蠕虫的区别"><a href="#病毒和蠕虫的区别" class="headerlink" title="病毒和蠕虫的区别"></a>病毒和蠕虫的区别</h3><h3 id="DNS欺骗是什么"><a href="#DNS欺骗是什么" class="headerlink" title="DNS欺骗是什么"></a>DNS欺骗是什么</h3><p>定义： DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。 原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
+<h3 id="DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><a href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议" class="headerlink" title="DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议"></a>DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</h3><p>SYN攻击 防火墙、特征匹配<br>ACK FLOOD<br>UDP FLOOD<br>ICMP FLOOD<br>CC http的get请求<br>陆地攻击 源IP和目的IP都为同一个<br>UDP DNS QUERY 向被攻击的服务器发送大量的域名解析请求，通常请求解析的域名是随机生成或者是网络世界上根本不存在的域名，被攻击的DNS 服务器在接收到域名解析请求的时候首先会在服务器上查找是否有对应的缓存，如果查找不到并且该域名无法直接由服务器解析的时候，DNS 服务器会向其上层DNS服务器递归查询域名信息</p>
+<h3 id="陆地land攻击是什么"><a href="#陆地land攻击是什么" class="headerlink" title="陆地land攻击是什么"></a>陆地land攻击是什么</h3><h3 id="xss有什么？执行存储型的xss的危害和原理"><a href="#xss有什么？执行存储型的xss的危害和原理" class="headerlink" title="xss有什么？执行存储型的xss的危害和原理"></a>xss有什么？执行存储型的xss的危害和原理</h3><h3 id="渗透测试流程？（不够清晰，太浅显"><a href="#渗透测试流程？（不够清晰，太浅显" class="headerlink" title="渗透测试流程？（不够清晰，太浅显"></a>渗透测试流程？（不够清晰，太浅显</h3><h3 id="有没有移动端的调试经验-apk-ipa包分析"><a href="#有没有移动端的调试经验-apk-ipa包分析" class="headerlink" title="有没有移动端的调试经验 apk,ipa包分析"></a>有没有移动端的调试经验 apk,ipa包分析</h3><h3 id="对于云安全的理解"><a href="#对于云安全的理解" class="headerlink" title="对于云安全的理解"></a>对于云安全的理解</h3><p>权限管理，内网威胁，信息泄露，过于依赖托管厂商</p>
+<h3 id="虚拟机逃逸的理解"><a href="#虚拟机逃逸的理解" class="headerlink" title="虚拟机逃逸的理解"></a>虚拟机逃逸的理解</h3><p>虚拟机之间通信或上层主机的通信</p>
+<h3 id="英语介绍一下自己"><a href="#英语介绍一下自己" class="headerlink" title="英语介绍一下自己"></a>英语介绍一下自己</h3><h3 id="职业路径"><a href="#职业路径" class="headerlink" title="职业路径"></a>职业路径</h3><h3 id="大学做过什么相关的事情"><a href="#大学做过什么相关的事情" class="headerlink" title="大学做过什么相关的事情"></a>大学做过什么相关的事情</h3><h3 id="在工作会做什么来不断提高自己的能力"><a href="#在工作会做什么来不断提高自己的能力" class="headerlink" title="在工作会做什么来不断提高自己的能力"></a>在工作会做什么来不断提高自己的能力</h3><h2 id="卓望"><a href="#卓望" class="headerlink" title="卓望"></a>卓望</h2><h3 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h3><h3 id="描述渗透项目，做了什么"><a href="#描述渗透项目，做了什么" class="headerlink" title="描述渗透项目，做了什么"></a>描述渗透项目，做了什么</h3><h3 id="xss漏洞类型、详情、修复方案"><a href="#xss漏洞类型、详情、修复方案" class="headerlink" title="xss漏洞类型、详情、修复方案"></a>xss漏洞类型、详情、修复方案</h3><h3 id="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><a href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案" class="headerlink" title="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"></a>SQL注入原理、类型，waf绕过，写shell，提权，修复方案</h3><h3 id="终端的渗透经验"><a href="#终端的渗透经验" class="headerlink" title="终端的渗透经验"></a>终端的渗透经验</h3><h3 id="了解什么比较新的漏洞"><a href="#了解什么比较新的漏洞" class="headerlink" title="了解什么比较新的漏洞"></a>了解什么比较新的漏洞</h3><h3 id="企业内部安全"><a href="#企业内部安全" class="headerlink" title="企业内部安全"></a>企业内部安全</h3><p>信息安全管理的本质就是输入和输出。一般防范的风险为物理威胁和网络威胁。<br>防范风险可以从制度和流程（人员入离职流程、权限申请流程）、人员配备和知识积累、风险防范（物理威胁：门禁、监控、禁止USB设备接入、封闭PC、定时巡检；网络威胁：部署行为管控设备、可靠的网络结构、IP和MAC地址绑定，将网络行为分组、限制不必要的软件和通信协议、定期审核日志）</p>
+<h2 id="安巽"><a href="#安巽" class="headerlink" title="安巽"></a>安巽</h2><h3 id="算法？了解过什么排序？"><a href="#算法？了解过什么排序？" class="headerlink" title="算法？了解过什么排序？"></a>算法？了解过什么排序？</h3><p>快速排序 冒泡排序</p>
+<h3 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h3><h4 id="页面存在很多js的时候，用什么"><a href="#页面存在很多js的时候，用什么" class="headerlink" title="页面存在很多js的时候，用什么"></a>页面存在很多js的时候，用什么</h4><p>phnatomJS selenium execjs</p>
+<h4 id="爬虫的待爬取URL量级比较大的时候，如何对其去重"><a href="#爬虫的待爬取URL量级比较大的时候，如何对其去重" class="headerlink" title="爬虫的待爬取URL量级比较大的时候，如何对其去重"></a>爬虫的待爬取URL量级比较大的时候，如何对其去重</h4><ul>
+<li>在数据库中创建字段的UNIQUE属性：对于在数据库中创建字段的UNIQUE属性， 的确是可以避免一些重复性操作。不过在多次MySQL报错之后，程序可能会直接崩溃，因此这种方式不可取</li>
+<li>在数据库中创建一个唯一的索引，在插入数据之前检查待插入的数据是否存在：如果我们要在每一次插入数据之前都去检查待插入的数据是否存在，这样势必会影响程序的效率</li>
+<li>使用Set或HashSet保存数据，确保唯一。可以使用redis，但是内存占用大</li>
+<li>使用Map或是一个定长数组记录某一个URL是否被访问过</li>
+<li>布隆过滤器(bloom filter)，bitmap</li>
+</ul>
+<h4 id="多线程-异步-协程-多路复用-用哪一个最快-为什么"><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么" class="headerlink" title="多线程 异步 协程 多路复用 用哪一个最快 为什么"></a>多线程 异步 协程 多路复用 用哪一个最快 为什么</h4><blockquote>
+<p><a href="https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3" target="_blank" rel="noopener">https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3</a></p>
+</blockquote>
+<p>线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。线程的引入减小了程序并发执行时的开销，提高了操作系统的并发性能。线程没有自己的系统资源。</p>
+<p>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</p>
+<p>协程是一种用户态的轻量级线程，拥有自己的寄存器上下文和栈</p>
+<p>IO多路复用 异步阻塞IO 线程轮询IO</p>
+<h3 id="浏览器的常用编码"><a href="#浏览器的常用编码" class="headerlink" title="浏览器的常用编码"></a>浏览器的常用编码</h3><p>一开始我以为是说字符编码，有UTF8 Unicode GBK。面试官还几番提醒我也没答上来。回来一想，我觉得他应该问的是content-type。 <a href="http://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">http://www.runoob.com/http/http-content-type.html</a> </p>
+<h3 id="web常用的加密算法有什么"><a href="#web常用的加密算法有什么" class="headerlink" title="web常用的加密算法有什么"></a>web常用的加密算法有什么</h3><p>非对称加密  RSA、ElGamal、Rabin<br>对称加密 DES、3DES、AES<br>散列算法 MD5 SHA base64</p>
+<h3 id="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？" class="headerlink" title="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"></a>有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</h3><p>拿下机器后<br>内网渗透使用代理访问内网 windows环境：reGeorg与proxifier Linux（kali-linux）环境：reGeorg与proxychains，使用nmap等工具进行扫描，发现web服务的主机和其它信息。有时这些边界机器上会记录一些内网服务器上的一些信息（用户 ssh known_hosts  hosts 防火墙设置 记录、内网之间好多waf 规则基本都是空，大多数waf防外部威胁  这时候可以拿到探测的内部一些开放的端口判断进行渗透，通常用户这里基本是统一命名的   拿到的各种记录 会暴露出部分内网通讯的ip</p>
+<p>内网内弱口令占大多数 FTP MSSQL 远程桌面链接</p>
+<h3 id="mysql中like查询会会非常缓慢，如何进行优化"><a href="#mysql中like查询会会非常缓慢，如何进行优化" class="headerlink" title="mysql中like查询会会非常缓慢，如何进行优化"></a>mysql中like查询会会非常缓慢，如何进行优化</h3><p>分词索引</p>
+<h3 id="做了cdn的网站如何获取真实IP"><a href="#做了cdn的网站如何获取真实IP" class="headerlink" title="做了cdn的网站如何获取真实IP"></a>做了cdn的网站如何获取真实IP</h3><ol>
+<li>多地ping看是否有cdn</li>
+<li>邮件订阅或者rss订阅</li>
+<li>二级域名可能不会做cdn</li>
+<li>nslookup <a href="http://xxx.com" target="_blank" rel="noopener">http://xxx.com</a> 国外dns</li>
+<li>查找域名历史解析记录，因为域名在上CDN之前用的IP，很有可能就是CDN的真实源IP地址 <a href="https://toolbar.netcraft.com/site_report?url=www.xxx.com" target="_blank" rel="noopener">https://toolbar.netcraft.com/site_report?url=www.xxx.com</a></li>
+<li>phpinfo上显示的信息</li>
+</ol>
+<h3 id="渗透的时候如何隐藏自己的身份"><a href="#渗透的时候如何隐藏自己的身份" class="headerlink" title="渗透的时候如何隐藏自己的身份"></a>渗透的时候如何隐藏自己的身份</h3><h3 id="主机疑似遭到入侵，要看哪里的日志"><a href="#主机疑似遭到入侵，要看哪里的日志" class="headerlink" title="主机疑似遭到入侵，要看哪里的日志"></a>主机疑似遭到入侵，要看哪里的日志</h3><h3 id="SQL注入漏洞怎么修复"><a href="#SQL注入漏洞怎么修复" class="headerlink" title="SQL注入漏洞怎么修复"></a>SQL注入漏洞怎么修复</h3><h2 id="长亭"><a href="#长亭" class="headerlink" title="长亭"></a>长亭</h2><h3 id="安全研究的方面？做过哪些渗透测试的工作？"><a href="#安全研究的方面？做过哪些渗透测试的工作？" class="headerlink" title="安全研究的方面？做过哪些渗透测试的工作？"></a>安全研究的方面？做过哪些渗透测试的工作？</h3><h3 id="只给你一个网址，如何进行渗透测试"><a href="#只给你一个网址，如何进行渗透测试" class="headerlink" title="只给你一个网址，如何进行渗透测试"></a>只给你一个网址，如何进行渗透测试</h3><h3 id="SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><a href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？" class="headerlink" title="SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"></a>SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</h3><h3 id="sleep被禁用后还能怎么进行sql注入"><a href="#sleep被禁用后还能怎么进行sql注入" class="headerlink" title="sleep被禁用后还能怎么进行sql注入"></a>sleep被禁用后还能怎么进行sql注入</h3><p>BENCHMARK，Get_lock函数，当都被禁用后可以用计算量比较大的语句使数据库查询时间变长，从而达到延时注入的效果。<br>mysql：<code>AND (SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.SCHEMATA C);</code></p>
+<h3 id="XSS可以控制属性怎么利用"><a href="#XSS可以控制属性怎么利用" class="headerlink" title="XSS可以控制属性怎么利用"></a>XSS可以控制属性怎么利用</h3><h3 id="CSRF怎么防护？"><a href="#CSRF怎么防护？" class="headerlink" title="CSRF怎么防护？"></a>CSRF怎么防护？</h3><p>尽量使用POST，限制GET；浏览器Cookie策略；加验证码； Referer Check；Anti CSRF Token</p>
+<h3 id="请求头中哪些是有危害的？"><a href="#请求头中哪些是有危害的？" class="headerlink" title="请求头中哪些是有危害的？"></a>请求头中哪些是有危害的？</h3><p>Cookie</p>
+<h3 id="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过" class="headerlink" title="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"></a>XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</h3><p>xxe常见场景是如pdf在线解析、word在线解析、定制协议，留言板等，跟逻辑设计有关而与语言无关，最好是不要让XML作为参数传输或整体结构可被用户篡改。如果一定要使用，至少要禁用DTD、Entity。<br>xxe危害 读取本地文件，执行系统命令，探测内网端口，攻击内网服务<br>探测内网端口的协议有gopher file dict，不同语言支持不同的协议，是具体情况而定 file http ftp是常用的</p>
+<p>防范，python用lxml时可以对resolve_entities设为false。或者过滤用户提交的xml</p>
+<p>客户端也可以有xxe攻击，有的网站会使用office打开docx进行解析<br>Java解析XML的常用三方库，如果不禁用DTD、Entity都会导致XXE漏洞：</p>
+<p>javax.xml.stream.XMLStreamReader;</p>
+<p>javax.xml.parsers.DocumentBuilderFactory;</p>
+<h3 id="JAVA中间件的漏洞，举几个例子？"><a href="#JAVA中间件的漏洞，举几个例子？" class="headerlink" title="JAVA中间件的漏洞，举几个例子？"></a>JAVA中间件的漏洞，举几个例子？</h3><p>常见的是反序列化漏洞</p>
+<h3 id="IIS常见的漏洞"><a href="#IIS常见的漏洞" class="headerlink" title="IIS常见的漏洞"></a>IIS常见的漏洞</h3><p>常见的为解析漏洞，6.0有<br>/test.asp/test.jpg<br>  test.asp;.jpg<br>  7.5有test.jpg/.php，默认后缀IIS默认地还会解析其他后缀的文件为asp文件，比如cer asa cdx<br>  原理大抵是IIS 5.x/6.0在从文件路径中读取文件后缀时，遇到一个“.”后，便进入了一种截断状态，在该状态下遇到特殊符号——“/”和“;”，都会进行截断，只保留特殊符号前的部分，即：“.asp”，从而认为文件后缀为“.asp”。</p>
+<h3 id="python有哪些框架，其中出现过哪些漏洞"><a href="#python有哪些框架，其中出现过哪些漏洞" class="headerlink" title="python有哪些框架，其中出现过哪些漏洞"></a>python有哪些框架，其中出现过哪些漏洞</h3><p>flask的模板注入 模板注入和常见Web注入的成因一样，也是服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。<br>模板字符串中字符串拼接或替换可能会导致敏感信息泄露，获取变量值<br>如果开发者在flask使用字符串格式化，来将用户输入动态地加入到模板字符串中，而不是通过render_template_string函数，该函数不会对输入进行实体转义将URL传递进入模板内容当中，会导致xss的产生。<br>还可以利用模板中html标签属性字段绕过xss过滤。</p>
+<p>Django出现过目录遍历漏洞</p>
+<h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
+<h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%883%EF%BC%89/" rel="next" title="个人准备渗透测试和安全面试的经验之谈（3）">
+                  <i class="fa fa-chevron-left"></i> 个人准备渗透测试和安全面试的经验之谈（3）
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/" rel="prev" title="个人准备渗透测试和安全面试的经验之谈（1）">
+                  个人准备渗透测试和安全面试的经验之谈（1） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面试问题记录"><span class="nav-number">1.</span> <span class="nav-text">面试问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#360"><span class="nav-number">1.1.</span> <span class="nav-text">360</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL的存储引擎"><span class="nav-number">1.1.1.</span> <span class="nav-text">SQL的存储引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入写shell的条件，用法"><span class="nav-number">1.1.2.</span> <span class="nav-text">SQL注入写shell的条件，用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPC是什么？开启了怎么绕过"><span class="nav-number">1.1.3.</span> <span class="nav-text">GPC是什么？开启了怎么绕过</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql一个-和两个-什么区别"><span class="nav-number">1.1.4.</span> <span class="nav-text">Mysql一个@和两个@什么区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><span class="nav-number">1.1.5.</span> <span class="nav-text">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><span class="nav-number">1.1.6.</span> <span class="nav-text">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><span class="nav-number">1.1.7.</span> <span class="nav-text">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挖过最难的漏洞是什么"><span class="nav-number">1.1.8.</span> <span class="nav-text">挖过最难的漏洞是什么</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ukelink"><span class="nav-number">1.2.</span> <span class="nav-text">ukelink</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#病毒和蠕虫的区别"><span class="nav-number">1.2.1.</span> <span class="nav-text">病毒和蠕虫的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS欺骗是什么"><span class="nav-number">1.2.2.</span> <span class="nav-text">DNS欺骗是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><span class="nav-number">1.2.3.</span> <span class="nav-text">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#陆地land攻击是什么"><span class="nav-number">1.2.4.</span> <span class="nav-text">陆地land攻击是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xss有什么？执行存储型的xss的危害和原理"><span class="nav-number">1.2.5.</span> <span class="nav-text">xss有什么？执行存储型的xss的危害和原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渗透测试流程？（不够清晰，太浅显"><span class="nav-number">1.2.6.</span> <span class="nav-text">渗透测试流程？（不够清晰，太浅显</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有没有移动端的调试经验-apk-ipa包分析"><span class="nav-number">1.2.7.</span> <span class="nav-text">有没有移动端的调试经验 apk,ipa包分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于云安全的理解"><span class="nav-number">1.2.8.</span> <span class="nav-text">对于云安全的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机逃逸的理解"><span class="nav-number">1.2.9.</span> <span class="nav-text">虚拟机逃逸的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#英语介绍一下自己"><span class="nav-number">1.2.10.</span> <span class="nav-text">英语介绍一下自己</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#职业路径"><span class="nav-number">1.2.11.</span> <span class="nav-text">职业路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大学做过什么相关的事情"><span class="nav-number">1.2.12.</span> <span class="nav-text">大学做过什么相关的事情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在工作会做什么来不断提高自己的能力"><span class="nav-number">1.2.13.</span> <span class="nav-text">在工作会做什么来不断提高自己的能力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卓望"><span class="nav-number">1.3.</span> <span class="nav-text">卓望</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#渗透测试流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">渗透测试流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#描述渗透项目，做了什么"><span class="nav-number">1.3.2.</span> <span class="nav-text">描述渗透项目，做了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xss漏洞类型、详情、修复方案"><span class="nav-number">1.3.3.</span> <span class="nav-text">xss漏洞类型、详情、修复方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><span class="nav-number">1.3.4.</span> <span class="nav-text">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#终端的渗透经验"><span class="nav-number">1.3.5.</span> <span class="nav-text">终端的渗透经验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#了解什么比较新的漏洞"><span class="nav-number">1.3.6.</span> <span class="nav-text">了解什么比较新的漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#企业内部安全"><span class="nav-number">1.3.7.</span> <span class="nav-text">企业内部安全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安巽"><span class="nav-number">1.4.</span> <span class="nav-text">安巽</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法？了解过什么排序？"><span class="nav-number">1.4.1.</span> <span class="nav-text">算法？了解过什么排序？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#爬虫"><span class="nav-number">1.4.2.</span> <span class="nav-text">爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#页面存在很多js的时候，用什么"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">页面存在很多js的时候，用什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爬虫的待爬取URL量级比较大的时候，如何对其去重"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">爬虫的待爬取URL量级比较大的时候，如何对其去重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多线程-异步-协程-多路复用-用哪一个最快-为什么"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">多线程 异步 协程 多路复用 用哪一个最快 为什么</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器的常用编码"><span class="nav-number">1.4.3.</span> <span class="nav-text">浏览器的常用编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web常用的加密算法有什么"><span class="nav-number">1.4.4.</span> <span class="nav-text">web常用的加密算法有什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><span class="nav-number">1.4.5.</span> <span class="nav-text">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql中like查询会会非常缓慢，如何进行优化"><span class="nav-number">1.4.6.</span> <span class="nav-text">mysql中like查询会会非常缓慢，如何进行优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做了cdn的网站如何获取真实IP"><span class="nav-number">1.4.7.</span> <span class="nav-text">做了cdn的网站如何获取真实IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渗透的时候如何隐藏自己的身份"><span class="nav-number">1.4.8.</span> <span class="nav-text">渗透的时候如何隐藏自己的身份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主机疑似遭到入侵，要看哪里的日志"><span class="nav-number">1.4.9.</span> <span class="nav-text">主机疑似遭到入侵，要看哪里的日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入漏洞怎么修复"><span class="nav-number">1.4.10.</span> <span class="nav-text">SQL注入漏洞怎么修复</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#长亭"><span class="nav-number">1.5.</span> <span class="nav-text">长亭</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安全研究的方面？做过哪些渗透测试的工作？"><span class="nav-number">1.5.1.</span> <span class="nav-text">安全研究的方面？做过哪些渗透测试的工作？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只给你一个网址，如何进行渗透测试"><span class="nav-number">1.5.2.</span> <span class="nav-text">只给你一个网址，如何进行渗透测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><span class="nav-number">1.5.3.</span> <span class="nav-text">SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sleep被禁用后还能怎么进行sql注入"><span class="nav-number">1.5.4.</span> <span class="nav-text">sleep被禁用后还能怎么进行sql注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS可以控制属性怎么利用"><span class="nav-number">1.5.5.</span> <span class="nav-text">XSS可以控制属性怎么利用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF怎么防护？"><span class="nav-number">1.5.6.</span> <span class="nav-text">CSRF怎么防护？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求头中哪些是有危害的？"><span class="nav-number">1.5.7.</span> <span class="nav-text">请求头中哪些是有危害的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><span class="nav-number">1.5.8.</span> <span class="nav-text">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA中间件的漏洞，举几个例子？"><span class="nav-number">1.5.9.</span> <span class="nav-text">JAVA中间件的漏洞，举几个例子？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IIS常见的漏洞"><span class="nav-number">1.5.10.</span> <span class="nav-text">IIS常见的漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python有哪些框架，其中出现过哪些漏洞"><span class="nav-number">1.5.11.</span> <span class="nav-text">python有哪些框架，其中出现过哪些漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><span class="nav-number">1.5.12.</span> <span class="nav-text">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><span class="nav-number">1.5.13.</span> <span class="nav-text">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><span class="nav-number">1.5.14.</span> <span class="nav-text">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#盛邦"><span class="nav-number">1.6.</span> <span class="nav-text">盛邦</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有没有做过协议分析和抓包分析"><span class="nav-number">1.6.1.</span> <span class="nav-text">有没有做过协议分析和抓包分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#翼果"><span class="nav-number">1.7.</span> <span class="nav-text">翼果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql查看版本？"><span class="nav-number">1.7.1.</span> <span class="nav-text">mysql查看版本？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过安全狗"><span class="nav-number">1.7.2.</span> <span class="nav-text">过安全狗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><span class="nav-number">1.7.3.</span> <span class="nav-text">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description">安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>

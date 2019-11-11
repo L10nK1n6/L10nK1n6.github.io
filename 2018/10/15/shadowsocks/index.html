@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="本文第一部分叙述在linux服务器上搭建shadowsocks服务端和在windows或linux上搭建shadowsocks客户端。第二部分叙述在linux服务器上搭建proxychains服务的心得。第三部分是2018&#x2F;11&#x2F;28更新在windows服务器上搭建shadowsocks服务端。">
+<meta name="keywords" content="搭建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shadowsocks">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;10&#x2F;15&#x2F;shadowsocks&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="本文第一部分叙述在linux服务器上搭建shadowsocks服务端和在windows或linux上搭建shadowsocks客户端。第二部分叙述在linux服务器上搭建proxychains服务的心得。第三部分是2018&#x2F;11&#x2F;28更新在windows服务器上搭建shadowsocks服务端。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;2KY9kTJbCAZGnBM.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;STmLeEW5J6Pyvu8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;ERNrqcTdaytelkS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;YDZbanmUHSRqwzM.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;FKjvDieQpzHBImC.png">
+<meta property="og:updated_time" content="2019-11-11T04:55:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;2KY9kTJbCAZGnBM.png">
+
+<link rel="canonical" href="http://yoursite.com/2018/10/15/shadowsocks/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>shadowsocks | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/15/shadowsocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          shadowsocks
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-15 23:10:29" itemprop="dateCreated datePublished" datetime="2018-10-15T23:10:29+08:00">2018-10-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-11 12:55:14" itemprop="dateModified" datetime="2019-11-11T12:55:14+08:00">2019-11-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文第一部分叙述在linux服务器上搭建shadowsocks服务端和在windows或linux上搭建shadowsocks客户端。第二部分叙述在linux服务器上搭建proxychains服务的心得。第三部分是2018/11/28更新在windows服务器上搭建shadowsocks服务端。</p><a id="more"></a>
+<h2 id="第一部分："><a href="#第一部分：" class="headerlink" title="第一部分："></a>第一部分：</h2><p>（1）：在linux服务器上搭建shadowsocks服务器<br>这里的linux服务器呢，主要是以CentOS、Debian/Ubuntu居多，而且是需要国外的，这样才能通向国外的网，上google之类的翻墙。其实命令上都是差不多的，主要是看服务器的版本，今天我一开始用的CentOS6的，奈何上面只有python2.6。然后我又更新成pyhthon2.7，还要下载wget命令、xz命令，累的半死。结果最后直接换成centos7的服务器就好了，直接现成的PYthon2.7。安装pip之类的很方便<br>废话不多说，命令如下：</p>
+<p>1.确认自己的服务器python版本，终端下输入如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python （回显是2.6的要记得换成2.7）</span><br></pre></td></tr></table></figure>
+<p>2.安装pip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br><span class="line">或者</span><br><span class="line">curl &quot;https://bootstrap.pypa.io/get-pip.py&quot; -o &quot;get-pip.py&quot;</span><br><span class="line">python get-pip.py</span><br><span class="line">或者</span><br><span class="line">sudo yum install epel-release</span><br><span class="line">sudo yum -y install python-pip</span><br></pre></td></tr></table></figure>
+<p>（有的系统不是用aot-get而是yum。自己分辨一下，这一步主要是安装pip）</p>
+<p>3.升级pip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade pip</span><br><span class="line">或者</span><br><span class="line">sudo pip install --upgrade pip</span><br><span class="line">（这一步不是关键，但是能升级的还是升级一下）</span><br><span class="line">安装好pip之后可以用过如下命令查看版本：</span><br><span class="line">pip -v</span><br></pre></td></tr></table></figure>
+<p>4.安装shadowsocks</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install shadowsocks</span><br><span class="line">或者</span><br><span class="line">sudo pip install --upgrade pip</span><br></pre></td></tr></table></figure>
+<p>（都是一样的命令，安装好之后会显示Complete！或success啥的）<br>安装好shadowsocks之后就要配置文件了</p>
+<p>5.配置shadowsocks文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/shadowsocks            //在etc下创建shadowsocks文件夹</span><br><span class="line">vim /etc/shadowsocks/config.json       //创建配置文件</span><br><span class="line">第5步按照网上的常规方法有个坑，那就是直接在etc下创建一个shadowsocks.json的文件，但是我今天尝试的时候失败了，没有用，还是创建config.json文件管用点。</span><br></pre></td></tr></table></figure>
+
+<p>6.在config.json文件中写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">      &quot;server&quot;:&quot;server_ip&quot;,         //server_ip写上0.0.0.0或者自己服务器的外网IP都可以，但是不能写127.0.0.1</span><br><span class="line">      &quot;server_port&quot;:8001,             //网上有说过写低端口号网速会快，但是，我今天被大佬说了，还是写高端口号。比如我就写的8001</span><br><span class="line">      &quot;local_address&quot;: &quot;127.0.0.1&quot;,    //不用动</span><br><span class="line">      &quot;local_port&quot;:1080,               //不用动</span><br><span class="line">      &quot;password&quot;:&quot;password&quot;,          //password写上自己回头用客户端连接时需要用的密码</span><br><span class="line">       &quot;timeout&quot;:300,                  //不用动</span><br><span class="line">      &quot;method&quot;:&quot;rc4-md5&quot;,            //大佬说如果是放在路由器上的话可以写成aes-256-cfb，但是自己一般用的话就换成rc4-md5加密方法</span><br><span class="line">      &quot;fast_open&quot;: false                //不用动</span><br><span class="line">   &#125; </span><br><span class="line"></span><br><span class="line">// 单用户，就直接按上面的来就好了，有多个用户的话就用下面的。。</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;server&quot;:&quot;server_ip&quot;,     //一样的，服务器外网IP</span><br><span class="line">       &quot;port_password&quot;:&#123;</span><br><span class="line">           &quot;port_1&quot;:&quot;pwd1&quot;,       //这里写成&quot;端口&quot;：&quot;密码&quot;的形式</span><br><span class="line">           &quot;port_2&quot;:&quot;pwd2&quot;,        //比如：&quot;8001&quot;:&quot;password123&quot;</span><br><span class="line">           &quot;port_3&quot;:&quot;pwd3&quot;         //&quot;8002&quot;:&quot;password456&quot;</span><br><span class="line">       &#125;,</span><br><span class="line">       &quot;local_address&quot;:&quot;127.0.0.1&quot;,   //一样不用动</span><br><span class="line">       &quot;local_port&quot;:1080,               //不动</span><br><span class="line">       &quot;timeout&quot;:300,                  //不动</span><br><span class="line">       &quot;method&quot;:&quot;aes-256-cfb&quot;           //自己用就rc4-md5，如果放路由器的话就aes...</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果你们在纠结服务器IP和端口怎么写的话，其实这个问题我一开始也在纠结，服务器IP很好理解就是你的国外服务器的公网IP地址，端口就随便一个端口（不要跟常用服务重复），到时候客户端通过这个端口进行流量的传输而已。密码的话不是你服务器的密码只是你客户端连接时输入的密码。</p>
+<p>7.开启和关闭服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssserver -c /etc/shadowsocks/config.json -d start       //开启</span><br><span class="line">ssserver -c /etc/shadowsocks/config.json -d stop        //关闭</span><br></pre></td></tr></table></figure>
+<p>然后开启服务就好了，基本上不需要再动什么了。接下来就是客户端的配置了</p>
+<h2 id="第二部分：在WINDOWS上安装SHADOWSOCKS客户端"><a href="#第二部分：在WINDOWS上安装SHADOWSOCKS客户端" class="headerlink" title="第二部分：在WINDOWS上安装SHADOWSOCKS客户端"></a>第二部分：在WINDOWS上安装SHADOWSOCKS客户端</h2><p>github链接：<a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-windows/releases</a><br><img src="https://i.loli.net/2019/11/11/2KY9kTJbCAZGnBM.png" alt="37ef61a9-06c5-40f1-9e38-8ac7eedcf38c-image.png"></p>
+<p>下载就OK了，配置如下：</p>
+<p><img src="https://i.loli.net/2019/11/11/STmLeEW5J6Pyvu8.png" alt="f328fd6a-b1a6-422d-ba84-f1e8405e3c50-image.png"></p>
+<p>填好你开始在服务端配置的IP，端口，密码就好了，然后配置全局代理，如下图：</p>
+<p><img src="https://i.loli.net/2019/11/11/ERNrqcTdaytelkS.png" alt="5beacffd-516b-42b4-9e91-4ba52231ce41-image.png"></p>
+<h2 id="第三部分：在LINUX上安装SHADOWSOCKS客户端"><a href="#第三部分：在LINUX上安装SHADOWSOCKS客户端" class="headerlink" title="第三部分：在LINUX上安装SHADOWSOCKS客户端"></a>第三部分：在LINUX上安装SHADOWSOCKS客户端</h2><p>在linux上安装客户端和第一步在服务器上安装服务端是一样的步骤，同样是python2.7环境、安装pip、安装shadowsocks。甚至连config.json文件的创建和配置都是一模一样的。。。<br>唯一的区别在于启动方式不同。客户端启动是如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sslocal -c /etc/shadowsocks/config.json    //开启</span><br></pre></td></tr></table></figure>
+
+<p>开启之后就有点想ngrok的运行状态，终端是不能关闭的，关闭了终端就关闭了连接。。。。另外，安装好shadowsocks客户端之后，linux依然是上不了google的，还要设置代理，也就是下一部分</p>
+<h3 id="第四部分：安装PROXYCHAINS"><a href="#第四部分：安装PROXYCHAINS" class="headerlink" title="第四部分：安装PROXYCHAINS"></a>第四部分：安装PROXYCHAINS</h3><p>我在其他的linux版本上没有试过，我今天也是在kali里面弄得proxychains，kali里面自带了这个软件，其他的linux系统没有软件的可以自己下载，链接： <a href="https://github.com/rofl0r/proxychains-ng" target="_blank" rel="noopener">https://github.com/rofl0r/proxychains-ng</a><br>kali中配置proxychains：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/proxychains.conf     //编辑proxychains的配置文件</span><br></pre></td></tr></table></figure>
+
+<p>将文件中最后一样的 socks4 127.0.0.1 9050为socks5 127.0.0.1 1080。。。保存，OK！<br>测试一下：</p>
+<p><img src="https://i.loli.net/2019/11/11/YDZbanmUHSRqwzM.png" alt="a71a3fd7-da08-491a-be8b-56be7552c8f2-image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxyresolv www.google.com      //显示什么什么OK就说明可以用了</span><br></pre></td></tr></table></figure>
+
+<p>然后需要翻墙时就在命令最前面加上：proxychains，，，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxychains msfconsole     //打开MSF</span><br><span class="line">proxychains git clone https://github.com/xxx/xxx      //下载github文件</span><br><span class="line">proxychains firefox     //打开火狐浏览器（这样你用火狐是可以直接翻墙的）</span><br></pre></td></tr></table></figure>
+
+<p>如果觉得太麻烦，每次都要打那么一大串字母，你可以使用proxychains去打开一个终端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains zsh</span><br></pre></td></tr></table></figure>
+
+<p>接着在zsh终端里直接输入命令就OK，同样也是翻墙的哦！！！</p>
+<hr>
+<p>这样一个过程花不了你多久的时间，但却可以给你带来很宝贵的经验，并且也同时打开了一个新世界的大门，想去哪去哪。。。。自己制作翻墙要比下载那些免费VPN要安全的多，网速也要好的多，其中道理我就不讲了。溜了</p>
+<hr>
+<p>2018/11/28更新： 在windows服务器上搭建shadowsocks服务端</p>
+<p>1、首先需要去github上下载集成工具，链接：<a href="https://github.com/shadowsocks/libQtShadowsocks/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/libQtShadowsocks/releases</a> （注意别下载源码包，不然你自己手动编译去）</p>
+<p>2、解压出来后是一个shadowsocks-libqss.exe，放到一个文件夹里去，随后在同目录下新建一个config.json的文件，其内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">        &quot;server&quot;:&quot;0.0.0.0&quot;,  //不动</span><br><span class="line">        &quot;server_port&quot;:8023,  //这里填你要连接的端口</span><br><span class="line">        &quot;local_address&quot;:&quot;127.0.0.1&quot;,  //不动</span><br><span class="line">        &quot;local_port&quot;:1080,  //不动</span><br><span class="line">        &quot;password&quot;:&quot;wyvbboy&quot;,  //密码</span><br><span class="line">        &quot;timeout&quot;:600,  //超时时间，基本不动</span><br><span class="line">        &quot;method&quot;:&quot;aes-256-cfb&quot;,  //协议，见上文</span><br><span class="line">        &quot;http_proxy&quot;: false,  //不动</span><br><span class="line">        &quot;auth&quot;: false  //不动</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、在同目录下新建启动文件shadowsocks.bat，其内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@echo off  </span><br><span class="line">   shadowsocks-libqss.exe -c config.json -S</span><br></pre></td></tr></table></figure>
+
+<p>4、双击bat文件，会打开一个窗口，之后在客户端连接就好了，服务端的窗口不能关闭，关闭就结束进程了。</p>
+<hr>
+<p>tips:</p>
+<p>1、启动shadowsocks报错，是由于openssl升级到1.1.0以上版本以后弃用了一个函数，具体解决办法是：</p>
+<p>用vi打开文件：vi /usr/lib/python2.7/site-packages/shadowsocks/crypto/openssl.py（大概是这个目录，具体看报错）</p>
+<p>将第52行libcrypto.EVP_CIPHER_CTX_cleanup.argtypes = (c_void_p,)<br>改为libcrypto.EVP_CIPHER_CTX_reset.argtypes = (c_void_p,)</p>
+<p>再次搜索cleanup（全文件共2处，此处位于111行），将libcrypto.EVP_CIPHER_CTX_cleanup(self._ctx)<br>改为libcrypto.EVP_CIPHER_CTX_reset(self._ctx)</p>
+<p>保存并退出</p>
+<p>2、proxychains不显示多余的信息可以在/etc/proxychains.conf中将以下设置的注释去掉</p>
+<p><img src="https://i.loli.net/2019/11/11/FKjvDieQpzHBImC.png" alt="c56604d5-4ac4-43c4-b943-0e8500c9e0d2-image.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%90%AD%E5%BB%BA/" rel="tag"># 搭建</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/06/11/%E6%B8%97%E9%80%8F%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA/" rel="next" title="渗透安卓手机">
+                  <i class="fa fa-chevron-left"></i> 渗透安卓手机
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/11/01/Redis%E6%9C%8D%E5%8A%A1%EF%BC%886379%E7%AB%AF%E5%8F%A3%EF%BC%89%E5%85%A5%E4%BE%B5/" rel="prev" title="Redis服务（6379端口）入侵">
+                  Redis服务（6379端口）入侵 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分："><span class="nav-number">1.</span> <span class="nav-text">第一部分：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分：在WINDOWS上安装SHADOWSOCKS客户端"><span class="nav-number">2.</span> <span class="nav-text">第二部分：在WINDOWS上安装SHADOWSOCKS客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分：在LINUX上安装SHADOWSOCKS客户端"><span class="nav-number">3.</span> <span class="nav-text">第三部分：在LINUX上安装SHADOWSOCKS客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第四部分：安装PROXYCHAINS"><span class="nav-number">3.1.</span> <span class="nav-text">第四部分：安装PROXYCHAINS</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description">安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>

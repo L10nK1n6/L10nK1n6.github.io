@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="在我们平时的渗透、ctf的过程中，或多或少会碰到phpinfo页面。但是这个页面包含的信息太多，常常感觉无从下手，在这里总结一下，可能没有那么全面。">
+<meta name="keywords" content="渗透">
+<meta property="og:type" content="article">
+<meta property="og:title" content="phpinfo正确食用方式">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;03&#x2F;18&#x2F;phpinfo%E6%AD%A3%E7%A1%AE%E9%A3%9F%E7%94%A8%E6%96%B9%E5%BC%8F&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="在我们平时的渗透、ctf的过程中，或多或少会碰到phpinfo页面。但是这个页面包含的信息太多，常常感觉无从下手，在这里总结一下，可能没有那么全面。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;Rj47CQgI6SJwEHB.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;9E25qCF3QLiufkY.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;vkIrC6tALWQlJHb.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;AVCN4EcZI9Wdf26.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;ckDnU3iNVtXwTHI.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;tinOWDju5Yl2vAH.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;E9e56f2YcrSCjQV.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;XqBV1DGndP8SKwy.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;Q18x63hjgnSpU7w.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;3xgjStRcmovGLHW.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;bNoQGzyewhmlJSV.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;Bi4fhpxmgIRNJA2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;H6lsyFAWvepZg51.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;6fU9gDMBptNsFuZ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;loGXckW3xfrBgsA.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;wilgIo9VK6Nvy3D.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;5sIoVtyWTAjqMYO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;DaISomhEFGnvPVT.png">
+<meta property="og:updated_time" content="2019-11-11T07:32:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;Rj47CQgI6SJwEHB.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/03/18/phpinfo%E6%AD%A3%E7%A1%AE%E9%A3%9F%E7%94%A8%E6%96%B9%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>phpinfo正确食用方式 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/18/phpinfo%E6%AD%A3%E7%A1%AE%E9%A3%9F%E7%94%A8%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          phpinfo正确食用方式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-18 23:10:29" itemprop="dateCreated datePublished" datetime="2019-03-18T23:10:29+08:00">2019-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-11 15:32:54" itemprop="dateModified" datetime="2019-11-11T15:32:54+08:00">2019-11-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在我们平时的渗透、ctf的过程中，或多或少会碰到phpinfo页面。但是这个页面包含的信息太多，常常感觉无从下手，在这里总结一下，可能没有那么全面。</p><a id="more"></a>
+<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><h3 id="php版本"><a href="#php版本" class="headerlink" title="php版本"></a>php版本</h3><p><img src="https://i.loli.net/2019/11/11/Rj47CQgI6SJwEHB.png" alt="20190226215040.png"><br>这是最基本的，php更新速度非常快，各版本都有一些小特性。<br><a href="http://www.cnblogs.com/iamstudy/articles/study_from_php_update_log.html" target="_blank" rel="noopener">http://www.cnblogs.com/iamstudy/articles/study_from_php_update_log.html</a><br><img src="https://i.loli.net/2019/11/11/9E25qCF3QLiufkY.png" alt="20190226215142.png"></p>
+<h3 id="SYSTEM-INFO"><a href="#SYSTEM-INFO" class="headerlink" title="SYSTEM INFO"></a>SYSTEM INFO</h3><p><img src="https://i.loli.net/2019/11/11/vkIrC6tALWQlJHb.png" alt="he8ch44f3e.png"><br>详细的操作系统信息，为提权做准备</p>
+<h3 id="SERVER-API"><a href="#SERVER-API" class="headerlink" title="SERVER API"></a>SERVER API</h3><p><img src="https://i.loli.net/2019/11/11/AVCN4EcZI9Wdf26.png" alt="20190226221734.png"><br>php解释器与应用层的桥梁。</p>
+<p>1、FPM/FastCGI 多用于和nginx通信，当然也可用于其他web中间件。<br>Fastcgi协议分析 &amp;&amp; PHP-FPM未授权访问漏洞 &amp;&amp; Exp编写<br><a href="https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75" target="_blank" rel="noopener">https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75</a><br>2、Apache 2.0 Handler php为apache提供的专用SAPI<br>3、Command Line Interface php命令行<br>4、CGI/FastCGI 碰见的几次都是用于iis</p>
+<h3 id="配置文件位置"><a href="#配置文件位置" class="headerlink" title="配置文件位置"></a>配置文件位置</h3><p><img src="https://i.loli.net/2019/11/11/ckDnU3iNVtXwTHI.png" alt="20190226220548.png"><br>某些情况下可以加载自己的扩展。</p>
+<h3 id="REGISTERED-PHP-STREAMS-AND-FILTERS"><a href="#REGISTERED-PHP-STREAMS-AND-FILTERS" class="headerlink" title="REGISTERED PHP STREAMS AND FILTERS"></a>REGISTERED PHP STREAMS AND FILTERS</h3><p>常见的就不说了。</p>
+<p>1、phar<br>利用phar/zip协议绕过有后缀的文件包含：include zip:///var/www/html/upload/1.gif#1.php<br>phar反序列化<br><a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">https://paper.seebug.org/680/</a></p>
+<p>2、gopher<br>利用 Gopher 协议拓展攻击面<br><a href="https://github.com/tarunkant/Gopherus" target="_blank" rel="noopener">https://github.com/tarunkant/Gopherus</a></p>
+<p>3、dict<br>探测为主</p>
+<p><img src="https://i.loli.net/2019/11/11/tinOWDju5Yl2vAH.png" alt="20190226233652.png"></p>
+<p><a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="noopener">谈一谈php://filter的妙用</a></p>
+<h2 id="核心配置"><a href="#核心配置" class="headerlink" title="核心配置"></a>核心配置</h2><h3 id="EXTENSION-DIR"><a href="#EXTENSION-DIR" class="headerlink" title="EXTENSION_DIR"></a>EXTENSION_DIR</h3><p><img src="https://i.loli.net/2019/11/11/E9e56f2YcrSCjQV.png" alt="bjlfkkafag.png"><br>php扩展的路径</p>
+<h3 id="ALLOW-URL-INCLUDE"><a href="#ALLOW-URL-INCLUDE" class="headerlink" title="ALLOW_URL_INCLUDE"></a>ALLOW_URL_INCLUDE</h3><p>远程文件包含，但是一般不会开启</p>
+<h3 id="ASP-TAGS"><a href="#ASP-TAGS" class="headerlink" title="ASP_TAGS"></a>ASP_TAGS</h3><p><img src="https://i.loli.net/2019/11/11/XqBV1DGndP8SKwy.png" alt="0g7c7mmj2i.png"></p>
+<p>php标签有4种形式，如果这个选项不开启的话，使用asp的标签是不会解析的。<br>当<?php ?>标签被过滤时，可以通过.user.ini来覆盖php.ini中的配置。.user.ini在nginx等其他web中间件中也是有效的，应用范围比.htaccess广。<br>注意： 在PHP 7已经完全移除了这种标签</p>
+<h3 id="SHORT-OPEN-TAG"><a href="#SHORT-OPEN-TAG" class="headerlink" title="SHORT_OPEN_TAG"></a>SHORT_OPEN_TAG</h3><p><img src="https://i.loli.net/2019/11/11/Q18x63hjgnSpU7w.png" alt="h4bgafaced.png"></p>
+<p>还是标签的问题，允许<??>这种形式，并且&lt;?=等价于&lt;? echo</p>
+<h3 id="DISABLE-FUNCTIONS"><a href="#DISABLE-FUNCTIONS" class="headerlink" title="DISABLE_FUNCTIONS"></a>DISABLE_FUNCTIONS</h3><p><img src="https://i.loli.net/2019/11/11/3xgjStRcmovGLHW.png" alt="mf8ekjh0mj.png"></p>
+<p>有时候我们上传了一个webshell却不能用，有很大可能是管理员做了配置，禁用了php执行系统命令的函数。<br>绕过的方式有这么几个：</p>
+<p>1、黑名单绕过：<br>百密一疏，寻找黑名单中漏掉的函数，上图中禁用的函数算是比较全的了。<br>比如在编译php时如果加了-–enable-pcntl选项，就可以使用pcntl_exec()来执行命令。</p>
+<p>2、利用扩展（如ImageMagick）绕过<br>利用ImageMagick漏洞绕过disable_function</p>
+<p>3、利用环境变量LD_PRELOAD来绕过<br>利用环境变量LD_PRELOAD来绕过php disable_function<br><a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD" target="_blank" rel="noopener">https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</a></p>
+<p>4、利用扩展库绕过<br><a href="http://www.91ri.org/8700.html" target="_blank" rel="noopener">http://www.91ri.org/8700.html</a><br>一个综合：<a href="https://github.com/l3m0n/Bypass_Disable_functions_Shell" target="_blank" rel="noopener">https://github.com/l3m0n/Bypass_Disable_functions_Shell</a></p>
+<h3 id="ENABLE-DL"><a href="#ENABLE-DL" class="headerlink" title="ENABLE_DL"></a>ENABLE_DL</h3><p><img src="https://i.loli.net/2019/11/11/bNoQGzyewhmlJSV.png" alt="8k74aidbj9.png"><br>上面说的利用扩展库绕过disable_functions，需要使用dl()并且开启这个选项</p>
+<h3 id="MAGIC-QUOTES-GPC"><a href="#MAGIC-QUOTES-GPC" class="headerlink" title="MAGIC_QUOTES_GPC"></a>MAGIC_QUOTES_GPC</h3><p><img src="https://i.loli.net/2019/11/11/Bi4fhpxmgIRNJA2.png" alt="f7ec27jdde.png"><br>这个就不用多说了吧</p>
+<h3 id="OPEN-BASEDIR"><a href="#OPEN-BASEDIR" class="headerlink" title="OPEN_BASEDIR"></a>OPEN_BASEDIR</h3><p><img src="https://i.loli.net/2019/11/11/H6lsyFAWvepZg51.png" alt="cd2e9khhfh.png"><br>这个参数将用户可操作的文件限制在某目录下，但是这个限制是可以绕过的。</p>
+<p><a href="https://www.leavesongs.com/PHP/php-bypass-open-basedir-list-directory.html" target="_blank" rel="noopener">PHP绕过open_basedir列目录的研究</a></p>
+<p><a href="https://www.leavesongs.com/bypass-open-basedir-readfile.html" target="_blank" rel="noopener">php5全版本绕过open_basedir读文件脚本</a></p>
+<p><a href="https://blog.csdn.net/niexinming/article/details/53146095" target="_blank" rel="noopener">绕过open_basedir读文件脚本</a></p>
+<h3 id="PHP-VARIABLES"><a href="#PHP-VARIABLES" class="headerlink" title="PHP VARIABLES"></a>PHP VARIABLES</h3><p>真实IP</p>
+<p><img src="https://i.loli.net/2019/11/11/6fU9gDMBptNsFuZ.png" alt="20190228104758.png"><br><img src="https://i.loli.net/2019/11/11/loGXckW3xfrBgsA.png" alt="20190228104923.png"></p>
+<p>cdn什么的都不存在的，找到真实ip，扫一扫旁站，没准就拿下几个站。</p>
+<p>当网站使用了nginx反向代理时，如果反代服务器和web服务器在同一内网，这个值可能会是内网ip。</p>
+<p>当网站在docker中运行时，这个值会是宿主机docker网卡上的ip。</p>
+<h3 id="WEB根目录"><a href="#WEB根目录" class="headerlink" title="WEB根目录"></a>WEB根目录</h3><p><img src="https://i.loli.net/2019/11/11/wilgIo9VK6Nvy3D.png" alt="20190228105655.png"></p>
+<p>$_SERVER[‘DOCUMENT_ROOT’]可能会有偏差。</p>
+<h3 id="临时文件路径"><a href="#临时文件路径" class="headerlink" title="临时文件路径"></a>临时文件路径</h3><p>向phpinfo()页面post一个shell（自己写一个上传页面），可以在_FILES[“file1”]中看到上传的临时文件，如果有个lfi，便可以直接getshell了。<br><img src="https://i.loli.net/2019/11/11/5sIoVtyWTAjqMYO.png" alt="81ach81k8j.png"><br><a href="https://github.com/hxer/vulnapp/tree/master/lfi_phpinfo" target="_blank" rel="noopener">https://github.com/hxer/vulnapp/tree/master/lfi_phpinfo</a></p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><h3 id="IMAGICK"><a href="#IMAGICK" class="headerlink" title="IMAGICK"></a>IMAGICK</h3><p>前段时间影响比较大的漏洞，注意看版本。<br>漏洞影响ImageMagick 6.9.3-10之前的版本，包括ubuntu源中安装的ImageMagick。</p>
+<p><a href="http://blog.topsec.com.cn/imagemagick-%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8%e6%96%b9%e5%bc%8f%e5%8f%8a%e5%88%86%e6%9e%90/" target="_blank" rel="noopener">ImageMagick 漏洞利用方式及分析</a></p>
+<h3 id="LIBXML"><a href="#LIBXML" class="headerlink" title="LIBXML"></a>LIBXML</h3><p>libxml 2.9以前的版本默认支持并开启了外部实体的引用，服务端解析用户提交的 xml 文件时未对 xml 文件引用的外部实体（含外部普通实体和外部参数实体）做合适的处理，会导致XXE。</p>
+<h3 id="MEMCACHE"><a href="#MEMCACHE" class="headerlink" title="MEMCACHE"></a>MEMCACHE</h3><p><a href="http://blog.nsfocus.net/memcache-unauthorized-access-exploit/" target="_blank" rel="noopener">Memcache未授权访问漏洞利用及修复</a></p>
+<h3 id="REDIS"><a href="#REDIS" class="headerlink" title="REDIS"></a>REDIS</h3><p>redis也不用多说了吧</p>
+<h3 id="SESSION"><a href="#SESSION" class="headerlink" title="SESSION"></a>SESSION</h3><p>主要是序列化的一些问题<br><img src="https://i.loli.net/2019/11/11/DaISomhEFGnvPVT.png" alt="7g4402ghe1.png"><br>序列化处理器不一致导致对象注入:<br>当一个上传在处理中，同时POST一个与INI中设置的session.upload_progress.name同名变量时，当PHP检测到这种POST请求时，它会在$_SESSION中添加一组数据。所以可以通过Session Upload Progress来设置session。<br>具体可看：<a href="https://seaii-blog.com/index.php/2017/09/12/70.html" target="_blank" rel="noopener">https://seaii-blog.com/index.php/2017/09/12/70.html</a></p>
+<h3 id="OPCACHE"><a href="#OPCACHE" class="headerlink" title="OPCACHE"></a>OPCACHE</h3><p>当开启了opcache并可以上传文件时，可以在本地生成一个与服务器文件名相同的文件，并生成缓存文件xx.php.bin。上传后恶意缓存文件会将服务器上的原文件覆盖，从而getshell。</p>
+<p>需要将缓存文件的system_id和timestamp两个字段为服务器上文件的值。<br>system_id可以使用工具<a href="https://github.com/GoSecure/php7-opcache-override修改。" target="_blank" rel="noopener">https://github.com/GoSecure/php7-opcache-override修改。</a></p>
+<h3 id="IMAP"><a href="#IMAP" class="headerlink" title="IMAP"></a>IMAP</h3><p><a href="https://github.com/vulhub/vulhub/blob/master/php/CVE-2018-19518/README.md" target="_blank" rel="noopener">https://github.com/vulhub/vulhub/blob/master/php/CVE-2018-19518/README.md</a></p>
+<hr>
+<p>另外发一个小工具：<a href="https://github.com/proudwind/phpinfo_scanner" target="_blank" rel="noopener">https://github.com/proudwind/phpinfo_scanner</a><br>这个能自动抓取phpinfo把有用的信息给呈现出来</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B8%97%E9%80%8F/" rel="tag"># 渗透</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/11/01/Redis%E6%9C%8D%E5%8A%A1%EF%BC%886379%E7%AB%AF%E5%8F%A3%EF%BC%89%E5%85%A5%E4%BE%B5/" rel="next" title="Redis服务（6379端口）入侵">
+                  <i class="fa fa-chevron-left"></i> Redis服务（6379端口）入侵
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/04/15/%EF%BC%88%E5%9B%9B%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E3%80%81%E5%8D%8F%E8%AE%AE/" rel="prev" title="（四）渗透技巧—常见服务、协议">
+                  （四）渗透技巧—常见服务、协议 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本信息"><span class="nav-number">1.</span> <span class="nav-text">基本信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#php版本"><span class="nav-number">1.1.</span> <span class="nav-text">php版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SYSTEM-INFO"><span class="nav-number">1.2.</span> <span class="nav-text">SYSTEM INFO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SERVER-API"><span class="nav-number">1.3.</span> <span class="nav-text">SERVER API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件位置"><span class="nav-number">1.4.</span> <span class="nav-text">配置文件位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REGISTERED-PHP-STREAMS-AND-FILTERS"><span class="nav-number">1.5.</span> <span class="nav-text">REGISTERED PHP STREAMS AND FILTERS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心配置"><span class="nav-number">2.</span> <span class="nav-text">核心配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EXTENSION-DIR"><span class="nav-number">2.1.</span> <span class="nav-text">EXTENSION_DIR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALLOW-URL-INCLUDE"><span class="nav-number">2.2.</span> <span class="nav-text">ALLOW_URL_INCLUDE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASP-TAGS"><span class="nav-number">2.3.</span> <span class="nav-text">ASP_TAGS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SHORT-OPEN-TAG"><span class="nav-number">2.4.</span> <span class="nav-text">SHORT_OPEN_TAG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DISABLE-FUNCTIONS"><span class="nav-number">2.5.</span> <span class="nav-text">DISABLE_FUNCTIONS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENABLE-DL"><span class="nav-number">2.6.</span> <span class="nav-text">ENABLE_DL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAGIC-QUOTES-GPC"><span class="nav-number">2.7.</span> <span class="nav-text">MAGIC_QUOTES_GPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OPEN-BASEDIR"><span class="nav-number">2.8.</span> <span class="nav-text">OPEN_BASEDIR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP-VARIABLES"><span class="nav-number">2.9.</span> <span class="nav-text">PHP VARIABLES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WEB根目录"><span class="nav-number">2.10.</span> <span class="nav-text">WEB根目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#临时文件路径"><span class="nav-number">2.11.</span> <span class="nav-text">临时文件路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">3.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IMAGICK"><span class="nav-number">3.1.</span> <span class="nav-text">IMAGICK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LIBXML"><span class="nav-number">3.2.</span> <span class="nav-text">LIBXML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MEMCACHE"><span class="nav-number">3.3.</span> <span class="nav-text">MEMCACHE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REDIS"><span class="nav-number">3.4.</span> <span class="nav-text">REDIS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SESSION"><span class="nav-number">3.5.</span> <span class="nav-text">SESSION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OPCACHE"><span class="nav-number">3.6.</span> <span class="nav-text">OPCACHE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMAP"><span class="nav-number">3.7.</span> <span class="nav-text">IMAP</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description">安全小白，打算用一些方式记录现在以及未来在这个行业中成长的心路历程。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>
