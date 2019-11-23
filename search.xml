@@ -50,6 +50,20 @@
       </tags>
   </entry>
   <entry>
+    <title>爬取安全客SRC列表</title>
+    <url>/2019/11/22/%E7%88%AC%E5%8F%96%E5%AE%89%E5%85%A8%E5%AE%A2SRC%E5%88%97%E8%A1%A8/</url>
+    <content><![CDATA[<p>写了个简单爬虫把安全客上的SRC列表爬了下来<br><img src="https://i.loli.net/2019/11/22/FWVsbkRnLSwAgim.png" alt="Image 137.png"></p><a id="more"></a>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">url = &quot;https://www.anquanke.com/src&quot;</span><br><span class="line">def src(url):</span><br><span class="line">    res = requests.get(url).content.decode(&apos;utf-8&apos;)</span><br><span class="line">    return res</span><br><span class="line"></span><br><span class="line">code = re.findall(r&apos;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;/src/(\d+)&quot;&gt;&apos;,str(src(url)))</span><br><span class="line"></span><br><span class="line">for codes in code:</span><br><span class="line">    res2 = requests.get(&quot;https://www.anquanke.com/src/&quot; + codes).content.decode(&apos;utf-8&apos;)</span><br><span class="line">    srcname = re.findall(r&apos;&lt;title&gt;(.*) - 安全客&apos;,res2)</span><br><span class="line">    urladdress = re.findall(r&apos;&lt;h2&gt;网址.*href=&quot;(.*?)&quot;&gt;.*&lt;h2&gt;漏洞提交入口&lt;/h2&gt;&apos;,res2,flags=re.DOTALL)</span><br><span class="line">    str_srcname = &quot;&quot;.join(srcname)</span><br><span class="line">    str_urladdress = &quot;&quot;.join(urladdress)</span><br><span class="line">    print(r&quot;名称：&#123;0&#125; , 地址：&#123;1&#125; &quot;.format(str_srcname,str_urladdress))</span><br></pre></td></tr></table></figure>
+
+<p>效果：<br><img src="https://i.loli.net/2019/11/22/InSkyfam15uKt6z.png" alt="Image 138.png"></p>
+<p>学到的东西：<br>正则“.”匹配时是默认不匹配换行符的，后面加个“flags=re.DOTALL”就好了</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dump下来的文章</title>
     <url>/2019/11/21/dump%E4%B8%8B%E6%9D%A5%E7%9A%84%E6%96%87%E7%AB%A0/</url>
     <content><![CDATA[<p>看到别人发的，我就又转存到百度云了。<br>里面的文章是来自：</p><a id="more"></a>
@@ -142,155 +156,6 @@
 <li>试用期多久？薪水多少？</li>
 </ul>
 ]]></content>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
-    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
-    <content><![CDATA[<blockquote>
-<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md</a></p>
-</blockquote><a id="more"></a>
-<ul>
-<li><a href="#面试问题记录">面试问题记录</a><ul>
-<li><a href="#360">360</a><ul>
-<li><a href="#sql的存储引擎">SQL的存储引擎</a></li>
-<li><a href="#sql注入写shell的条件用法">SQL注入写shell的条件，用法</a></li>
-<li><a href="#gpc是什么开启了怎么绕过">GPC是什么？开启了怎么绕过</a></li>
-<li><a href="#mysql一个和两个什么区别">Mysql一个@和两个@什么区别</a></li>
-<li><a href="#iis解析漏洞不同版本有什么漏洞还有什么容器解析漏洞">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</a></li>
-<li><a href="#wireshark抓包数据报经过三层交换机路由的变化nat协议描述地址进入内网怎么变化">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</a></li>
-<li><a href="#linux计划任务黑客隐藏自己的计划任务会怎么做windows计划任务怎么设定">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</a></li>
-<li><a href="#挖过最难的漏洞是什么">挖过最难的漏洞是什么</a></li>
-</ul>
-</li>
-<li><a href="#ukelink">ukelink</a><ul>
-<li><a href="#病毒和蠕虫的区别">病毒和蠕虫的区别</a></li>
-<li><a href="#dns欺骗是什么">DNS欺骗是什么</a></li>
-<li><a href="#DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</a></li>
-<li><a href="#陆地land攻击是什么">陆地land攻击是什么</a></li>
-<li><a href="#xss有什么执行存储型的xss的危害和原理">xss有什么？执行存储型的xss的危害和原理</a></li>
-<li><a href="#渗透测试流程不够清晰太浅显">渗透测试流程？（不够清晰，太浅显</a></li>
-<li><a href="#有没有移动端的调试经验-apkipa包分析">有没有移动端的调试经验 apk,ipa包分析</a></li>
-<li><a href="#对于云安全的理解">对于云安全的理解</a></li>
-<li><a href="#虚拟机逃逸的理解">虚拟机逃逸的理解</a></li>
-<li><a href="#英语介绍一下自己">英语介绍一下自己</a></li>
-<li><a href="#职业路径">职业路径</a></li>
-<li><a href="#大学做过什么相关的事情">大学做过什么相关的事情</a></li>
-<li><a href="#在工作会做什么来不断提高自己的能力">在工作会做什么来不断提高自己的能力</a></li>
-</ul>
-</li>
-<li><a href="#卓望">卓望</a><ul>
-<li><a href="#渗透测试流程">渗透测试流程</a></li>
-<li><a href="#描述渗透项目做了什么">描述渗透项目，做了什么</a></li>
-<li><a href="#xss漏洞类型详情修复方案">xss漏洞类型、详情、修复方案</a></li>
-<li><a href="#sql注入原理类型waf绕过写shell提权修复方案">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</a></li>
-<li><a href="#终端的渗透经验">终端的渗透经验</a></li>
-<li><a href="#了解什么比较新的漏洞">了解什么比较新的漏洞</a></li>
-<li><a href="#企业内部安全">企业内部安全</a></li>
-</ul>
-</li>
-<li><a href="#安巽">安巽</a><ul>
-<li><a href="#算法了解过什么排序">算法？了解过什么排序？</a></li>
-<li><a href="#爬虫">爬虫</a><ul>
-<li><a href="#页面存在很多js的时候用什么">页面存在很多js的时候，用什么</a></li>
-<li><a href="#爬虫的待爬取url量级比较大的时候如何对其去重">爬虫的待爬取URL量级比较大的时候，如何对其去重</a></li>
-<li><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么">多线程 异步 协程 多路复用 用哪一个最快 为什么</a></li>
-</ul>
-</li>
-<li><a href="#浏览器的常用编码">浏览器的常用编码</a></li>
-<li><a href="#web常用的加密算法有什么">web常用的加密算法有什么</a></li>
-<li><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</a></li>
-<li><a href="#mysql中like查询会会非常缓慢如何进行优化">mysql中like查询会会非常缓慢，如何进行优化</a></li>
-<li><a href="#做了cdn的网站如何获取真实ip">做了cdn的网站如何获取真实IP</a></li>
-<li><a href="#渗透的时候如何隐藏自己的身份">渗透的时候如何隐藏自己的身份</a></li>
-<li><a href="#主机疑似遭到入侵要看哪里的日志">主机疑似遭到入侵，要看哪里的日志</a></li>
-<li><a href="#sql注入漏洞怎么修复">SQL注入漏洞怎么修复</a></li>
-</ul>
-</li>
-<li><a href="#长亭">长亭</a><ul>
-<li><a href="#安全研究的方面做过哪些渗透测试的工作">安全研究的方面？做过哪些渗透测试的工作？</a></li>
-<li><a href="#只给你一个网址如何进行渗透测试">只给你一个网址，如何进行渗透测试</a></li>
-<li><a href="#SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？">SQL注入，id=1如何检测？order by怎么利用？limit语句怎么利用？盲注有什么？</a></li>
-<li><a href="#sleep被禁用后还能怎么进行sql注入">sleep被禁用后还能怎么进行sql注入</a></li>
-<li><a href="#xss可以控制属性怎么利用">XSS可以控制属性怎么利用</a></li>
-<li><a href="#csrf怎么防护">CSRF怎么防护？</a></li>
-<li><a href="#请求头中哪些是有危害的">请求头中哪些是有危害的？</a></li>
-<li><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</a></li>
-<li><a href="#java中间件的漏洞举几个例子">JAVA中间件的漏洞，举几个例子？</a></li>
-<li><a href="#iis常见的漏洞">IIS常见的漏洞</a></li>
-<li><a href="#python有哪些框架其中出现过哪些漏洞">python有哪些框架，其中出现过哪些漏洞</a></li>
-<li><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</a></li>
-<li><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</a></li>
-<li><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</a></li>
-</ul>
-</li>
-<li><a href="#盛邦">盛邦</a><ul>
-<li><a href="#有没有做过协议分析和抓包分析">有没有做过协议分析和抓包分析</a></li>
-</ul>
-</li>
-<li><a href="#翼果">翼果</a><ul>
-<li><a href="#mysql查看版本">mysql查看版本？</a></li>
-<li><a href="#过安全狗">过安全狗</a></li>
-<li><a href="#编程能力平台逆向修改程序入口rootkit有没有研究过">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="面试问题记录"><a href="#面试问题记录" class="headerlink" title="面试问题记录"></a>面试问题记录</h1><blockquote>
-<p>CONTACT ME: github.com/leezj9671</p>
-</blockquote>
-<h2 id="360"><a href="#360" class="headerlink" title="360"></a>360</h2><h3 id="SQL的存储引擎"><a href="#SQL的存储引擎" class="headerlink" title="SQL的存储引擎"></a>SQL的存储引擎</h3><h3 id="SQL注入写shell的条件，用法"><a href="#SQL注入写shell的条件，用法" class="headerlink" title="SQL注入写shell的条件，用法"></a>SQL注入写shell的条件，用法</h3><h3 id="GPC是什么？开启了怎么绕过"><a href="#GPC是什么？开启了怎么绕过" class="headerlink" title="GPC是什么？开启了怎么绕过"></a>GPC是什么？开启了怎么绕过</h3><h3 id="Mysql一个-和两个-什么区别"><a href="#Mysql一个-和两个-什么区别" class="headerlink" title="Mysql一个@和两个@什么区别"></a>Mysql一个@和两个@什么区别</h3><h3 id="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><a href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞" class="headerlink" title="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"></a>IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</h3><h3 id="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><a href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化" class="headerlink" title="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"></a>wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</h3><h3 id="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><a href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定" class="headerlink" title="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"></a>linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</h3><p>三种主要的at batch cron，一般使用cron在规定的时间执行命令</p>
-<h3 id="挖过最难的漏洞是什么"><a href="#挖过最难的漏洞是什么" class="headerlink" title="挖过最难的漏洞是什么"></a>挖过最难的漏洞是什么</h3><h2 id="ukelink"><a href="#ukelink" class="headerlink" title="ukelink"></a>ukelink</h2><h3 id="病毒和蠕虫的区别"><a href="#病毒和蠕虫的区别" class="headerlink" title="病毒和蠕虫的区别"></a>病毒和蠕虫的区别</h3><h3 id="DNS欺骗是什么"><a href="#DNS欺骗是什么" class="headerlink" title="DNS欺骗是什么"></a>DNS欺骗是什么</h3><p>定义： DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。 原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
-<h3 id="DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><a href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议" class="headerlink" title="DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议"></a>DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</h3><p>SYN攻击 防火墙、特征匹配<br>ACK FLOOD<br>UDP FLOOD<br>ICMP FLOOD<br>CC http的get请求<br>陆地攻击 源IP和目的IP都为同一个<br>UDP DNS QUERY 向被攻击的服务器发送大量的域名解析请求，通常请求解析的域名是随机生成或者是网络世界上根本不存在的域名，被攻击的DNS 服务器在接收到域名解析请求的时候首先会在服务器上查找是否有对应的缓存，如果查找不到并且该域名无法直接由服务器解析的时候，DNS 服务器会向其上层DNS服务器递归查询域名信息</p>
-<h3 id="陆地land攻击是什么"><a href="#陆地land攻击是什么" class="headerlink" title="陆地land攻击是什么"></a>陆地land攻击是什么</h3><h3 id="xss有什么？执行存储型的xss的危害和原理"><a href="#xss有什么？执行存储型的xss的危害和原理" class="headerlink" title="xss有什么？执行存储型的xss的危害和原理"></a>xss有什么？执行存储型的xss的危害和原理</h3><h3 id="渗透测试流程？（不够清晰，太浅显"><a href="#渗透测试流程？（不够清晰，太浅显" class="headerlink" title="渗透测试流程？（不够清晰，太浅显"></a>渗透测试流程？（不够清晰，太浅显</h3><h3 id="有没有移动端的调试经验-apk-ipa包分析"><a href="#有没有移动端的调试经验-apk-ipa包分析" class="headerlink" title="有没有移动端的调试经验 apk,ipa包分析"></a>有没有移动端的调试经验 apk,ipa包分析</h3><h3 id="对于云安全的理解"><a href="#对于云安全的理解" class="headerlink" title="对于云安全的理解"></a>对于云安全的理解</h3><p>权限管理，内网威胁，信息泄露，过于依赖托管厂商</p>
-<h3 id="虚拟机逃逸的理解"><a href="#虚拟机逃逸的理解" class="headerlink" title="虚拟机逃逸的理解"></a>虚拟机逃逸的理解</h3><p>虚拟机之间通信或上层主机的通信</p>
-<h3 id="英语介绍一下自己"><a href="#英语介绍一下自己" class="headerlink" title="英语介绍一下自己"></a>英语介绍一下自己</h3><h3 id="职业路径"><a href="#职业路径" class="headerlink" title="职业路径"></a>职业路径</h3><h3 id="大学做过什么相关的事情"><a href="#大学做过什么相关的事情" class="headerlink" title="大学做过什么相关的事情"></a>大学做过什么相关的事情</h3><h3 id="在工作会做什么来不断提高自己的能力"><a href="#在工作会做什么来不断提高自己的能力" class="headerlink" title="在工作会做什么来不断提高自己的能力"></a>在工作会做什么来不断提高自己的能力</h3><h2 id="卓望"><a href="#卓望" class="headerlink" title="卓望"></a>卓望</h2><h3 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h3><h3 id="描述渗透项目，做了什么"><a href="#描述渗透项目，做了什么" class="headerlink" title="描述渗透项目，做了什么"></a>描述渗透项目，做了什么</h3><h3 id="xss漏洞类型、详情、修复方案"><a href="#xss漏洞类型、详情、修复方案" class="headerlink" title="xss漏洞类型、详情、修复方案"></a>xss漏洞类型、详情、修复方案</h3><h3 id="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><a href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案" class="headerlink" title="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"></a>SQL注入原理、类型，waf绕过，写shell，提权，修复方案</h3><h3 id="终端的渗透经验"><a href="#终端的渗透经验" class="headerlink" title="终端的渗透经验"></a>终端的渗透经验</h3><h3 id="了解什么比较新的漏洞"><a href="#了解什么比较新的漏洞" class="headerlink" title="了解什么比较新的漏洞"></a>了解什么比较新的漏洞</h3><h3 id="企业内部安全"><a href="#企业内部安全" class="headerlink" title="企业内部安全"></a>企业内部安全</h3><p>信息安全管理的本质就是输入和输出。一般防范的风险为物理威胁和网络威胁。<br>防范风险可以从制度和流程（人员入离职流程、权限申请流程）、人员配备和知识积累、风险防范（物理威胁：门禁、监控、禁止USB设备接入、封闭PC、定时巡检；网络威胁：部署行为管控设备、可靠的网络结构、IP和MAC地址绑定，将网络行为分组、限制不必要的软件和通信协议、定期审核日志）</p>
-<h2 id="安巽"><a href="#安巽" class="headerlink" title="安巽"></a>安巽</h2><h3 id="算法？了解过什么排序？"><a href="#算法？了解过什么排序？" class="headerlink" title="算法？了解过什么排序？"></a>算法？了解过什么排序？</h3><p>快速排序 冒泡排序</p>
-<h3 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h3><h4 id="页面存在很多js的时候，用什么"><a href="#页面存在很多js的时候，用什么" class="headerlink" title="页面存在很多js的时候，用什么"></a>页面存在很多js的时候，用什么</h4><p>phnatomJS selenium execjs</p>
-<h4 id="爬虫的待爬取URL量级比较大的时候，如何对其去重"><a href="#爬虫的待爬取URL量级比较大的时候，如何对其去重" class="headerlink" title="爬虫的待爬取URL量级比较大的时候，如何对其去重"></a>爬虫的待爬取URL量级比较大的时候，如何对其去重</h4><ul>
-<li>在数据库中创建字段的UNIQUE属性：对于在数据库中创建字段的UNIQUE属性， 的确是可以避免一些重复性操作。不过在多次MySQL报错之后，程序可能会直接崩溃，因此这种方式不可取</li>
-<li>在数据库中创建一个唯一的索引，在插入数据之前检查待插入的数据是否存在：如果我们要在每一次插入数据之前都去检查待插入的数据是否存在，这样势必会影响程序的效率</li>
-<li>使用Set或HashSet保存数据，确保唯一。可以使用redis，但是内存占用大</li>
-<li>使用Map或是一个定长数组记录某一个URL是否被访问过</li>
-<li>布隆过滤器(bloom filter)，bitmap</li>
-</ul>
-<h4 id="多线程-异步-协程-多路复用-用哪一个最快-为什么"><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么" class="headerlink" title="多线程 异步 协程 多路复用 用哪一个最快 为什么"></a>多线程 异步 协程 多路复用 用哪一个最快 为什么</h4><blockquote>
-<p><a href="https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3" target="_blank" rel="noopener">https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3</a></p>
-</blockquote>
-<p>线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。线程的引入减小了程序并发执行时的开销，提高了操作系统的并发性能。线程没有自己的系统资源。</p>
-<p>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</p>
-<p>协程是一种用户态的轻量级线程，拥有自己的寄存器上下文和栈</p>
-<p>IO多路复用 异步阻塞IO 线程轮询IO</p>
-<h3 id="浏览器的常用编码"><a href="#浏览器的常用编码" class="headerlink" title="浏览器的常用编码"></a>浏览器的常用编码</h3><p>一开始我以为是说字符编码，有UTF8 Unicode GBK。面试官还几番提醒我也没答上来。回来一想，我觉得他应该问的是content-type。 <a href="http://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">http://www.runoob.com/http/http-content-type.html</a> </p>
-<h3 id="web常用的加密算法有什么"><a href="#web常用的加密算法有什么" class="headerlink" title="web常用的加密算法有什么"></a>web常用的加密算法有什么</h3><p>非对称加密  RSA、ElGamal、Rabin<br>对称加密 DES、3DES、AES<br>散列算法 MD5 SHA base64</p>
-<h3 id="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？" class="headerlink" title="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"></a>有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</h3><p>拿下机器后<br>内网渗透使用代理访问内网 windows环境：reGeorg与proxifier Linux（kali-linux）环境：reGeorg与proxychains，使用nmap等工具进行扫描，发现web服务的主机和其它信息。有时这些边界机器上会记录一些内网服务器上的一些信息（用户 ssh known_hosts  hosts 防火墙设置 记录、内网之间好多waf 规则基本都是空，大多数waf防外部威胁  这时候可以拿到探测的内部一些开放的端口判断进行渗透，通常用户这里基本是统一命名的   拿到的各种记录 会暴露出部分内网通讯的ip</p>
-<p>内网内弱口令占大多数 FTP MSSQL 远程桌面链接</p>
-<h3 id="mysql中like查询会会非常缓慢，如何进行优化"><a href="#mysql中like查询会会非常缓慢，如何进行优化" class="headerlink" title="mysql中like查询会会非常缓慢，如何进行优化"></a>mysql中like查询会会非常缓慢，如何进行优化</h3><p>分词索引</p>
-<h3 id="做了cdn的网站如何获取真实IP"><a href="#做了cdn的网站如何获取真实IP" class="headerlink" title="做了cdn的网站如何获取真实IP"></a>做了cdn的网站如何获取真实IP</h3><ol>
-<li>多地ping看是否有cdn</li>
-<li>邮件订阅或者rss订阅</li>
-<li>二级域名可能不会做cdn</li>
-<li>nslookup <a href="http://xxx.com" target="_blank" rel="noopener">http://xxx.com</a> 国外dns</li>
-<li>查找域名历史解析记录，因为域名在上CDN之前用的IP，很有可能就是CDN的真实源IP地址 <a href="https://toolbar.netcraft.com/site_report?url=www.xxx.com" target="_blank" rel="noopener">https://toolbar.netcraft.com/site_report?url=www.xxx.com</a></li>
-<li>phpinfo上显示的信息</li>
-</ol>
-<h3 id="渗透的时候如何隐藏自己的身份"><a href="#渗透的时候如何隐藏自己的身份" class="headerlink" title="渗透的时候如何隐藏自己的身份"></a>渗透的时候如何隐藏自己的身份</h3><h3 id="主机疑似遭到入侵，要看哪里的日志"><a href="#主机疑似遭到入侵，要看哪里的日志" class="headerlink" title="主机疑似遭到入侵，要看哪里的日志"></a>主机疑似遭到入侵，要看哪里的日志</h3><h3 id="SQL注入漏洞怎么修复"><a href="#SQL注入漏洞怎么修复" class="headerlink" title="SQL注入漏洞怎么修复"></a>SQL注入漏洞怎么修复</h3><h2 id="长亭"><a href="#长亭" class="headerlink" title="长亭"></a>长亭</h2><h3 id="安全研究的方面？做过哪些渗透测试的工作？"><a href="#安全研究的方面？做过哪些渗透测试的工作？" class="headerlink" title="安全研究的方面？做过哪些渗透测试的工作？"></a>安全研究的方面？做过哪些渗透测试的工作？</h3><h3 id="只给你一个网址，如何进行渗透测试"><a href="#只给你一个网址，如何进行渗透测试" class="headerlink" title="只给你一个网址，如何进行渗透测试"></a>只给你一个网址，如何进行渗透测试</h3><h3 id="SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><a href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？" class="headerlink" title="SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"></a>SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</h3><h3 id="sleep被禁用后还能怎么进行sql注入"><a href="#sleep被禁用后还能怎么进行sql注入" class="headerlink" title="sleep被禁用后还能怎么进行sql注入"></a>sleep被禁用后还能怎么进行sql注入</h3><p>BENCHMARK，Get_lock函数，当都被禁用后可以用计算量比较大的语句使数据库查询时间变长，从而达到延时注入的效果。<br>mysql：<code>AND (SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.SCHEMATA C);</code></p>
-<h3 id="XSS可以控制属性怎么利用"><a href="#XSS可以控制属性怎么利用" class="headerlink" title="XSS可以控制属性怎么利用"></a>XSS可以控制属性怎么利用</h3><h3 id="CSRF怎么防护？"><a href="#CSRF怎么防护？" class="headerlink" title="CSRF怎么防护？"></a>CSRF怎么防护？</h3><p>尽量使用POST，限制GET；浏览器Cookie策略；加验证码； Referer Check；Anti CSRF Token</p>
-<h3 id="请求头中哪些是有危害的？"><a href="#请求头中哪些是有危害的？" class="headerlink" title="请求头中哪些是有危害的？"></a>请求头中哪些是有危害的？</h3><p>Cookie</p>
-<h3 id="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过" class="headerlink" title="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"></a>XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</h3><p>xxe常见场景是如pdf在线解析、word在线解析、定制协议，留言板等，跟逻辑设计有关而与语言无关，最好是不要让XML作为参数传输或整体结构可被用户篡改。如果一定要使用，至少要禁用DTD、Entity。<br>xxe危害 读取本地文件，执行系统命令，探测内网端口，攻击内网服务<br>探测内网端口的协议有gopher file dict，不同语言支持不同的协议，是具体情况而定 file http ftp是常用的</p>
-<p>防范，python用lxml时可以对resolve_entities设为false。或者过滤用户提交的xml</p>
-<p>客户端也可以有xxe攻击，有的网站会使用office打开docx进行解析<br>Java解析XML的常用三方库，如果不禁用DTD、Entity都会导致XXE漏洞：</p>
-<p>javax.xml.stream.XMLStreamReader;</p>
-<p>javax.xml.parsers.DocumentBuilderFactory;</p>
-<h3 id="JAVA中间件的漏洞，举几个例子？"><a href="#JAVA中间件的漏洞，举几个例子？" class="headerlink" title="JAVA中间件的漏洞，举几个例子？"></a>JAVA中间件的漏洞，举几个例子？</h3><p>常见的是反序列化漏洞</p>
-<h3 id="IIS常见的漏洞"><a href="#IIS常见的漏洞" class="headerlink" title="IIS常见的漏洞"></a>IIS常见的漏洞</h3><p>常见的为解析漏洞，6.0有<br>/test.asp/test.jpg<br>  test.asp;.jpg<br>  7.5有test.jpg/.php，默认后缀IIS默认地还会解析其他后缀的文件为asp文件，比如cer asa cdx<br>  原理大抵是IIS 5.x/6.0在从文件路径中读取文件后缀时，遇到一个“.”后，便进入了一种截断状态，在该状态下遇到特殊符号——“/”和“;”，都会进行截断，只保留特殊符号前的部分，即：“.asp”，从而认为文件后缀为“.asp”。</p>
-<h3 id="python有哪些框架，其中出现过哪些漏洞"><a href="#python有哪些框架，其中出现过哪些漏洞" class="headerlink" title="python有哪些框架，其中出现过哪些漏洞"></a>python有哪些框架，其中出现过哪些漏洞</h3><p>flask的模板注入 模板注入和常见Web注入的成因一样，也是服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。<br>模板字符串中字符串拼接或替换可能会导致敏感信息泄露，获取变量值<br>如果开发者在flask使用字符串格式化，来将用户输入动态地加入到模板字符串中，而不是通过render_template_string函数，该函数不会对输入进行实体转义将URL传递进入模板内容当中，会导致xss的产生。<br>还可以利用模板中html标签属性字段绕过xss过滤。</p>
-<p>Django出现过目录遍历漏洞</p>
-<h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
-<h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>]]></content>
       <tags>
         <tag>面试</tag>
       </tags>
@@ -1249,6 +1114,155 @@
 <p><a href="http://www.4hou.com/technology/9090.html" target="_blank" rel="noopener">http://www.4hou.com/technology/9090.html</a><br><a href="https://blog.csdn.net/quiet_girl/article/details/50716312" target="_blank" rel="noopener">https://blog.csdn.net/quiet_girl/article/details/50716312</a></p>
 </blockquote>
 ]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
+    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
+    <content><![CDATA[<blockquote>
+<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#面试问题记录">面试问题记录</a><ul>
+<li><a href="#360">360</a><ul>
+<li><a href="#sql的存储引擎">SQL的存储引擎</a></li>
+<li><a href="#sql注入写shell的条件用法">SQL注入写shell的条件，用法</a></li>
+<li><a href="#gpc是什么开启了怎么绕过">GPC是什么？开启了怎么绕过</a></li>
+<li><a href="#mysql一个和两个什么区别">Mysql一个@和两个@什么区别</a></li>
+<li><a href="#iis解析漏洞不同版本有什么漏洞还有什么容器解析漏洞">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</a></li>
+<li><a href="#wireshark抓包数据报经过三层交换机路由的变化nat协议描述地址进入内网怎么变化">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</a></li>
+<li><a href="#linux计划任务黑客隐藏自己的计划任务会怎么做windows计划任务怎么设定">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</a></li>
+<li><a href="#挖过最难的漏洞是什么">挖过最难的漏洞是什么</a></li>
+</ul>
+</li>
+<li><a href="#ukelink">ukelink</a><ul>
+<li><a href="#病毒和蠕虫的区别">病毒和蠕虫的区别</a></li>
+<li><a href="#dns欺骗是什么">DNS欺骗是什么</a></li>
+<li><a href="#DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</a></li>
+<li><a href="#陆地land攻击是什么">陆地land攻击是什么</a></li>
+<li><a href="#xss有什么执行存储型的xss的危害和原理">xss有什么？执行存储型的xss的危害和原理</a></li>
+<li><a href="#渗透测试流程不够清晰太浅显">渗透测试流程？（不够清晰，太浅显</a></li>
+<li><a href="#有没有移动端的调试经验-apkipa包分析">有没有移动端的调试经验 apk,ipa包分析</a></li>
+<li><a href="#对于云安全的理解">对于云安全的理解</a></li>
+<li><a href="#虚拟机逃逸的理解">虚拟机逃逸的理解</a></li>
+<li><a href="#英语介绍一下自己">英语介绍一下自己</a></li>
+<li><a href="#职业路径">职业路径</a></li>
+<li><a href="#大学做过什么相关的事情">大学做过什么相关的事情</a></li>
+<li><a href="#在工作会做什么来不断提高自己的能力">在工作会做什么来不断提高自己的能力</a></li>
+</ul>
+</li>
+<li><a href="#卓望">卓望</a><ul>
+<li><a href="#渗透测试流程">渗透测试流程</a></li>
+<li><a href="#描述渗透项目做了什么">描述渗透项目，做了什么</a></li>
+<li><a href="#xss漏洞类型详情修复方案">xss漏洞类型、详情、修复方案</a></li>
+<li><a href="#sql注入原理类型waf绕过写shell提权修复方案">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</a></li>
+<li><a href="#终端的渗透经验">终端的渗透经验</a></li>
+<li><a href="#了解什么比较新的漏洞">了解什么比较新的漏洞</a></li>
+<li><a href="#企业内部安全">企业内部安全</a></li>
+</ul>
+</li>
+<li><a href="#安巽">安巽</a><ul>
+<li><a href="#算法了解过什么排序">算法？了解过什么排序？</a></li>
+<li><a href="#爬虫">爬虫</a><ul>
+<li><a href="#页面存在很多js的时候用什么">页面存在很多js的时候，用什么</a></li>
+<li><a href="#爬虫的待爬取url量级比较大的时候如何对其去重">爬虫的待爬取URL量级比较大的时候，如何对其去重</a></li>
+<li><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么">多线程 异步 协程 多路复用 用哪一个最快 为什么</a></li>
+</ul>
+</li>
+<li><a href="#浏览器的常用编码">浏览器的常用编码</a></li>
+<li><a href="#web常用的加密算法有什么">web常用的加密算法有什么</a></li>
+<li><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</a></li>
+<li><a href="#mysql中like查询会会非常缓慢如何进行优化">mysql中like查询会会非常缓慢，如何进行优化</a></li>
+<li><a href="#做了cdn的网站如何获取真实ip">做了cdn的网站如何获取真实IP</a></li>
+<li><a href="#渗透的时候如何隐藏自己的身份">渗透的时候如何隐藏自己的身份</a></li>
+<li><a href="#主机疑似遭到入侵要看哪里的日志">主机疑似遭到入侵，要看哪里的日志</a></li>
+<li><a href="#sql注入漏洞怎么修复">SQL注入漏洞怎么修复</a></li>
+</ul>
+</li>
+<li><a href="#长亭">长亭</a><ul>
+<li><a href="#安全研究的方面做过哪些渗透测试的工作">安全研究的方面？做过哪些渗透测试的工作？</a></li>
+<li><a href="#只给你一个网址如何进行渗透测试">只给你一个网址，如何进行渗透测试</a></li>
+<li><a href="#SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？">SQL注入，id=1如何检测？order by怎么利用？limit语句怎么利用？盲注有什么？</a></li>
+<li><a href="#sleep被禁用后还能怎么进行sql注入">sleep被禁用后还能怎么进行sql注入</a></li>
+<li><a href="#xss可以控制属性怎么利用">XSS可以控制属性怎么利用</a></li>
+<li><a href="#csrf怎么防护">CSRF怎么防护？</a></li>
+<li><a href="#请求头中哪些是有危害的">请求头中哪些是有危害的？</a></li>
+<li><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</a></li>
+<li><a href="#java中间件的漏洞举几个例子">JAVA中间件的漏洞，举几个例子？</a></li>
+<li><a href="#iis常见的漏洞">IIS常见的漏洞</a></li>
+<li><a href="#python有哪些框架其中出现过哪些漏洞">python有哪些框架，其中出现过哪些漏洞</a></li>
+<li><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</a></li>
+<li><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</a></li>
+<li><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</a></li>
+</ul>
+</li>
+<li><a href="#盛邦">盛邦</a><ul>
+<li><a href="#有没有做过协议分析和抓包分析">有没有做过协议分析和抓包分析</a></li>
+</ul>
+</li>
+<li><a href="#翼果">翼果</a><ul>
+<li><a href="#mysql查看版本">mysql查看版本？</a></li>
+<li><a href="#过安全狗">过安全狗</a></li>
+<li><a href="#编程能力平台逆向修改程序入口rootkit有没有研究过">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="面试问题记录"><a href="#面试问题记录" class="headerlink" title="面试问题记录"></a>面试问题记录</h1><blockquote>
+<p>CONTACT ME: github.com/leezj9671</p>
+</blockquote>
+<h2 id="360"><a href="#360" class="headerlink" title="360"></a>360</h2><h3 id="SQL的存储引擎"><a href="#SQL的存储引擎" class="headerlink" title="SQL的存储引擎"></a>SQL的存储引擎</h3><h3 id="SQL注入写shell的条件，用法"><a href="#SQL注入写shell的条件，用法" class="headerlink" title="SQL注入写shell的条件，用法"></a>SQL注入写shell的条件，用法</h3><h3 id="GPC是什么？开启了怎么绕过"><a href="#GPC是什么？开启了怎么绕过" class="headerlink" title="GPC是什么？开启了怎么绕过"></a>GPC是什么？开启了怎么绕过</h3><h3 id="Mysql一个-和两个-什么区别"><a href="#Mysql一个-和两个-什么区别" class="headerlink" title="Mysql一个@和两个@什么区别"></a>Mysql一个@和两个@什么区别</h3><h3 id="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><a href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞" class="headerlink" title="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"></a>IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</h3><h3 id="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><a href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化" class="headerlink" title="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"></a>wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</h3><h3 id="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><a href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定" class="headerlink" title="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"></a>linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</h3><p>三种主要的at batch cron，一般使用cron在规定的时间执行命令</p>
+<h3 id="挖过最难的漏洞是什么"><a href="#挖过最难的漏洞是什么" class="headerlink" title="挖过最难的漏洞是什么"></a>挖过最难的漏洞是什么</h3><h2 id="ukelink"><a href="#ukelink" class="headerlink" title="ukelink"></a>ukelink</h2><h3 id="病毒和蠕虫的区别"><a href="#病毒和蠕虫的区别" class="headerlink" title="病毒和蠕虫的区别"></a>病毒和蠕虫的区别</h3><h3 id="DNS欺骗是什么"><a href="#DNS欺骗是什么" class="headerlink" title="DNS欺骗是什么"></a>DNS欺骗是什么</h3><p>定义： DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。 原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
+<h3 id="DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><a href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议" class="headerlink" title="DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议"></a>DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</h3><p>SYN攻击 防火墙、特征匹配<br>ACK FLOOD<br>UDP FLOOD<br>ICMP FLOOD<br>CC http的get请求<br>陆地攻击 源IP和目的IP都为同一个<br>UDP DNS QUERY 向被攻击的服务器发送大量的域名解析请求，通常请求解析的域名是随机生成或者是网络世界上根本不存在的域名，被攻击的DNS 服务器在接收到域名解析请求的时候首先会在服务器上查找是否有对应的缓存，如果查找不到并且该域名无法直接由服务器解析的时候，DNS 服务器会向其上层DNS服务器递归查询域名信息</p>
+<h3 id="陆地land攻击是什么"><a href="#陆地land攻击是什么" class="headerlink" title="陆地land攻击是什么"></a>陆地land攻击是什么</h3><h3 id="xss有什么？执行存储型的xss的危害和原理"><a href="#xss有什么？执行存储型的xss的危害和原理" class="headerlink" title="xss有什么？执行存储型的xss的危害和原理"></a>xss有什么？执行存储型的xss的危害和原理</h3><h3 id="渗透测试流程？（不够清晰，太浅显"><a href="#渗透测试流程？（不够清晰，太浅显" class="headerlink" title="渗透测试流程？（不够清晰，太浅显"></a>渗透测试流程？（不够清晰，太浅显</h3><h3 id="有没有移动端的调试经验-apk-ipa包分析"><a href="#有没有移动端的调试经验-apk-ipa包分析" class="headerlink" title="有没有移动端的调试经验 apk,ipa包分析"></a>有没有移动端的调试经验 apk,ipa包分析</h3><h3 id="对于云安全的理解"><a href="#对于云安全的理解" class="headerlink" title="对于云安全的理解"></a>对于云安全的理解</h3><p>权限管理，内网威胁，信息泄露，过于依赖托管厂商</p>
+<h3 id="虚拟机逃逸的理解"><a href="#虚拟机逃逸的理解" class="headerlink" title="虚拟机逃逸的理解"></a>虚拟机逃逸的理解</h3><p>虚拟机之间通信或上层主机的通信</p>
+<h3 id="英语介绍一下自己"><a href="#英语介绍一下自己" class="headerlink" title="英语介绍一下自己"></a>英语介绍一下自己</h3><h3 id="职业路径"><a href="#职业路径" class="headerlink" title="职业路径"></a>职业路径</h3><h3 id="大学做过什么相关的事情"><a href="#大学做过什么相关的事情" class="headerlink" title="大学做过什么相关的事情"></a>大学做过什么相关的事情</h3><h3 id="在工作会做什么来不断提高自己的能力"><a href="#在工作会做什么来不断提高自己的能力" class="headerlink" title="在工作会做什么来不断提高自己的能力"></a>在工作会做什么来不断提高自己的能力</h3><h2 id="卓望"><a href="#卓望" class="headerlink" title="卓望"></a>卓望</h2><h3 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h3><h3 id="描述渗透项目，做了什么"><a href="#描述渗透项目，做了什么" class="headerlink" title="描述渗透项目，做了什么"></a>描述渗透项目，做了什么</h3><h3 id="xss漏洞类型、详情、修复方案"><a href="#xss漏洞类型、详情、修复方案" class="headerlink" title="xss漏洞类型、详情、修复方案"></a>xss漏洞类型、详情、修复方案</h3><h3 id="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><a href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案" class="headerlink" title="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"></a>SQL注入原理、类型，waf绕过，写shell，提权，修复方案</h3><h3 id="终端的渗透经验"><a href="#终端的渗透经验" class="headerlink" title="终端的渗透经验"></a>终端的渗透经验</h3><h3 id="了解什么比较新的漏洞"><a href="#了解什么比较新的漏洞" class="headerlink" title="了解什么比较新的漏洞"></a>了解什么比较新的漏洞</h3><h3 id="企业内部安全"><a href="#企业内部安全" class="headerlink" title="企业内部安全"></a>企业内部安全</h3><p>信息安全管理的本质就是输入和输出。一般防范的风险为物理威胁和网络威胁。<br>防范风险可以从制度和流程（人员入离职流程、权限申请流程）、人员配备和知识积累、风险防范（物理威胁：门禁、监控、禁止USB设备接入、封闭PC、定时巡检；网络威胁：部署行为管控设备、可靠的网络结构、IP和MAC地址绑定，将网络行为分组、限制不必要的软件和通信协议、定期审核日志）</p>
+<h2 id="安巽"><a href="#安巽" class="headerlink" title="安巽"></a>安巽</h2><h3 id="算法？了解过什么排序？"><a href="#算法？了解过什么排序？" class="headerlink" title="算法？了解过什么排序？"></a>算法？了解过什么排序？</h3><p>快速排序 冒泡排序</p>
+<h3 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h3><h4 id="页面存在很多js的时候，用什么"><a href="#页面存在很多js的时候，用什么" class="headerlink" title="页面存在很多js的时候，用什么"></a>页面存在很多js的时候，用什么</h4><p>phnatomJS selenium execjs</p>
+<h4 id="爬虫的待爬取URL量级比较大的时候，如何对其去重"><a href="#爬虫的待爬取URL量级比较大的时候，如何对其去重" class="headerlink" title="爬虫的待爬取URL量级比较大的时候，如何对其去重"></a>爬虫的待爬取URL量级比较大的时候，如何对其去重</h4><ul>
+<li>在数据库中创建字段的UNIQUE属性：对于在数据库中创建字段的UNIQUE属性， 的确是可以避免一些重复性操作。不过在多次MySQL报错之后，程序可能会直接崩溃，因此这种方式不可取</li>
+<li>在数据库中创建一个唯一的索引，在插入数据之前检查待插入的数据是否存在：如果我们要在每一次插入数据之前都去检查待插入的数据是否存在，这样势必会影响程序的效率</li>
+<li>使用Set或HashSet保存数据，确保唯一。可以使用redis，但是内存占用大</li>
+<li>使用Map或是一个定长数组记录某一个URL是否被访问过</li>
+<li>布隆过滤器(bloom filter)，bitmap</li>
+</ul>
+<h4 id="多线程-异步-协程-多路复用-用哪一个最快-为什么"><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么" class="headerlink" title="多线程 异步 协程 多路复用 用哪一个最快 为什么"></a>多线程 异步 协程 多路复用 用哪一个最快 为什么</h4><blockquote>
+<p><a href="https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3" target="_blank" rel="noopener">https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3</a></p>
+</blockquote>
+<p>线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。线程的引入减小了程序并发执行时的开销，提高了操作系统的并发性能。线程没有自己的系统资源。</p>
+<p>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</p>
+<p>协程是一种用户态的轻量级线程，拥有自己的寄存器上下文和栈</p>
+<p>IO多路复用 异步阻塞IO 线程轮询IO</p>
+<h3 id="浏览器的常用编码"><a href="#浏览器的常用编码" class="headerlink" title="浏览器的常用编码"></a>浏览器的常用编码</h3><p>一开始我以为是说字符编码，有UTF8 Unicode GBK。面试官还几番提醒我也没答上来。回来一想，我觉得他应该问的是content-type。 <a href="http://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">http://www.runoob.com/http/http-content-type.html</a> </p>
+<h3 id="web常用的加密算法有什么"><a href="#web常用的加密算法有什么" class="headerlink" title="web常用的加密算法有什么"></a>web常用的加密算法有什么</h3><p>非对称加密  RSA、ElGamal、Rabin<br>对称加密 DES、3DES、AES<br>散列算法 MD5 SHA base64</p>
+<h3 id="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？" class="headerlink" title="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"></a>有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</h3><p>拿下机器后<br>内网渗透使用代理访问内网 windows环境：reGeorg与proxifier Linux（kali-linux）环境：reGeorg与proxychains，使用nmap等工具进行扫描，发现web服务的主机和其它信息。有时这些边界机器上会记录一些内网服务器上的一些信息（用户 ssh known_hosts  hosts 防火墙设置 记录、内网之间好多waf 规则基本都是空，大多数waf防外部威胁  这时候可以拿到探测的内部一些开放的端口判断进行渗透，通常用户这里基本是统一命名的   拿到的各种记录 会暴露出部分内网通讯的ip</p>
+<p>内网内弱口令占大多数 FTP MSSQL 远程桌面链接</p>
+<h3 id="mysql中like查询会会非常缓慢，如何进行优化"><a href="#mysql中like查询会会非常缓慢，如何进行优化" class="headerlink" title="mysql中like查询会会非常缓慢，如何进行优化"></a>mysql中like查询会会非常缓慢，如何进行优化</h3><p>分词索引</p>
+<h3 id="做了cdn的网站如何获取真实IP"><a href="#做了cdn的网站如何获取真实IP" class="headerlink" title="做了cdn的网站如何获取真实IP"></a>做了cdn的网站如何获取真实IP</h3><ol>
+<li>多地ping看是否有cdn</li>
+<li>邮件订阅或者rss订阅</li>
+<li>二级域名可能不会做cdn</li>
+<li>nslookup <a href="http://xxx.com" target="_blank" rel="noopener">http://xxx.com</a> 国外dns</li>
+<li>查找域名历史解析记录，因为域名在上CDN之前用的IP，很有可能就是CDN的真实源IP地址 <a href="https://toolbar.netcraft.com/site_report?url=www.xxx.com" target="_blank" rel="noopener">https://toolbar.netcraft.com/site_report?url=www.xxx.com</a></li>
+<li>phpinfo上显示的信息</li>
+</ol>
+<h3 id="渗透的时候如何隐藏自己的身份"><a href="#渗透的时候如何隐藏自己的身份" class="headerlink" title="渗透的时候如何隐藏自己的身份"></a>渗透的时候如何隐藏自己的身份</h3><h3 id="主机疑似遭到入侵，要看哪里的日志"><a href="#主机疑似遭到入侵，要看哪里的日志" class="headerlink" title="主机疑似遭到入侵，要看哪里的日志"></a>主机疑似遭到入侵，要看哪里的日志</h3><h3 id="SQL注入漏洞怎么修复"><a href="#SQL注入漏洞怎么修复" class="headerlink" title="SQL注入漏洞怎么修复"></a>SQL注入漏洞怎么修复</h3><h2 id="长亭"><a href="#长亭" class="headerlink" title="长亭"></a>长亭</h2><h3 id="安全研究的方面？做过哪些渗透测试的工作？"><a href="#安全研究的方面？做过哪些渗透测试的工作？" class="headerlink" title="安全研究的方面？做过哪些渗透测试的工作？"></a>安全研究的方面？做过哪些渗透测试的工作？</h3><h3 id="只给你一个网址，如何进行渗透测试"><a href="#只给你一个网址，如何进行渗透测试" class="headerlink" title="只给你一个网址，如何进行渗透测试"></a>只给你一个网址，如何进行渗透测试</h3><h3 id="SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><a href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？" class="headerlink" title="SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"></a>SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</h3><h3 id="sleep被禁用后还能怎么进行sql注入"><a href="#sleep被禁用后还能怎么进行sql注入" class="headerlink" title="sleep被禁用后还能怎么进行sql注入"></a>sleep被禁用后还能怎么进行sql注入</h3><p>BENCHMARK，Get_lock函数，当都被禁用后可以用计算量比较大的语句使数据库查询时间变长，从而达到延时注入的效果。<br>mysql：<code>AND (SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.SCHEMATA C);</code></p>
+<h3 id="XSS可以控制属性怎么利用"><a href="#XSS可以控制属性怎么利用" class="headerlink" title="XSS可以控制属性怎么利用"></a>XSS可以控制属性怎么利用</h3><h3 id="CSRF怎么防护？"><a href="#CSRF怎么防护？" class="headerlink" title="CSRF怎么防护？"></a>CSRF怎么防护？</h3><p>尽量使用POST，限制GET；浏览器Cookie策略；加验证码； Referer Check；Anti CSRF Token</p>
+<h3 id="请求头中哪些是有危害的？"><a href="#请求头中哪些是有危害的？" class="headerlink" title="请求头中哪些是有危害的？"></a>请求头中哪些是有危害的？</h3><p>Cookie</p>
+<h3 id="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过" class="headerlink" title="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"></a>XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</h3><p>xxe常见场景是如pdf在线解析、word在线解析、定制协议，留言板等，跟逻辑设计有关而与语言无关，最好是不要让XML作为参数传输或整体结构可被用户篡改。如果一定要使用，至少要禁用DTD、Entity。<br>xxe危害 读取本地文件，执行系统命令，探测内网端口，攻击内网服务<br>探测内网端口的协议有gopher file dict，不同语言支持不同的协议，是具体情况而定 file http ftp是常用的</p>
+<p>防范，python用lxml时可以对resolve_entities设为false。或者过滤用户提交的xml</p>
+<p>客户端也可以有xxe攻击，有的网站会使用office打开docx进行解析<br>Java解析XML的常用三方库，如果不禁用DTD、Entity都会导致XXE漏洞：</p>
+<p>javax.xml.stream.XMLStreamReader;</p>
+<p>javax.xml.parsers.DocumentBuilderFactory;</p>
+<h3 id="JAVA中间件的漏洞，举几个例子？"><a href="#JAVA中间件的漏洞，举几个例子？" class="headerlink" title="JAVA中间件的漏洞，举几个例子？"></a>JAVA中间件的漏洞，举几个例子？</h3><p>常见的是反序列化漏洞</p>
+<h3 id="IIS常见的漏洞"><a href="#IIS常见的漏洞" class="headerlink" title="IIS常见的漏洞"></a>IIS常见的漏洞</h3><p>常见的为解析漏洞，6.0有<br>/test.asp/test.jpg<br>  test.asp;.jpg<br>  7.5有test.jpg/.php，默认后缀IIS默认地还会解析其他后缀的文件为asp文件，比如cer asa cdx<br>  原理大抵是IIS 5.x/6.0在从文件路径中读取文件后缀时，遇到一个“.”后，便进入了一种截断状态，在该状态下遇到特殊符号——“/”和“;”，都会进行截断，只保留特殊符号前的部分，即：“.asp”，从而认为文件后缀为“.asp”。</p>
+<h3 id="python有哪些框架，其中出现过哪些漏洞"><a href="#python有哪些框架，其中出现过哪些漏洞" class="headerlink" title="python有哪些框架，其中出现过哪些漏洞"></a>python有哪些框架，其中出现过哪些漏洞</h3><p>flask的模板注入 模板注入和常见Web注入的成因一样，也是服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。<br>模板字符串中字符串拼接或替换可能会导致敏感信息泄露，获取变量值<br>如果开发者在flask使用字符串格式化，来将用户输入动态地加入到模板字符串中，而不是通过render_template_string函数，该函数不会对输入进行实体转义将URL传递进入模板内容当中，会导致xss的产生。<br>还可以利用模板中html标签属性字段绕过xss过滤。</p>
+<p>Django出现过目录遍历漏洞</p>
+<h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
+<h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>]]></content>
       <tags>
         <tag>面试</tag>
       </tags>
@@ -2732,6 +2746,59 @@
       </tags>
   </entry>
   <entry>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>（一）渗透技巧—web</title>
     <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
     <content><![CDATA[<blockquote>
@@ -2773,25 +2840,28 @@
       </tags>
   </entry>
   <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
 
 
 
@@ -2848,62 +2918,6 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
 <h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
-
-
-
 
 
 
