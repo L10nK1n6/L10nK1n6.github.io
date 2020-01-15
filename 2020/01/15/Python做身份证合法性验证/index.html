@@ -48,15 +48,18 @@
   };
 </script>
 
-  <meta name="keywords" content="Python,渗透,Red Team,内网,红队,研究">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LionKing">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2019&#x2F;01&#x2F;index.html">
+  <meta name="description" content="前言发现一个好玩的文章， 文章中通过time模块遍历某一年份的所有日期，再根据身份证前6位和后4位以及id_validator模块来筛选出合法的身份证号。以后社工的时候可能用得到。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python做身份证合法性验证">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81&#x2F;index.html">
 <meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="前言发现一个好玩的文章， 文章中通过time模块遍历某一年份的所有日期，再根据身份证前6位和后4位以及id_validator模块来筛选出合法的身份证号。以后社工的时候可能用得到。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-15T12:29:01.322Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/2019/01/">
+<link rel="canonical" href="http://yoursite.com/2020/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/">
 
 
 <script id="page-configurations">
@@ -64,13 +67,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | LionKing</title>
+  <title>Python做身份证合法性验证 | LionKing</title>
   
 
 
@@ -196,54 +199,100 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">还行! 目前共计 45 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python做身份证合法性验证
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-15 23:10:29 / 修改时间：20:29:01" itemprop="dateCreated datePublished" datetime="2020-01-15T23:10:29+08:00">2020-01-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现一个好玩的<a href="https://zhuanlan.zhihu.com/p/101334480" target="_blank" rel="noopener">文章</a>， 文章中通过time模块遍历某一年份的所有日期，再根据身份证前6位和后4位以及id_validator模块来筛选出合法的身份证号。以后社工的时候可能用得到。</p><a id="more"></a>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">from id_validator import validator</span><br><span class="line"></span><br><span class="line">#生成出生当年所有日期</span><br><span class="line">def dateRange(year):</span><br><span class="line">    fmt = &apos;%Y-%m-%d&apos;</span><br><span class="line">    bgn = int(time.mktime(time.strptime(year+&apos;-01-01&apos;,fmt)))</span><br><span class="line">    end = int(time.mktime(time.strptime(year+&apos;-12-31&apos;,fmt)))</span><br><span class="line">    list_date = [time.strftime(fmt,time.localtime(i)) for i in range(bgn,end+1,3600*24)]</span><br><span class="line">    return [i.replace(&apos;-&apos;,&apos;&apos;) for i in list_date]</span><br><span class="line"></span><br><span class="line">#遍历所有日期，print通过校验的身份证号码</span><br><span class="line">def vali_dator(id1,id2,id3):</span><br><span class="line">    for i in dateRange(id2):</span><br><span class="line">        theid = id1 + i + id3</span><br><span class="line">        if validator.is_valid(theid):</span><br><span class="line">            print(theid)</span><br><span class="line"></span><br><span class="line">vali_dator(&apos;身份证前6位&apos;,&apos;年份&apos;,&apos;身份证后4位&apos;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>利用“身份证前6位”，“年份”，“身份证后4位”来筛选出包含“日期”的完整、合法的身份证号码。再利用姓名和阿里的身份验证接口，可以找到“某人”对应的“身份证号”和“大头贴”</p>
+<p>ps:不愿意花钱买阿里接口，也可以使用文章中说的，利用“12306”添加常用联系人的方式，来一个个匹配出“某人”和他的身份证号（12306添加联系人时，如果姓名和身份证号匹配不上会报检验不通过）</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-01-15T23:10:29+08:00"
-              content="2019-01-15">
-          01-15
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/" itemprop="url">
-            <span itemprop="name">Python做身份证合法性验证</span>
-          </a>
-      </h2>
+        
 
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/01/10/%E5%85%B3%E4%BA%8E%E5%89%8D%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84mimikatz%E5%90%8E%E7%BB%AD%E7%A0%94%E7%A9%B6/" rel="next" title="关于前一篇文章的mimikatz后续研究">
+                  <i class="fa fa-chevron-left"></i> 关于前一篇文章的mimikatz后续研究
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
 
         </div>
           
@@ -268,6 +317,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用途"><span class="nav-number">3.</span> <span class="nav-text">用途</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -439,6 +489,19 @@
 
   
 
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
 
 </body>
 </html>

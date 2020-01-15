@@ -54,6 +54,19 @@
       </tags>
   </entry>
   <entry>
+    <title>Python做身份证合法性验证</title>
+    <url>/2020/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现一个好玩的<a href="https://zhuanlan.zhihu.com/p/101334480" target="_blank" rel="noopener">文章</a>， 文章中通过time模块遍历某一年份的所有日期，再根据身份证前6位和后4位以及id_validator模块来筛选出合法的身份证号。以后社工的时候可能用得到。</p><a id="more"></a>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import time</span><br><span class="line">from id_validator import validator</span><br><span class="line"></span><br><span class="line">#生成出生当年所有日期</span><br><span class="line">def dateRange(year):</span><br><span class="line">    fmt = &apos;%Y-%m-%d&apos;</span><br><span class="line">    bgn = int(time.mktime(time.strptime(year+&apos;-01-01&apos;,fmt)))</span><br><span class="line">    end = int(time.mktime(time.strptime(year+&apos;-12-31&apos;,fmt)))</span><br><span class="line">    list_date = [time.strftime(fmt,time.localtime(i)) for i in range(bgn,end+1,3600*24)]</span><br><span class="line">    return [i.replace(&apos;-&apos;,&apos;&apos;) for i in list_date]</span><br><span class="line"></span><br><span class="line">#遍历所有日期，print通过校验的身份证号码</span><br><span class="line">def vali_dator(id1,id2,id3):</span><br><span class="line">    for i in dateRange(id2):</span><br><span class="line">        theid = id1 + i + id3</span><br><span class="line">        if validator.is_valid(theid):</span><br><span class="line">            print(theid)</span><br><span class="line"></span><br><span class="line">vali_dator(&apos;身份证前6位&apos;,&apos;年份&apos;,&apos;身份证后4位&apos;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>利用“身份证前6位”，“年份”，“身份证后4位”来筛选出包含“日期”的完整、合法的身份证号码。再利用姓名和阿里的身份验证接口，可以找到“某人”对应的“身份证号”和“大头贴”</p>
+<p>ps:不愿意花钱买阿里接口，也可以使用文章中说的，利用“12306”添加常用联系人的方式，来一个个匹配出“某人”和他的身份证号（12306添加联系人时，如果姓名和身份证号匹配不上会报检验不通过）</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于前一篇文章的mimikatz后续研究</title>
     <url>/2020/01/10/%E5%85%B3%E4%BA%8E%E5%89%8D%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84mimikatz%E5%90%8E%E7%BB%AD%E7%A0%94%E7%A9%B6/</url>
     <content><![CDATA[<p><img src="https://i.loli.net/2020/01/10/7DEoQwHk8n2Ud9j.png" alt="Image 33.png"></p><p>此处有一处错误，今天发现的另外一种情况，今天演示的时候，发现依旧不能成功访问域控共享目录，然后排错发现，原来是使用了system权限的mimikatz。</p><a id="more"></a>
@@ -3049,6 +3062,59 @@
       </tags>
   </entry>
   <entry>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>（六）渗透技巧—大数据</title>
     <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
@@ -3157,59 +3223,6 @@
       </tags>
   </entry>
   <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>phpinfo正确食用方式</title>
     <url>/2019/03/18/phpinfo%E6%AD%A3%E7%A1%AE%E9%A3%9F%E7%94%A8%E6%96%B9%E5%BC%8F/</url>
     <content><![CDATA[<p>在我们平时的渗透、ctf的过程中，或多或少会碰到phpinfo页面。但是这个页面包含的信息太多，常常感觉无从下手，在这里总结一下，可能没有那么全面。</p><a id="more"></a>
@@ -3264,19 +3277,6 @@
 ]]></content>
       <tags>
         <tag>渗透</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python做身份证合法性验证</title>
-    <url>/2019/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现一个好玩的<a href="https://zhuanlan.zhihu.com/p/101334480" target="_blank" rel="noopener">文章</a>， 文章中通过time模块遍历某一年份的所有日期，再根据身份证前6位和后4位以及id_validator模块来筛选出合法的身份证号。以后社工的时候可能用得到。</p><a id="more"></a>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import time</span><br><span class="line">from id_validator import validator</span><br><span class="line"></span><br><span class="line">#生成出生当年所有日期</span><br><span class="line">def dateRange(year):</span><br><span class="line">    fmt = &apos;%Y-%m-%d&apos;</span><br><span class="line">    bgn = int(time.mktime(time.strptime(year+&apos;-01-01&apos;,fmt)))</span><br><span class="line">    end = int(time.mktime(time.strptime(year+&apos;-12-31&apos;,fmt)))</span><br><span class="line">    list_date = [time.strftime(fmt,time.localtime(i)) for i in range(bgn,end+1,3600*24)]</span><br><span class="line">    return [i.replace(&apos;-&apos;,&apos;&apos;) for i in list_date]</span><br><span class="line"></span><br><span class="line">#遍历所有日期，print通过校验的身份证号码</span><br><span class="line">def vali_dator(id1,id2,id3):</span><br><span class="line">    for i in dateRange(id2):</span><br><span class="line">        theid = id1 + i + id3</span><br><span class="line">        if validator.is_valid(theid):</span><br><span class="line">            print(theid)</span><br><span class="line"></span><br><span class="line">vali_dator(&apos;身份证前6位&apos;,&apos;年份&apos;,&apos;身份证后4位&apos;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>利用“身份证前6位”，“年份”，“身份证后4位”来筛选出包含“日期”的完整、合法的身份证号码。再利用姓名和阿里的身份验证接口，可以找到“某人”对应的“身份证号”和“大头贴”</p>
-<p>ps:不愿意花钱买阿里接口，也可以使用文章中说的，利用“12306”添加常用联系人的方式，来一个个匹配出“某人”和他的身份证号（12306添加联系人时，如果姓名和身份证号匹配不上会报检验不通过）</p>
-]]></content>
-      <tags>
-        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
