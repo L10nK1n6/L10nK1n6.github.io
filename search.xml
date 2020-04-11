@@ -367,83 +367,58 @@
       </tags>
   </entry>
   <entry>
-    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
-    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
-    <content><![CDATA[<blockquote>
-<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
-</blockquote><a id="more"></a>
-<ul>
-<li><a href="#hr面">HR面</a><ul>
-<li><a href="#问题">问题</a><ul>
-<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
-<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
-<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
-<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
-<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
-<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
-<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
-<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
-<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
-<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
-<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
-<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
-<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
-<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
-<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
-<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
-<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
-<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
-<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
-<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
-<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
-<ul>
-<li>安全概念和资讯</li>
-<li>安全工具使用</li>
-<li>渗透测试</li>
-<li>安全基线检查</li>
-<li>应急响应</li>
-<li>代码审计</li>
-<li>安全边界建设</li>
-<li>安全规范 </li>
-</ul>
-<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
-<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
-<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
-<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
-<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
-<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
-<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
-<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
-</ul>
-<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
-<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
-<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
-<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
-<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
-</ol>
-<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
-<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
-<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
-<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
-<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
-<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
-<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
-<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
-<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
-<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
-<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
-<li>试用期多久？薪水多少？</li>
-</ul>
+    <title>phonesploit后续研究（微信取证）</title>
+    <url>/2019/11/21/phonesploit%E5%90%8E%E7%BB%AD%E7%A0%94%E7%A9%B6%EF%BC%88%E5%BE%AE%E4%BF%A1%E5%8F%96%E8%AF%81%EF%BC%89/</url>
+    <content><![CDATA[<p>此处是使用夜神模拟器做后续研究</p><a id="more"></a>
+<p><img src="https://i.loli.net/2020/04/11/yslaMuz7tJIUVGC.jpg" alt="ip_image002.jpeg"></p>
+<p>开启PhoneSploit，输入夜神模拟器IP地址即可，菜单1可以看到连接状态</p>
+<p><img src="https://i.loli.net/2020/04/11/RKlqofMdBnm9Usb.jpg" alt="ip_image004.jpeg"></p>
+<p>输入菜单7截取当前屏幕，此处填文件名为99.png保存下来</p>
+<p><img src="https://i.loli.net/2020/04/11/yDbFOIp3Zu2tdRP.jpg" alt="ip_image005.jpeg"></p>
+<p><img src="https://i.loli.net/2020/04/11/BbWMDzAefrPi1xp.jpg" alt="ip_image008.jpeg"></p>
+<h3 id="获取微信聊天记录实验"><a href="#获取微信聊天记录实验" class="headerlink" title="获取微信聊天记录实验"></a>获取微信聊天记录实验</h3><p>首先我登录了我的微信小号A,，给我另外一个号发了几条消息</p>
+<p><img src="https://i.loli.net/2020/04/11/o5dJRLtmfVWF7p8.png" alt="Image 1.png"></p>
+<p>获取微信聊天记录，我们需要3样东西：微信UIN、手机IMEI、EnMicroMsg.db数据库文件</p>
+<h4 id="1-微信UIN获取"><a href="#1-微信UIN获取" class="headerlink" title="1.微信UIN获取"></a>1.微信UIN获取</h4><p>通过菜单4，我们可以获得一个交互式shell，通过访问~/com.tencent.mm/shared_prefs/system_config_prefs.xml文件，可以获取最后一个登录微信的账户的UIN值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /data/data/com.tencent.mm/shared_prefs/system_config_prefs.xml</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/04/11/V87EPrw4gx2NtWL.png" alt="clipboard.png"></p>
+<p>在<int name="default_uin" value="1907***411">这一行中，value的值就是UIN。</int></p>
+<h4 id="2-手机IMEI获取"><a href="#2-手机IMEI获取" class="headerlink" title="2.手机IMEI获取"></a>2.手机IMEI获取</h4><p>看了很多文章，都是说手机拨号键入：*#06#可以获取，但是在我们这个实验中显然不太实在，SO!</p>
+<p>IMEI号码，我们可以通过访问~/com.tencent.mm/MicroMsg/CompatibleInfo.cfg文件获得</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /data/data/com.tencent.mm/MicroMsg/CompatibleInfo.cfg</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/04/11/zpuhPi9fMIsWqLV.png" alt="clipbodddard.png"></p>
+<p>此处是夜神模拟器随机取的，我就不打码了</p>
+<h4 id="3-EnMicroMsg-db文件获取"><a href="#3-EnMicroMsg-db文件获取" class="headerlink" title="3.EnMicroMsg.db文件获取"></a>3.EnMicroMsg.db文件获取</h4><p>首先要先说一下，数据库文件基本都在 ~/com.tencent.mm/MicroMsg/<strong><em>微信用户数据存储目录</em></strong>/EnMicroMsg.db，但是微信用户数据存储目录不排除会有好几个，如下图：</p>
+<p><img src="https://i.loli.net/2020/04/11/TAMOf1mjlkVDZEr.png" alt="clipboadddddddrd.png"></p>
+<p>哪个是我们所要抓取的呢？，这里可以用mm+获取到的UID进行组合，加密成32位MD5的值所对应相应的目录，如下</p>
+<p><img src="https://i.loli.net/2020/04/11/ZJ8IAto71uRsNdD.png" alt="clsssipboard.png"></p>
+<p>可以看出第一个2e0fe***就是我们需要的微信用户数据存储目录</p>
+<p>所以，通过phonesploit菜单9从远程数据库文件拉到本地解密</p>
+<p>输入我们的文件路径和保存路径，我们成功的将数据库保存了下来</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">9</span><br><span class="line">/data/data/com.tencent.mm/MicroMsg/2e0fe884b0****8d8313508879f1a1d6/EnMicroMsg.db</span><br><span class="line">/home</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/04/11/XFl7QA2VswrnNSL.png" alt="clipbaaaoard.png"></p>
+<h4 id="取证-获取信息"><a href="#取证-获取信息" class="headerlink" title="取证/获取信息"></a>取证/获取信息</h4><p>将数据库放入SQLcipher2.1中，显示是需要密码的。</p>
+<p>而密码就是我们刚抓出来的IMEI和UID值。将这两个值以IMEI+UID的方式拼接在一起，MD5加密后，取32位小写MD5前7位即可</p>
+<p><img src="https://i.loli.net/2020/04/11/RTgSGAaV951Pzr2.png" alt="claaaipboard.png"></p>
+<p>输入密码1327df3，可以看到成功读取出来了</p>
+<p><img src="https://i.loli.net/2020/04/11/THRxtoKMkXbVdaC.png" alt="clipboard.png"></p>
+<p>从userinfo表中，可以找到微信id、用户名、手机号等信息</p>
+<p><img src="https://i.loli.net/2020/04/11/BZgVWe6x2kS9vmT.png" alt="clipdddboard.png"></p>
+<p>在rcontact表中能找到小号A的好友列表，这里只有我大号一个好友</p>
+<p><img src="https://i.loli.net/2020/04/11/Ce6x4fqWY3lagcB.png" alt="cliaaapboard.png"></p>
+<p>在message表中可以看到聊天记录。</p>
+<p><img src="https://i.loli.net/2020/04/11/GHiaNBsALQpqgxX.png" alt="clipddddddboard.png"></p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/baidu_34928905/article/details/78008287" target="_blank" rel="noopener">https://blog.csdn.net/baidu_34928905/article/details/78008287</a></p>
+<p><a href="https://bbs.pediy.com/thread-250714.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-250714.htm</a></p>
+<p>SQLcipher2.1:</p>
+<p>链接：<a href="https://pan.baidu.com/s/12a66oH6F5NmtebXh50rpiw" target="_blank" rel="noopener">https://pan.baidu.com/s/12a66oH6F5NmtebXh50rpiw</a> </p>
+<p>提取码：27wh</p>
 ]]></content>
       <tags>
-        <tag>面试</tag>
+        <tag>渗透</tag>
       </tags>
   </entry>
   <entry>
@@ -1548,6 +1523,86 @@
 <h3 id="共性"><a href="#共性" class="headerlink" title="共性"></a>共性</h3><h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><h3 id="排序算法：快排-二分-冒泡"><a href="#排序算法：快排-二分-冒泡" class="headerlink" title="排序算法：快排 二分 冒泡"></a>排序算法：快排 二分 冒泡</h3><h2 id="LDAP注入"><a href="#LDAP注入" class="headerlink" title="LDAP注入"></a>LDAP注入</h2><blockquote>
 <p><a href="http://www.4hou.com/technology/9090.html" target="_blank" rel="noopener">http://www.4hou.com/technology/9090.html</a><br><a href="https://blog.csdn.net/quiet_girl/article/details/50716312" target="_blank" rel="noopener">https://blog.csdn.net/quiet_girl/article/details/50716312</a></p>
 </blockquote>
+]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
+    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
+    <content><![CDATA[<blockquote>
+<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#hr面">HR面</a><ul>
+<li><a href="#问题">问题</a><ul>
+<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
+<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
+<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
+<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
+<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
+<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
+<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
+<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
+<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
+<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
+<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
+<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
+<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
+<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
+<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
+<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
+<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
+<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
+<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
+<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
+<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
+<ul>
+<li>安全概念和资讯</li>
+<li>安全工具使用</li>
+<li>渗透测试</li>
+<li>安全基线检查</li>
+<li>应急响应</li>
+<li>代码审计</li>
+<li>安全边界建设</li>
+<li>安全规范 </li>
+</ul>
+<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
+<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
+<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
+<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
+<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
+<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
+<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
+<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
+</ul>
+<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
+<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
+<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
+<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
+<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
+</ol>
+<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
+<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
+<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
+<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
+<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
+<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
+<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
+<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
+<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
+<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
+<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
+<li>试用期多久？薪水多少？</li>
+</ul>
 ]]></content>
       <tags>
         <tag>面试</tag>
