@@ -48,28 +48,18 @@
   };
 </script>
 
-  <meta name="description" content="此处有一处错误，今天发现的另外一种情况，今天演示的时候，发现依旧不能成功访问域控共享目录，然后排错发现，原来是使用了system权限的mimikatz。">
-<meta name="keywords" content="笔记">
+  <meta name="description" content="2019年9月份写的，当时是因为一个项目用nmap扫端口的时候没有发现开放9090的http服务端口，项目结束提交出去后，另一家乙方在9090上发现了严重漏洞，导致我们很尴尬，然后我就含着愧疚写下了这个垃圾扫描器。在网盘吃灰好久了，今天翻到就想着发出来，算是一段屈辱史吧。">
+<meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于前一篇文章的mimikatz后续研究">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;10&#x2F;%E5%85%B3%E4%BA%8E%E5%89%8D%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84mimikatz%E5%90%8E%E7%BB%AD%E7%A0%94%E7%A9%B6&#x2F;index.html">
+<meta property="og:title" content="HttpScan（龟速HTTP服务发现程序）">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;09&#x2F;25&#x2F;HttpScan%EF%BC%88%E9%BE%9F%E9%80%9FHTTP%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%A8%8B%E5%BA%8F%EF%BC%89&#x2F;index.html">
 <meta property="og:site_name" content="LionKing">
-<meta property="og:description" content="此处有一处错误，今天发现的另外一种情况，今天演示的时候，发现依旧不能成功访问域控共享目录，然后排错发现，原来是使用了system权限的mimikatz。">
+<meta property="og:description" content="2019年9月份写的，当时是因为一个项目用nmap扫端口的时候没有发现开放9090的http服务端口，项目结束提交出去后，另一家乙方在9090上发现了严重漏洞，导致我们很尴尬，然后我就含着愧疚写下了这个垃圾扫描器。在网盘吃灰好久了，今天翻到就想着发出来，算是一段屈辱史吧。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;7DEoQwHk8n2Ud9j.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;DaOuRyMKV5wkcfv.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;VfDT4nM6BLKSPt8.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;TaXuCMQA69m8ldg.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;gxZrwGo3qiRN7K2.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;y6sVgfWnou1tpUz.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;ZpalWBLYMN1bAkF.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;5IVBM8pjiEfGKXs.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;GgyMvQrob6mh3At.png">
-<meta property="og:updated_time" content="2020-01-13T12:08:52.138Z">
+<meta property="og:updated_time" content="2020-04-21T14:01:59.271Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;10&#x2F;7DEoQwHk8n2Ud9j.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/10/%E5%85%B3%E4%BA%8E%E5%89%8D%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84mimikatz%E5%90%8E%E7%BB%AD%E7%A0%94%E7%A9%B6/">
+<link rel="canonical" href="http://yoursite.com/2019/09/25/HttpScan%EF%BC%88%E9%BE%9F%E9%80%9FHTTP%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%A8%8B%E5%BA%8F%EF%BC%89/">
 
 
 <script id="page-configurations">
@@ -83,7 +73,7 @@
   };
 </script>
 
-  <title>关于前一篇文章的mimikatz后续研究 | LionKing</title>
+  <title>HttpScan（龟速HTTP服务发现程序） | LionKing</title>
   
 
 
@@ -214,7 +204,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/%E5%85%B3%E4%BA%8E%E5%89%8D%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84mimikatz%E5%90%8E%E7%BB%AD%E7%A0%94%E7%A9%B6/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/25/HttpScan%EF%BC%88%E9%BE%9F%E9%80%9FHTTP%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%A8%8B%E5%BA%8F%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -227,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          关于前一篇文章的mimikatz后续研究
+          HttpScan（龟速HTTP服务发现程序）
         </h1>
 
         <div class="post-meta">
@@ -237,14 +227,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-01-10 16:57:29" itemprop="dateCreated datePublished" datetime="2020-01-10T16:57:29+08:00">2020-01-10</time>
+              <time title="创建时间：2019-09-25 23:10:29" itemprop="dateCreated datePublished" datetime="2019-09-25T23:10:29+08:00">2019-09-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-13 20:08:52" itemprop="dateModified" datetime="2020-01-13T20:08:52+08:00">2020-01-13</time>
+                <time title="修改时间：2020-04-21 22:01:59" itemprop="dateModified" datetime="2020-04-21T22:01:59+08:00">2020-04-21</time>
               </span>
 
           
@@ -258,33 +248,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://i.loli.net/2020/01/10/7DEoQwHk8n2Ud9j.png" alt="Image 33.png"></p><p>此处有一处错误，今天发现的另外一种情况，今天演示的时候，发现依旧不能成功访问域控共享目录，然后排错发现，原来是使用了system权限的mimikatz。</p><a id="more"></a>
+        <p>2019年9月份写的，当时是因为一个项目用nmap扫端口的时候没有发现开放9090的http服务端口，项目结束提交出去后，另一家乙方在9090上发现了严重漏洞，导致我们很尴尬，然后我就含着愧疚写下了这个垃圾扫描器。在网盘吃灰好久了，今天翻到就想着发出来，算是一段屈辱史吧。</p><a id="more"></a>
+<p>垃圾程序，大佬莫喷</p>
+<p>线程默认是1000，-t可指定线程，结果会保存在result.txt里</p>
+<p>详细可见GayHub：<a href="https://github.com/L10nK1n6/HttpScan" target="_blank" rel="noopener">https://github.com/L10nK1n6/HttpScan</a></p>
+<p>源代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import sys</span><br><span class="line">from queue import Queue</span><br><span class="line">import threading</span><br><span class="line">from user_agent import user_agent_list</span><br><span class="line">from optparse import OptionParser</span><br><span class="line"> </span><br><span class="line">class HttpScanMain:</span><br><span class="line">	def __init__(self, options):</span><br><span class="line">		self.url = options.url</span><br><span class="line">		self.count = options.count</span><br><span class="line">		</span><br><span class="line">	class HttpScan(threading.Thread):</span><br><span class="line">		def __init__(self, queue,total):</span><br><span class="line">			threading.Thread.__init__(self)</span><br><span class="line">			self._queue = queue</span><br><span class="line">			self._total = total</span><br><span class="line">				</span><br><span class="line">		def run(self):</span><br><span class="line">			while not self._queue.empty():</span><br><span class="line">				url = self._queue.get()</span><br><span class="line"></span><br><span class="line">				threading.Thread(target=self.msg).start()</span><br><span class="line"> </span><br><span class="line">				try:</span><br><span class="line">					r = requests.get(url=url, headers=user_agent_list.get_user_agent(), timeout=8,)</span><br><span class="line">					if r.status_code == 200 or r.status_code == 302:</span><br><span class="line">						sys.stdout.write(&apos;\r&apos; + &apos;[+]%s\t\t\n&apos; % (url))</span><br><span class="line">						result = open(&apos;result.txt&apos;,&apos;a+&apos;)</span><br><span class="line">						result.write(url)</span><br><span class="line">						result.write(&apos;\r\n&apos;)</span><br><span class="line">						result.close()</span><br><span class="line">				except Exception as e:</span><br><span class="line">					pass</span><br><span class="line"> </span><br><span class="line">		def msg(self):</span><br><span class="line">			per = 100 - float(self._queue.qsize())/float(self._total) * 100</span><br><span class="line">			percentage = &quot;%s Finished| %s All| Scan in %1.f %s&quot;%((self._total - self._queue.qsize()),self._total,per,&apos;%&apos;)</span><br><span class="line">			sys.stdout.write(&apos;\r&apos;+&apos;[*]&apos;+percentage)</span><br><span class="line"> </span><br><span class="line">	def start(self):</span><br><span class="line">		result = open(&apos;result.txt&apos;,&apos;w&apos;)</span><br><span class="line">		result.close()</span><br><span class="line"> </span><br><span class="line">		queue = Queue()</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">		for i in range(1, 65536):</span><br><span class="line">			queue.put(self.url+&quot;:&quot;+str(i).rstrip())</span><br><span class="line"></span><br><span class="line">		total = queue.qsize()</span><br><span class="line"> </span><br><span class="line">		threads = []</span><br><span class="line">		thread_count = int(self.count)</span><br><span class="line"> </span><br><span class="line">		for i in range(thread_count):</span><br><span class="line">			threads.append(self.HttpScan(queue,total))</span><br><span class="line">		for i in threads:</span><br><span class="line">			i.start()</span><br><span class="line">		for i in threads:</span><br><span class="line">			i.join()</span><br><span class="line"> </span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line"> </span><br><span class="line">	print (&apos;&apos;&apos;</span><br><span class="line"> _   _ _   _         _____                 </span><br><span class="line">| | | | | | |       /  ___|                </span><br><span class="line">| |_| | |_| |_ _ __ \ `--.  ___ __ _ _ __  </span><br><span class="line">|  _  | __| __| &apos;_ \ `--. \/ __/ _` | &apos;_ \ </span><br><span class="line">| | | | |_| |_| |_) /\__/ / (_| (_| | | | |</span><br><span class="line">\_| |_/\__|\__| .__/\____/ \___\__,_|_| |_|</span><br><span class="line">              | |                          </span><br><span class="line">              |_|                         </span><br><span class="line">                                                                                                             </span><br><span class="line">	&apos;&apos;&apos;)</span><br><span class="line"> </span><br><span class="line">	parser = OptionParser(&apos;./web_dir_scan.py -u &lt;Target URL&gt; [-t &lt;Thread_count&gt;]&apos;)</span><br><span class="line">	parser.add_option(&apos;-u&apos;,&apos;--url&apos;,dest=&apos;url&apos;,type=&apos;string&apos;,help=&apos;target url for scan&apos;)</span><br><span class="line">	parser.add_option(&apos;-t&apos;,&apos;--thread&apos;,dest=&apos;count&apos;,type=&apos;int&apos;,default=1000,help=&apos;scan thread_count,default=1000&apos;)</span><br><span class="line">	(options,args)=parser.parse_args()</span><br><span class="line"> </span><br><span class="line">	if options.url :</span><br><span class="line">		HttpScan = HttpScanMain(options)</span><br><span class="line">		HttpScan.start()</span><br><span class="line">		sys.exit(1)</span><br><span class="line">	else:</span><br><span class="line">		parser.print_help()</span><br><span class="line">		sys.exit(1)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::list： 列出在用户的内存中所有用户的票证（TGT 和 TGS）。不需要特殊的权限，因为它仅显示当前用户的票证。与 “klist” 的功能相似。</span><br></pre></td></tr></table></figure>
-
-<p>在使用域普通用户伪造的凭证注入时，应当使用该域普通账户权限的mimikatz注入，而不应该使用system权限的mimikatz来注入。是因为system权限的mimikatz注入时，会把凭证注入到system的内存中，而不是域普通用户的内存中，所以才会失败。</p>
-<p><img src="https://i.loli.net/2020/01/10/DaOuRyMKV5wkcfv.jpg" alt="3.jpg"></p>
-<p>这张图是system权限下的mimikatz查看到的凭证，发现内存中只有一个凭证，也就是被注入的凭证</p>
-<p><img src="https://i.loli.net/2020/01/10/VfDT4nM6BLKSPt8.jpg" alt="2.jpg"></p>
-<p>而这张图是同一时间，域普通用户权限下的mimikatz查看到的凭证列表，显示有3个凭证，这明显就不同了。所以根据上面kerberos::list命令的说明，猜测“<strong>不同用户权限下的mimikatz所操作的内存是不同的</strong>”不敢确定所有的命令是这样，但是至少kerberos::模块或者“kerberos::list”、“kerberos::purge”、“kerberos::ptc”是这样的。</p>
-<hr>
-<p>另外还发现一个有意思的东西，那就是“注销”会清除/释放内存。<br>当在实验mimikatz抓取密码/hash的时候发现，只能抓到当前用户的密码/hash。多次实验发现依旧如此，并不能抓取到其他登陆过但是现在已注销用户的密码/hash（除了 机器名$ 用户）</p>
-<p>实验步骤如下：</p>
-<p>使用administrator用户登录，然后procdump出内存文件。</p>
-<p><img src="https://i.loli.net/2020/01/10/TaXuCMQA69m8ldg.png" alt="Image 27.png"></p>
-<p>然后将文件放置物理机dump解密。如图所示，可以看到只有机器名$和administrator的密码和hsah</p>
-<p><img src="https://i.loli.net/2020/01/10/gxZrwGo3qiRN7K2.png" alt="Image 31.png"></p>
-<p>随后点击注销，登录本地普通用户ding，重复同样步骤dump出内存文件。（其中因为procdump需要权限，所以用1388提权到system了。）</p>
-<p><img src="https://i.loli.net/2020/01/10/y6sVgfWnou1tpUz.png" alt="Image 28.png"></p>
-<p>拉到物理机解一下，可以看到这次的结果只有机器名$和ding用户的密码和hsah。</p>
-<p><img src="https://i.loli.net/2020/01/10/ZpalWBLYMN1bAkF.png" alt="Image 32.png"></p>
-<p>到这里就可以看出来了，注销是会把administrator用户的内存释放，这样下次使用其他用户抓密码的时候就抓不到administrator用户的hsah了。</p>
-<p>下面做一个对比实验，这次不注销换成在任务管理器-&gt;用户 窗口中断开连接（或者在菜单不点击注销，点击切换用户），从而达到切换用户的目的。</p>
-<p><img src="https://i.loli.net/2020/01/10/5IVBM8pjiEfGKXs.png" alt="Image 34.png"></p>
-<p>这一次同样dump出内存文件，拉到本地解，结果如下</p>
-<p><img src="https://i.loli.net/2020/01/10/GgyMvQrob6mh3At.png" alt="Image 35.png"></p>
-<p>可以看到，在不注销的情况下，成功在内存中读取到了administrator和ding的密码。</p>
-<p>所以，从防御的角度讲，运维人员能注销的就注销吧，这样可以避免被抓到关键账号的hash和密码，防止更大的风险产生。</p>
+<p>其实就是把端口往URL上怼，碰对了就返回结果，虽然慢一点，但是比nmap扫漏了要好</p>
 
     </div>
 
@@ -294,23 +265,23 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 笔记</a>
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/01/09/MS14-068%E6%8E%92%E9%94%99+%E5%A4%8D%E7%8E%B0%E7%AC%94%E8%AE%B0/" rel="next" title="MS14-068排错笔记">
-                  <i class="fa fa-chevron-left"></i> MS14-068排错笔记
+                <a href="/2019/09/19/VSS%E8%8E%B7%E5%8F%96NTDS.dit%E7%9A%84%E6%96%B9%E6%B3%95/" rel="next" title="VSS获取NTDS.dit的方法">
+                  <i class="fa fa-chevron-left"></i> VSS获取NTDS.dit的方法
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/01/15/Python%E5%81%9A%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%90%88%E6%B3%95%E6%80%A7%E9%AA%8C%E8%AF%81/" rel="prev" title="Python做身份证合法性验证">
-                  Python做身份证合法性验证 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/09/26/%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3python%E7%A8%8B%E5%BA%8F%E5%85%A5%E5%8F%A3/" rel="prev" title="如何理解python程序入口">
+                  如何理解python程序入口 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

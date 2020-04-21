@@ -422,6 +422,86 @@
       </tags>
   </entry>
   <entry>
+    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
+    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
+    <content><![CDATA[<blockquote>
+<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#hr面">HR面</a><ul>
+<li><a href="#问题">问题</a><ul>
+<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
+<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
+<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
+<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
+<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
+<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
+<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
+<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
+<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
+<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
+<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
+<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
+<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
+<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
+<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
+<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
+<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
+<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
+<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
+<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
+<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
+<ul>
+<li>安全概念和资讯</li>
+<li>安全工具使用</li>
+<li>渗透测试</li>
+<li>安全基线检查</li>
+<li>应急响应</li>
+<li>代码审计</li>
+<li>安全边界建设</li>
+<li>安全规范 </li>
+</ul>
+<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
+<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
+<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
+<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
+<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
+<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
+<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
+<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
+</ul>
+<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
+<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
+<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
+<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
+<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
+</ol>
+<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
+<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
+<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
+<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
+<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
+<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
+<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
+<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
+<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
+<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
+<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
+<li>试用期多久？薪水多少？</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
     <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
     <content><![CDATA[<blockquote>
@@ -1529,86 +1609,6 @@
       </tags>
   </entry>
   <entry>
-    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
-    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
-    <content><![CDATA[<blockquote>
-<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
-</blockquote><a id="more"></a>
-<ul>
-<li><a href="#hr面">HR面</a><ul>
-<li><a href="#问题">问题</a><ul>
-<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
-<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
-<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
-<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
-<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
-<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
-<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
-<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
-<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
-<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
-<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
-<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
-<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
-<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
-<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
-<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
-<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
-<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
-<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
-<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
-<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
-<ul>
-<li>安全概念和资讯</li>
-<li>安全工具使用</li>
-<li>渗透测试</li>
-<li>安全基线检查</li>
-<li>应急响应</li>
-<li>代码审计</li>
-<li>安全边界建设</li>
-<li>安全规范 </li>
-</ul>
-<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
-<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
-<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
-<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
-<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
-<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
-<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
-<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
-</ul>
-<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
-<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
-<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
-<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
-<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
-</ol>
-<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
-<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
-<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
-<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
-<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
-<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
-<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
-<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
-<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
-<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
-<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
-<li>试用期多久？薪水多少？</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>渗透测试面试问题2019版</title>
     <url>/2019/11/11/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%982019%E7%89%88/</url>
     <content><![CDATA[<blockquote>
@@ -2236,6 +2236,22 @@
 ]]></content>
       <tags>
         <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HttpScan（龟速HTTP服务发现程序）</title>
+    <url>/2019/09/25/HttpScan%EF%BC%88%E9%BE%9F%E9%80%9FHTTP%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%A8%8B%E5%BA%8F%EF%BC%89/</url>
+    <content><![CDATA[<p>2019年9月份写的，当时是因为一个项目用nmap扫端口的时候没有发现开放9090的http服务端口，项目结束提交出去后，另一家乙方在9090上发现了严重漏洞，导致我们很尴尬，然后我就含着愧疚写下了这个垃圾扫描器。在网盘吃灰好久了，今天翻到就想着发出来，算是一段屈辱史吧。</p><a id="more"></a>
+<p>垃圾程序，大佬莫喷</p>
+<p>线程默认是1000，-t可指定线程，结果会保存在result.txt里</p>
+<p>详细可见GayHub：<a href="https://github.com/L10nK1n6/HttpScan" target="_blank" rel="noopener">https://github.com/L10nK1n6/HttpScan</a></p>
+<p>源代码如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">import sys</span><br><span class="line">from queue import Queue</span><br><span class="line">import threading</span><br><span class="line">from user_agent import user_agent_list</span><br><span class="line">from optparse import OptionParser</span><br><span class="line"> </span><br><span class="line">class HttpScanMain:</span><br><span class="line">	def __init__(self, options):</span><br><span class="line">		self.url = options.url</span><br><span class="line">		self.count = options.count</span><br><span class="line">		</span><br><span class="line">	class HttpScan(threading.Thread):</span><br><span class="line">		def __init__(self, queue,total):</span><br><span class="line">			threading.Thread.__init__(self)</span><br><span class="line">			self._queue = queue</span><br><span class="line">			self._total = total</span><br><span class="line">				</span><br><span class="line">		def run(self):</span><br><span class="line">			while not self._queue.empty():</span><br><span class="line">				url = self._queue.get()</span><br><span class="line"></span><br><span class="line">				threading.Thread(target=self.msg).start()</span><br><span class="line"> </span><br><span class="line">				try:</span><br><span class="line">					r = requests.get(url=url, headers=user_agent_list.get_user_agent(), timeout=8,)</span><br><span class="line">					if r.status_code == 200 or r.status_code == 302:</span><br><span class="line">						sys.stdout.write(&apos;\r&apos; + &apos;[+]%s\t\t\n&apos; % (url))</span><br><span class="line">						result = open(&apos;result.txt&apos;,&apos;a+&apos;)</span><br><span class="line">						result.write(url)</span><br><span class="line">						result.write(&apos;\r\n&apos;)</span><br><span class="line">						result.close()</span><br><span class="line">				except Exception as e:</span><br><span class="line">					pass</span><br><span class="line"> </span><br><span class="line">		def msg(self):</span><br><span class="line">			per = 100 - float(self._queue.qsize())/float(self._total) * 100</span><br><span class="line">			percentage = &quot;%s Finished| %s All| Scan in %1.f %s&quot;%((self._total - self._queue.qsize()),self._total,per,&apos;%&apos;)</span><br><span class="line">			sys.stdout.write(&apos;\r&apos;+&apos;[*]&apos;+percentage)</span><br><span class="line"> </span><br><span class="line">	def start(self):</span><br><span class="line">		result = open(&apos;result.txt&apos;,&apos;w&apos;)</span><br><span class="line">		result.close()</span><br><span class="line"> </span><br><span class="line">		queue = Queue()</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">		for i in range(1, 65536):</span><br><span class="line">			queue.put(self.url+&quot;:&quot;+str(i).rstrip())</span><br><span class="line"></span><br><span class="line">		total = queue.qsize()</span><br><span class="line"> </span><br><span class="line">		threads = []</span><br><span class="line">		thread_count = int(self.count)</span><br><span class="line"> </span><br><span class="line">		for i in range(thread_count):</span><br><span class="line">			threads.append(self.HttpScan(queue,total))</span><br><span class="line">		for i in threads:</span><br><span class="line">			i.start()</span><br><span class="line">		for i in threads:</span><br><span class="line">			i.join()</span><br><span class="line"> </span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line"> </span><br><span class="line">	print (&apos;&apos;&apos;</span><br><span class="line"> _   _ _   _         _____                 </span><br><span class="line">| | | | | | |       /  ___|                </span><br><span class="line">| |_| | |_| |_ _ __ \ `--.  ___ __ _ _ __  </span><br><span class="line">|  _  | __| __| &apos;_ \ `--. \/ __/ _` | &apos;_ \ </span><br><span class="line">| | | | |_| |_| |_) /\__/ / (_| (_| | | | |</span><br><span class="line">\_| |_/\__|\__| .__/\____/ \___\__,_|_| |_|</span><br><span class="line">              | |                          </span><br><span class="line">              |_|                         </span><br><span class="line">                                                                                                             </span><br><span class="line">	&apos;&apos;&apos;)</span><br><span class="line"> </span><br><span class="line">	parser = OptionParser(&apos;./web_dir_scan.py -u &lt;Target URL&gt; [-t &lt;Thread_count&gt;]&apos;)</span><br><span class="line">	parser.add_option(&apos;-u&apos;,&apos;--url&apos;,dest=&apos;url&apos;,type=&apos;string&apos;,help=&apos;target url for scan&apos;)</span><br><span class="line">	parser.add_option(&apos;-t&apos;,&apos;--thread&apos;,dest=&apos;count&apos;,type=&apos;int&apos;,default=1000,help=&apos;scan thread_count,default=1000&apos;)</span><br><span class="line">	(options,args)=parser.parse_args()</span><br><span class="line"> </span><br><span class="line">	if options.url :</span><br><span class="line">		HttpScan = HttpScanMain(options)</span><br><span class="line">		HttpScan.start()</span><br><span class="line">		sys.exit(1)</span><br><span class="line">	else:</span><br><span class="line">		parser.print_help()</span><br><span class="line">		sys.exit(1)</span><br></pre></td></tr></table></figure>
+
+<p>其实就是把端口往URL上怼，碰对了就返回结果，虽然慢一点，但是比nmap扫漏了要好</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -3181,25 +3197,28 @@
       </tags>
   </entry>
   <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
 
 
 
@@ -3234,28 +3253,25 @@
       </tags>
   </entry>
   <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
 
 
