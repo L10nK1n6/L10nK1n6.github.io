@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="发现靶机1arp-scan -l">
+<meta name="keywords" content="OSCP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="备战 OSCP_PwnLab_init">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;14&#x2F;%E5%A4%87%E6%88%98OSCP_PwnLab_init&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="发现靶机1arp-scan -l">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;MqOwykHCvKTGNVs.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;t8Gq4zKSexmFM9R.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;BI6TSfUXrDAV1P7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;VUkMWR43qEgxNfj.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;Jq6zkAgsHOD8rCe.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;MCW3x9mzhrUo6Bi.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;dq4Eu8ZXB63FIGa.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;3hu5NaSl6FfriZE.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;ZUkFdJxTAXm2VsC.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;S5WdNoJIMr87Gsw.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;482JrPWjmLi6qsX.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;P1pDfTaNEBo8Sxb.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;XGhrDs5qcEZYICS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;1AzJ9eOn4v6wWfR.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;LmbAkVuFHNl4Xyj.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;k2DO8CFVdhSQBbM.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;5zNvMVQTYWRE396.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;tLwmQI2JyvUS9ha.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;kAltYgqdyuIeECS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;eRlbsKoqaZ5pwj9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;grhmZ9VkBQioj5F.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;EWZgVSwHm6s4qQT.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;NYJpjw1ylsk7ShO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;68RK2YTG3wSomrZ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;m1YbXslFWL3kAoV.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;bTKuEGQ8olezSmd.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;KJ7LChVTgw6lOzG.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;EkY37fyh4DmAd6j.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;hoyGmWES1HM8wdZ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;zuAcoXgS5wGIRm7.png">
+<meta property="og:updated_time" content="2020-07-14T06:55:16.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;07&#x2F;14&#x2F;MqOwykHCvKTGNVs.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/14/%E5%A4%87%E6%88%98OSCP_PwnLab_init/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>备战 OSCP_PwnLab_init | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/14/%E5%A4%87%E6%88%98OSCP_PwnLab_init/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          备战 OSCP_PwnLab_init
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-14 23:10:29 / 修改时间：14:55:16" itemprop="dateCreated datePublished" datetime="2020-07-14T23:10:29+08:00">2020-07-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure><a id="more"></a>
+<p><img src="https://i.loli.net/2020/07/14/MqOwykHCvKTGNVs.png" alt="clipboard.png"><br><img src="https://i.loli.net/2020/07/14/t8Gq4zKSexmFM9R.png" alt="clipbsssoard.png"></p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>端口信息<br><img src="https://i.loli.net/2020/07/14/BI6TSfUXrDAV1P7.png" alt="clipboadddrd.png"></p>
+<p>3306没爆破出来，39968不知道是什么鬼<br>只能搞80了<br><img src="https://i.loli.net/2020/07/14/VUkMWR43qEgxNfj.png" alt="dddd.png"><br>爆破一下登录<br><img src="https://i.loli.net/2020/07/14/Jq6zkAgsHOD8rCe.png" alt="clipbsddasoard.png"><br>扫了一下目录，有config.php,index.php,login.php,upload.php和一些目录<br><img src="https://i.loli.net/2020/07/14/MCW3x9mzhrUo6Bi.png" alt="clisdaasdasboard.png"><br>除了images里面有张图片，其他都要登录才行<br><img src="https://i.loli.net/2020/07/14/dq4Eu8ZXB63FIGa.png" alt="clipbsssard.png"><br>看了下这张图片，没有发现任何线索<br><img src="https://i.loli.net/2020/07/14/3hu5NaSl6FfriZE.png" alt="clipboard.png"><br>burp爆破登录也没结果<br><img src="https://i.loli.net/2020/07/14/ZUkFdJxTAXm2VsC.png" alt="clipbsssoard.png"><br>http://172.21.137.244/config.php 应该是有内容，但是不显示出来<br><img src="https://i.loli.net/2020/07/14/S5WdNoJIMr87Gsw.png" alt="image.png"><br>都看了一圈，好像实在没地方下手了<br>又看回了这个页面，发现url里好像可以搞搞<br><img src="https://i.loli.net/2020/07/14/482JrPWjmLi6qsX.png" alt="imassssssge.png"></p>
+<p>存在LFI漏洞<br><img src="https://i.loli.net/2020/07/14/P1pDfTaNEBo8Sxb.png" alt="imaddddge.png"><br>看到是连接mysql<br>尝试读一下之前的config.php，wdnmd，难怪爆不出来<br><img src="https://i.loli.net/2020/07/14/XGhrDs5qcEZYICS.png" alt="imadddge.png"><br>upload.php文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">session_start();</span><br><span class="line">if (!isset($_SESSION[&apos;user&apos;])) &#123; die(&apos;You must be log in.&apos;); &#125;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">		&lt;form action=&apos;&apos; method=&apos;post&apos; enctype=&apos;multipart/form-data&apos;&gt;</span><br><span class="line">			&lt;input type=&apos;file&apos; name=&apos;file&apos; id=&apos;file&apos; /&gt;</span><br><span class="line">			&lt;input type=&apos;submit&apos; name=&apos;submit&apos; value=&apos;Upload&apos;/&gt;</span><br><span class="line">		&lt;/form&gt;</span><br><span class="line">	&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">&lt;?php </span><br><span class="line">if(isset($_POST[&apos;submit&apos;])) &#123;</span><br><span class="line">	if ($_FILES[&apos;file&apos;][&apos;error&apos;] &lt;= 0) &#123;</span><br><span class="line">		$filename  = $_FILES[&apos;file&apos;][&apos;name&apos;];</span><br><span class="line">		$filetype  = $_FILES[&apos;file&apos;][&apos;type&apos;];</span><br><span class="line">		$uploaddir = &apos;upload/&apos;;</span><br><span class="line">		$file_ext  = strrchr($filename, &apos;.&apos;);</span><br><span class="line">		$imageinfo = getimagesize($_FILES[&apos;file&apos;][&apos;tmp_name&apos;]);</span><br><span class="line">		$whitelist = array(&quot;.jpg&quot;,&quot;.jpeg&quot;,&quot;.gif&quot;,&quot;.png&quot;); </span><br><span class="line"></span><br><span class="line">		if (!(in_array($file_ext, $whitelist))) &#123;</span><br><span class="line">			die(&apos;Not allowed extension, please upload images only.&apos;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if(strpos($filetype,&apos;image&apos;) === false) &#123;</span><br><span class="line">			die(&apos;Error 001&apos;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if($imageinfo[&apos;mime&apos;] != &apos;image/gif&apos; &amp;&amp; $imageinfo[&apos;mime&apos;] != &apos;image/jpeg&apos; &amp;&amp; $imageinfo[&apos;mime&apos;] != &apos;image/jpg&apos;&amp;&amp; $imageinfo[&apos;mime&apos;] != &apos;image/png&apos;) &#123;</span><br><span class="line">			die(&apos;Error 002&apos;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if(substr_count($filetype, &apos;/&apos;)&gt;1)&#123;</span><br><span class="line">			die(&apos;Error 003&apos;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		$uploadfile = $uploaddir . md5(basename($_FILES[&apos;file&apos;][&apos;name&apos;])).$file_ext;</span><br><span class="line"></span><br><span class="line">		if (move_uploaded_file($_FILES[&apos;file&apos;][&apos;tmp_name&apos;], $uploadfile)) &#123;</span><br><span class="line">			echo &quot;&lt;img src=\&quot;&quot;.$uploadfile.&quot;\&quot;&gt;&lt;br /&gt;&quot;;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			die(&apos;Error 4&apos;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>index.php文件，有意思的是该文件写了个包含</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//Multilingual. Not implemented yet.</span><br><span class="line">//setcookie(&quot;lang&quot;,&quot;en.lang.php&quot;);</span><br><span class="line">if (isset($_COOKIE[&apos;lang&apos;]))</span><br><span class="line">&#123;</span><br><span class="line">	include(&quot;lang/&quot;.$_COOKIE[&apos;lang&apos;]);</span><br><span class="line">&#125;</span><br><span class="line">// Not implemented yet.</span><br><span class="line">?&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;PwnLab Intranet Image Hosting&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;center&gt;</span><br><span class="line">&lt;img src=&quot;images/pwnlab.png&quot;&gt;&lt;br /&gt;</span><br><span class="line">[ &lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt; ] [ &lt;a href=&quot;?page=login&quot;&gt;Login&lt;/a&gt; ] [ &lt;a href=&quot;?page=upload&quot;&gt;Upload&lt;/a&gt; ]</span><br><span class="line">&lt;hr/&gt;&lt;br/&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">	if (isset($_GET[&apos;page&apos;]))</span><br><span class="line">	&#123;</span><br><span class="line">		include($_GET[&apos;page&apos;].&quot;.php&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		echo &quot;Use this server to upload and share image files inside the intranet&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>靶机开放了3306，连数据库看看<br><img src="https://i.loli.net/2020/07/14/1AzJ9eOn4v6wWfR.png" alt="image.png"><br>就这一个表,这密码也是挺难爆破的</p>
+<table>
+<thead>
+<tr>
+<th>账号</th>
+<th>密码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>kent</td>
+<td>JWzXuBJJNy</td>
+</tr>
+<tr>
+<td>mike</td>
+<td>SIfdsTEn6I</td>
+</tr>
+<tr>
+<td>kane</td>
+<td>iSv5Ym2GRo</td>
+</tr>
+</tbody></table>
+<p>使用上面的面登录进去，发现还是要靠上传和index.php文件包含来getshell<br><img src="https://i.loli.net/2020/07/14/LmbAkVuFHNl4Xyj.png" alt="imaddge.png"><br>让我想起了以前碰到过的一种情况<br><img src="https://i.loli.net/2020/07/14/k2DO8CFVdhSQBbM.png" alt="image.png"><br>改好文件之后上传<br><img src="https://i.loli.net/2020/07/14/5zNvMVQTYWRE396.png" alt="imsssage.png"><br>开启监听并且尝试在index.php中包含<br><img src="https://i.loli.net/2020/07/14/tLwmQI2JyvUS9ha.png" alt="s.png"><br>成功反弹到了shell，但是权限太低了<br><img src="https://i.loli.net/2020/07/14/kAltYgqdyuIeECS.png" alt="iaaamage.png"><br><img src="https://i.loli.net/2020/07/14/eRlbsKoqaZ5pwj9.png" alt="imasge.png"><br>/etc/passwd和home目录信息，看到存在跟上面一样的3个用户，应该密码也是一样的<br><img src="https://i.loli.net/2020/07/14/grhmZ9VkBQioj5F.png" alt="imdddage.png"><br>这两用户没啥东西<br><img src="https://i.loli.net/2020/07/14/EWZgVSwHm6s4qQT.png" alt="imdage.png"><br>kane用户下还有个msgmike，是个elf文件</p>
+<p><img src="https://i.loli.net/2020/07/14/NYJpjw1ylsk7ShO.png" alt="imadddge.png"><br>mike权限的msgmike？</p>
+<p><img src="https://i.loli.net/2020/07/14/68RK2YTG3wSomrZ.png" alt="imdddddaage.png"><br>显示没有cat<br><img src="https://i.loli.net/2020/07/14/m1YbXslFWL3kAoV.png" alt="imaddage.png"></p>
+<p>搞了好久，终于进到mike了（）</p>
+<p><img src="https://i.loli.net/2020/07/14/bTKuEGQ8olezSmd.png" alt="imadage.png"><br>进到mike目录发现msg2root，又来?<br><img src="https://i.loli.net/2020/07/14/KJ7LChVTgw6lOzG.png" alt="imaaaasage.png"><br>试了半天，发现文件里写了个好东西，直接将输入写到/root/messages.txt里<br><img src="https://i.loli.net/2020/07/14/EkY37fyh4DmAd6j.png" alt="imasadasasge.png"><br>这里就直接命令注入了<br><img src="https://i.loli.net/2020/07/14/hoyGmWES1HM8wdZ.png" alt="image.png"></p>
+<p>flag<br><img src="https://i.loli.net/2020/07/14/zuAcoXgS5wGIRm7.png" alt="imassge.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OSCP/" rel="tag"><i class="fa fa-tag"></i> OSCP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/07/13/%E5%A4%87%E6%88%98OSCP_%E9%9D%B6%E5%9C%BAlist/" rel="next" title="备战OSCP_靶场list">
+                  <i class="fa fa-chevron-left"></i> 备战OSCP_靶场list
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#发现靶机"><span class="nav-number">1.</span> <span class="nav-text">发现靶机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信息收集"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>
