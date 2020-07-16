@@ -66,6 +66,57 @@
       </tags>
   </entry>
   <entry>
+    <title>备战OSCP_LordOfTheRoot</title>
+    <url>/2020/07/15/%E5%A4%87%E6%88%98OSCP_LordOfTheRoot/</url>
+    <content><![CDATA[<h2 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h2><p><img src="https://i.loli.net/2020/07/15/zdkKILs5nbefWEQ.png" alt="clipboard.png"><br><img src="https://i.loli.net/2020/07/15/VOH4ZFLsrPclYyE.png" alt="clipboard.png"></p><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><a id="more"></a>
+<p>端口信息：<br><img src="https://i.loli.net/2020/07/15/xbrRUgjGdP3AHWs.png" alt="image.png"><br>GG，爆破了一圈，无果，看了一眼别人的wp（真就一眼，多一眼我就把键盘吃下去），原来还有“端口碰撞”这种东西，以前只听说过，根本没见过，久而久之也忘记这种东西的存在了，现在算是见识到了<br>ssh直接连接会显示”knock friend to enter”和”easy as 1,2,3”，这句话其实需要我们使用端口碰撞1，2，3端口<br>（端口碰撞： 端口上的防火墙通过产生一组预先指定关闭的端口进行连接尝试，一旦接收到正确的连接尝试序列，防火墙规则就会动态修改，以允许发送连接尝试的主机通过特定端口进行连接。）<br><img src="https://i.loli.net/2020/07/15/oGWuYwBKcFtHPUf.png" alt="image.png"><br>使用nmap端口碰撞目标<br><img src="https://i.loli.net/2020/07/15/9nHy2Aj4zdSwJkf.png" alt="image.png"><br>再次扫描端口，发现开放了1337的http服务<br><img src="https://i.loli.net/2020/07/15/fcBmdZRCG1DMliI.png" alt="image.png"></p>
+<h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开1337端口，发现就这玩意<br><img src="https://i.loli.net/2020/07/15/GZgi3F4rTWkSsHn.png" alt="image.png"><br>目录扫描结果<br><img src="https://i.loli.net/2020/07/15/GslizEoZJgmwk8S.png" alt="image.png"><br>images目录里看到了3个图片，下载回来一个个分析，发现没啥diao用<br><img src="https://i.loli.net/2020/07/15/qd91huwkr4IJoO8.png" alt="image.png"><br>然后。。。。。又看了一眼wp…….（下次一定吃），发现还有个robots.txt文件，但是为啥没扫出来呢？而且这显示的还是个图片，和正常的robots协议不一样（难道是htaccess将txt后缀解析成html？）<br><img src="https://i.loli.net/2020/07/15/36jl1xADcXhQeRZ.png" alt="image.png"><br>查看页面源码发现一段base64，双重解出来结果如下，是个路径<br><img src="https://i.loli.net/2020/07/15/KTHYjNuZSRwqzsI.png" alt="image.png"><br><img src="https://i.loli.net/2020/07/15/drT8KCHlxLIDqFN.png" alt="image.png"><br>打开目录http://172.21.137.247:1337/978345210/index.php，是个登录页面<br><img src="https://i.loli.net/2020/07/15/U1vabPt96lRQMgZ.png" alt="image.png"><br>爆破无果，但是试出来个时间盲注<br><img src="https://i.loli.net/2020/07/15/rdPqEOZMtf9NgGL.png" alt="image.png"><br>开始跑库了，时间盲注是真的慢，最后不得不–time-sec=2稍微快一点<br>数据库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 sqlmap.py -r 1 --dbs --flush --batch --time-sec=2</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/07/15/AnqcV1MsuiY2I4K.png" alt="image.png"><br>表：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 sqlmap.py -r 1 --batch --time-sec=2 -D Webapp --tables</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/07/15/eqYgh1H8sBkzCv9.png" alt="image.png"><br>字段：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 sqlmap.py -r 1 --batch --time-sec=2 -D Webapp -T Users --columns</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/07/15/Al7oHd9ygOz68VD.png" alt="image.png"><br>数据：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 sqlmap.py -r 1 --batch --time-sec=2 -D Webapp -T Users -C username,password --dump</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/07/15/Mg38O9tSkp5yurw.png" alt="image.png"></p>
+<table>
+<thead>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>gimli</td>
+</tr>
+<tr>
+<td></td>
+<td>legolas</td>
+</tr>
+<tr>
+<td></td>
+<td>aragorn</td>
+</tr>
+<tr>
+<td></td>
+<td>frodo</td>
+</tr>
+<tr>
+<td></td>
+<td>smeagol</td>
+</tr>
+</tbody></table>
+<p>用上面的账号密码组合一下生成个字典跑一下ssh,结果如下：<br><img src="https://i.loli.net/2020/07/15/cdtUa8LuYyXRFV3.png" alt="image.png"><br>ssh进去瞧瞧<br><img src="https://i.loli.net/2020/07/15/Lme6YqscktrW1uB.png" alt="image.png"></p>
+<h2 id="内核提权"><a href="#内核提权" class="headerlink" title="内核提权"></a>内核提权</h2><p>老规矩，传suggester，内核提权</p>
+<p><img src="https://i.loli.net/2020/07/15/kvnigw148IYXoTb.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2020/07/15/ZDhGaMObsjUyVAo.png" alt="image.png"></p>
+]]></content>
+      <tags>
+        <tag>OSCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>备战OSCP_Kioptrix_Level_1</title>
     <url>/2020/07/14/%E5%A4%87%E6%88%98OSCP_Kioptrix_Level_1/</url>
     <content><![CDATA[<h2 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h2><p><img src="https://i.loli.net/2020/07/14/NPu7BTE2lnKItUe.png" alt="clipboard.png"><br><img src="https://i.loli.net/2020/07/14/qrB7fSzINZbswnR.png" alt="clipboard.png"></p><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><a id="more"></a>
@@ -128,7 +179,7 @@
     <content><![CDATA[<h3 id="VulnHub"><a href="#VulnHub" class="headerlink" title="VulnHub:"></a>VulnHub:</h3><a id="more"></a><ul>
 <li><input checked disabled type="checkbox"> GoldenEye</li>
 <li><input checked disabled type="checkbox"> PwnLab: init</li>
-<li><input disabled type="checkbox"> Lord of the Root </li>
+<li><input checked disabled type="checkbox"> Lord of the Root </li>
 <li><input disabled type="checkbox"> DerpnStink</li>
 <li><input disabled type="checkbox"> FristiLeaks  </li>
 <li><input disabled type="checkbox"> Stapler </li>
@@ -4441,61 +4492,6 @@
       </tags>
   </entry>
   <entry>
-    <title>（三）渗透技巧—数据库、缓存、消息服务</title>
-    <url>/2019/04/15/%EF%BC%88%E4%B8%89%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、MySQL数据库"><a href="#1、MySQL数据库" class="headerlink" title="1、MySQL数据库"></a>1、MySQL数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：3306</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   身份认证漏洞：CVE-2012-2122</span><br><span class="line">•   拒绝服务攻击</span><br><span class="line">•   Phpmyadmin万能密码绕过：用户名：‘localhost’@’@” 密码任意</span><br><span class="line">•   提权</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.seebug.org/appdir/MySQL</span><br><span class="line">http://www.waitalone.cn/mysql-tiquan-summary.html?replytocom=390</span><br><span class="line">https://xz.aliyun.com/t/1491</span><br></pre></td></tr></table></figure>
-<h3 id="2、MSSQL数据库"><a href="#2、MSSQL数据库" class="headerlink" title="2、MSSQL数据库"></a>2、MSSQL数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：1433（Server 数据库服务）、1434（Monitor 数据库监控）</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令/使用系统用户</span><br><span class="line">•   注入</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.anquanke.com/post/id/86011</span><br></pre></td></tr></table></figure>
-<h3 id="3、Oracle数据库"><a href="#3、Oracle数据库" class="headerlink" title="3、Oracle数据库"></a>3、Oracle数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：1521（数据库端口）、1158（Oracle EMCTL端口）、8080（Oracle XDB数据库）、210（Oracle XDB FTP服务）</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   注入攻击</span><br><span class="line">•   漏洞攻击</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.leiphone.com/news/201711/JjzXFp46zEPMvJod.html</span><br></pre></td></tr></table></figure>
-
-<h3 id="4、PostgreSQL数据库"><a href="#4、PostgreSQL数据库" class="headerlink" title="4、PostgreSQL数据库"></a>4、PostgreSQL数据库</h3><p>PostgreSQL是一种特性非常齐全的自由软件的对象–关系型数据库管理系统，可以说是目前世界上最先进，功能最强大的自由数据库管理系统。包括kali系统中msf也使用这个数据库；浅谈postgresql数据库攻击技术大部分关于它的攻击依旧是sql注入，所以注入才是数据库不变的话题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：5432</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令：postgres postgres</span><br><span class="line">•   缓冲区溢出：CVE-2014-2669</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://drops.xmd5.com/static/drops/tips-6449.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/69153.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、MongoDB数据库"><a href="#5、MongoDB数据库" class="headerlink" title="5、MongoDB数据库"></a>5、MongoDB数据库</h3><p>MongoDB，NoSQL数据库；攻击方法与其他数据库类似</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：27017</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问；github有攻击代码；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.cnblogs.com/LittleHann/p/6252421.html</span><br><span class="line"></span><br><span class="line">http://www.tiejiang.org/19157.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Redis数据库"><a href="#6、Redis数据库" class="headerlink" title="6、Redis数据库"></a>6、Redis数据库</h3><p>Redis是一个开源的使用c语言写的，支持网络、可基于内存亦可持久化的日志型、key-value数据库。关于这个数据库这两年还是很火的，暴露出来的问题也很多。特别是前段时间暴露的未授权访问。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问+配合ssh key提权</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.alloyteam.com/2017/07/12910/</span><br></pre></td></tr></table></figure>
-<h3 id="7、SysBase数据库"><a href="#7、SysBase数据库" class="headerlink" title="7、SysBase数据库"></a>7、SysBase数据库</h3><p>默认端口：服务端口5000；监听端口4100；备份端口：4200</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br></pre></td></tr></table></figure>
-<h3 id="8、DB2-数据库"><a href="#8、DB2-数据库" class="headerlink" title="8、DB2 数据库"></a>8、DB2 数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：5000</span><br><span class="line">攻击方法：</span><br><span class="line">•   安全限制绕过：成功后可执行未授权操作（CVE-2015-1922）</span><br><span class="line">参考：</span><br><span class="line">http://23.94.222.93/bug_detail.php?wybug_id=wooyun-2015-0113071</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>（二）渗透技巧—常见运维系统</title>
     <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<blockquote>
@@ -4602,28 +4598,27 @@
       </tags>
   </entry>
   <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
+    <title>（三）渗透技巧—数据库、缓存、消息服务</title>
+    <url>/2019/04/15/%EF%BC%88%E4%B8%89%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+<h3 id="1、MySQL数据库"><a href="#1、MySQL数据库" class="headerlink" title="1、MySQL数据库"></a>1、MySQL数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：3306</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   身份认证漏洞：CVE-2012-2122</span><br><span class="line">•   拒绝服务攻击</span><br><span class="line">•   Phpmyadmin万能密码绕过：用户名：‘localhost’@’@” 密码任意</span><br><span class="line">•   提权</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.seebug.org/appdir/MySQL</span><br><span class="line">http://www.waitalone.cn/mysql-tiquan-summary.html?replytocom=390</span><br><span class="line">https://xz.aliyun.com/t/1491</span><br></pre></td></tr></table></figure>
+<h3 id="2、MSSQL数据库"><a href="#2、MSSQL数据库" class="headerlink" title="2、MSSQL数据库"></a>2、MSSQL数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：1433（Server 数据库服务）、1434（Monitor 数据库监控）</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令/使用系统用户</span><br><span class="line">•   注入</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.anquanke.com/post/id/86011</span><br></pre></td></tr></table></figure>
+<h3 id="3、Oracle数据库"><a href="#3、Oracle数据库" class="headerlink" title="3、Oracle数据库"></a>3、Oracle数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：1521（数据库端口）、1158（Oracle EMCTL端口）、8080（Oracle XDB数据库）、210（Oracle XDB FTP服务）</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   注入攻击</span><br><span class="line">•   漏洞攻击</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.leiphone.com/news/201711/JjzXFp46zEPMvJod.html</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、PostgreSQL数据库"><a href="#4、PostgreSQL数据库" class="headerlink" title="4、PostgreSQL数据库"></a>4、PostgreSQL数据库</h3><p>PostgreSQL是一种特性非常齐全的自由软件的对象–关系型数据库管理系统，可以说是目前世界上最先进，功能最强大的自由数据库管理系统。包括kali系统中msf也使用这个数据库；浅谈postgresql数据库攻击技术大部分关于它的攻击依旧是sql注入，所以注入才是数据库不变的话题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：5432</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令：postgres postgres</span><br><span class="line">•   缓冲区溢出：CVE-2014-2669</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://drops.xmd5.com/static/drops/tips-6449.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/69153.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、MongoDB数据库"><a href="#5、MongoDB数据库" class="headerlink" title="5、MongoDB数据库"></a>5、MongoDB数据库</h3><p>MongoDB，NoSQL数据库；攻击方法与其他数据库类似</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：27017</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问；github有攻击代码；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.cnblogs.com/LittleHann/p/6252421.html</span><br><span class="line"></span><br><span class="line">http://www.tiejiang.org/19157.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Redis数据库"><a href="#6、Redis数据库" class="headerlink" title="6、Redis数据库"></a>6、Redis数据库</h3><p>Redis是一个开源的使用c语言写的，支持网络、可基于内存亦可持久化的日志型、key-value数据库。关于这个数据库这两年还是很火的，暴露出来的问题也很多。特别是前段时间暴露的未授权访问。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问+配合ssh key提权</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.alloyteam.com/2017/07/12910/</span><br></pre></td></tr></table></figure>
+<h3 id="7、SysBase数据库"><a href="#7、SysBase数据库" class="headerlink" title="7、SysBase数据库"></a>7、SysBase数据库</h3><p>默认端口：服务端口5000；监听端口4100；备份端口：4200</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   爆破：弱口令</span><br></pre></td></tr></table></figure>
+<h3 id="8、DB2-数据库"><a href="#8、DB2-数据库" class="headerlink" title="8、DB2 数据库"></a>8、DB2 数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：5000</span><br><span class="line">攻击方法：</span><br><span class="line">•   安全限制绕过：成功后可执行未授权操作（CVE-2015-1922）</span><br><span class="line">参考：</span><br><span class="line">http://23.94.222.93/bug_detail.php?wybug_id=wooyun-2015-0113071</span><br></pre></td></tr></table></figure>
+
+
+
 
 
 
@@ -4683,6 +4678,62 @@
 <h3 id="11、IMAP协议"><a href="#11、IMAP协议" class="headerlink" title="11、IMAP协议"></a>11、IMAP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：143（imap）、993（imaps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   配置不当</span><br></pre></td></tr></table></figure>
 <h3 id="12、SNMP协议"><a href="#12、SNMP协议" class="headerlink" title="12、SNMP协议"></a>12、SNMP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：161</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br></pre></td></tr></table></figure>
 <h3 id="13、DHCP服务"><a href="#13、DHCP服务" class="headerlink" title="13、DHCP服务"></a>13、DHCP服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：67&amp;68、546（DHCP Failover做双机热备的）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   DHCP劫持</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 
 
 
