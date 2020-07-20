@@ -66,6 +66,23 @@
       </tags>
   </entry>
   <entry>
+    <title>备战OSCP_FristiLeaks</title>
+    <url>/2020/07/17/%E5%A4%87%E6%88%98OSCP_FristiLeaks/</url>
+    <content><![CDATA[<h2 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h2><p><img src="https://i.loli.net/2020/07/17/tTRCBOdlg6bGpwh.png" alt="clipboard.png"><br><img src="https://i.loli.net/2020/07/17/Uebkgw23P5JCDqV.png" alt="clipboard.png"><br>在靶机开机界面也是可以看到IP的<br><img src="https://i.loli.net/2020/07/17/GEHdo2RNeDb1AO8.png" alt="clipboard.png"></p><a id="more"></a>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>就一个端口<br><img src="https://i.loli.net/2020/07/17/z4TVMJrwaQDZdIi.png" alt="image.png"><br><img src="https://i.loli.net/2020/07/17/YD6pE8XWKrZj9qQ.png" alt="image.png"><br>目录信息<br><img src="https://i.loli.net/2020/07/17/ksIlQZ7wa3TfH2h.png" alt="image.png"><br>主页没有什么js可以找的，然后在robots里面找到3个目录，但都是同样的一张照片<br><img src="https://i.loli.net/2020/07/17/7kXQFfqT8u5gVZn.png" alt="image.png"><br><img src="https://i.loli.net/2020/07/17/WhZpNPk1dYKal9U.png" alt="image.png"></p>
+<h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>在主页倒是发现了一些人名和一些单词，组合成字典之后发现存在fristi这个目录，是个登录页面<br><img src="https://i.loli.net/2020/07/17/CUiWNsxeKaZygPf.png" alt="image.png"></p>
+<p>使用组合字典爆破并未成功，但是在页面源码中发现了一个提示、一个人名和一串base64编码<br><img src="https://i.loli.net/2020/07/17/KrhsMpl9LiyJUqQ.png" alt="image.png"><br>解码后发现是一张图片<br><img src="https://i.loli.net/2020/07/17/mawVbihAN4v9RgI.png" alt="image.png"><br>在线转换后发现是一串字符：keKkeKKeKKeKkEkkEk</p>
+<p><img src="https://i.loli.net/2020/07/17/iGkHha7vU6Z859e.png" alt="image.png"><br>把发现的信息都放到字典里，对登录进行爆破，发现了正确的账号密码<br><img src="https://i.loli.net/2020/07/17/pYWNMoxOUuyZfXH.png" alt="image.png"><br>登录进去之后是一个上传页面.<br><img src="https://i.loli.net/2020/07/17/cUGlutJ9MPLjhYB.png" alt="image.png"></p>
+<p>上传好reverse_shelle脚本后开启监听，然后利用apache的解析漏洞访问：http://172.21.137.76/fristi/uploads/shell.php.png反弹shell<br><img src="https://i.loli.net/2020/07/17/J4RDSPfja9bkl1G.png" alt="image.png"><br><img src="https://i.loli.net/2020/07/17/ArkWmIgBsyh8PpR.png" alt="image.png"></p>
+<h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><p>初始为低权限用户<br><img src="https://i.loli.net/2020/07/17/Ypq3WXvO1E7PZBl.png" alt="image.png"><br>老规矩，上suggester<br><img src="https://i.loli.net/2020/07/17/TwRIDomcgbiQM5j.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2020/07/17/8oIVck6u1mHJj94.png" alt="image.png"><br><img src="https://i.loli.net/2020/07/17/WKtYnqovhMXAUcQ.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2020/07/17/4Wl5MRFpLjtGXzP.png" alt="image.png"></p>
+]]></content>
+      <tags>
+        <tag>OSCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>备战OSCP_DerpnStink</title>
     <url>/2020/07/16/%E5%A4%87%E6%88%98OSCP_DerpnStink/</url>
     <content><![CDATA[<h2 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h2><p><img src="https://i.loli.net/2020/07/16/1NBawJ9Z7ftLDnY.png" alt="clipboard.png"><br><img src="https://i.loli.net/2020/07/16/OMnWo8pHVaSdew1.png" alt="clipboard.png"></p><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><a id="more"></a>
@@ -195,7 +212,7 @@
 <li><input checked disabled type="checkbox"> PwnLab: init</li>
 <li><input checked disabled type="checkbox"> Lord of the Root </li>
 <li><input checked disabled type="checkbox"> DerpnStink</li>
-<li><input disabled type="checkbox"> FristiLeaks  </li>
+<li><input checked disabled type="checkbox"> FristiLeaks  </li>
 <li><input disabled type="checkbox"> Stapler </li>
 <li><input disabled type="checkbox"> SkyTower </li>
 <li><input disabled type="checkbox"> SickOS (1、2)</li>
