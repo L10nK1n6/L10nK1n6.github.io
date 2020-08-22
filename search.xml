@@ -94,6 +94,29 @@
       </tags>
   </entry>
   <entry>
+    <title>备战OSCP_SickOS_1</title>
+    <url>/2020/08/22/%E5%A4%87%E6%88%98OSCP_SickOS_1/</url>
+    <content><![CDATA[<h2 id="发现靶机"><a href="#发现靶机" class="headerlink" title="发现靶机"></a>发现靶机</h2><p><img src="https://i.loli.net/2020/08/22/Vh1EcQlN7qTrDbH.png" alt="clipboard.png"></p><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><a id="more"></a>
+<p>端口<br><img src="https://i.loli.net/2020/08/22/tTBjfXPwo6LCgZO.png" alt="clipboard (1).png"><br>显示3128是个http代理</p>
+<h2 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h2><p>打开发现啥也没有，但是显示出了squid3.1.19<br><img src="https://i.loli.net/2020/08/22/GWaXbDE85AflCMj.png" alt="clipboard (2).png"><br>配置代理</p>
+<p><img src="https://i.loli.net/2020/08/22/JcG6tIQEmenyokp.png" alt="clipboard-1.png"></p>
+<p>发现80有东西<br><img src="https://i.loli.net/2020/08/22/rehYsJ3VuBnx28l.png" alt="clipboard.png"><br>挂上代理扫目录<br><img src="https://i.loli.net/2020/08/22/IORCJzHuBYyagDT.png" alt="clipboard-1.png"><br>robots.txt发现个cms<br><img src="https://i.loli.net/2020/08/22/Ve7gUEF1JMiOoSw.png" alt="clipboard-2.png"></p>
+<p>后台<br><img src="https://i.loli.net/2020/08/22/E1uC3JATLqWUspV.png" alt="clipboard.png"></p>
+<p>……..   admin/admin直接进去，醉了<br>直接写了个phpinfo<br><img src="https://i.loli.net/2020/08/22/PJOGEoQ1YVjAc3b.png" alt="clipboard-1.png"></p>
+<p>通过看ico图片可以找到真实的路径，当然了，也可以试出来<br><img src="https://i.loli.net/2020/08/22/LlCawr1XuJKtiWh.png" alt="clipboard-2.png"><br><img src="https://i.loli.net/2020/08/22/iU7SjGFwEMyKBIC.png" alt="clipboard-3.png"><br>找到了刚刚写的phpinfo，没想到这么简单<br><img src="https://i.loli.net/2020/08/22/zlPoaEx3NnVrCku.png" alt="clipboard-4.png"><br><img src="https://i.loli.net/2020/08/22/L2GMdAFH86fXtsc.png" alt="clipboard-5.png"></p>
+<p>反弹shell<br><img src="https://i.loli.net/2020/08/22/bwXMTI7dm3Jq1Ho.png" alt="clipboard.png"></p>
+<p><img src="https://i.loli.net/2020/08/22/dOIATqwQUlzXJCe.png" alt="clipboard-1.png"></p>
+<p><img src="https://i.loli.net/2020/08/22/fSqFl2ruxyHCA1k.png" alt="clipboard-2.png"></p>
+<p><img src="https://i.loli.net/2020/08/22/9LSJvgH1obZWGOY.png" alt="clipboard-3.png"></p>
+<h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><p>老方法<br><img src="https://i.loli.net/2020/08/22/6pOiz5C8VU3ZIQX.png" alt="clipboard.png"><br>内核提权失败，换LinEnum试试</p>
+<p><img src="https://i.loli.net/2020/08/22/5u2xmIQjqctPOsC.png" alt="clipboard-1.png"><br><img src="https://i.loli.net/2020/08/22/tQLJRd8KPkp7c3E.png" alt="clipboard-2.png"><br><img src="https://i.loli.net/2020/08/22/IXj8Yq5dZ4FSP3N.png" alt="clipboard-3.png"></p>
+<p>看一下history，显示没权限，然后看看web目录发现有个config<br><img src="https://i.loli.net/2020/08/22/N7UM25Qp8GkdeK6.png" alt="clipboard.png"><br>使用数据库的密码和passwd里的sickos账户进去了<br><img src="https://i.loli.net/2020/08/22/9er73vgniBMoDLP.png" alt="clipboard-1.png"><br>然后再看下history发现可以sudo，就成功进到了root<br><img src="https://i.loli.net/2020/08/22/aFnNogMKvIVdPAl.png" alt="clipboard.png"></p>
+]]></content>
+      <tags>
+        <tag>OSCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>人生</title>
     <url>/2020/07/24/%E4%BA%BA%E7%94%9F/</url>
     <content><![CDATA[<p>生 老 病 死</p>]]></content>
@@ -277,7 +300,7 @@
 <li><input checked disabled type="checkbox"> DerpnStink</li>
 <li><input checked disabled type="checkbox"> FristiLeaks  </li>
 <li><input checked disabled type="checkbox"> Stapler </li>
-<li><input disabled type="checkbox"> SickOS 1</li>
+<li><input checked disabled type="checkbox"> SickOS 1</li>
 <li><input disabled type="checkbox"> SickOS 2</li>
 <li><input disabled type="checkbox"> Tr0ll (1 、2)</li>
 <li><input checked disabled type="checkbox"> Kioptrix 1</li>
@@ -4586,6 +4609,59 @@
       </tags>
   </entry>
   <entry>
+    <title>（二）渗透技巧—常见运维系统</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
+<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
+<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
+<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
+<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
+<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
+<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
+<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>（三）渗透技巧—数据库、缓存、消息服务</title>
     <url>/2019/04/15/%EF%BC%88%E4%B8%89%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<blockquote>
@@ -4641,28 +4717,28 @@
       </tags>
   </entry>
   <entry>
-    <title>（二）渗透技巧—常见运维系统</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
-<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
-<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
-<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
-<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
-<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
-<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
-<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
 
 
 
@@ -4716,59 +4792,6 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
 <h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 
 
 
