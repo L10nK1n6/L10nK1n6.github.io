@@ -110,6 +110,19 @@
       </tags>
   </entry>
   <entry>
+    <title>收藏的文章</title>
+    <url>/2021/05/01/dddd%20(2)/</url>
+    <content><![CDATA[<p>dasaaaaaa<br>aaaad<br>啥的哈</p><a id="more"></a>
+<p>我<br>大萨达<br>渗透</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ddsa</span><br></pre></td></tr></table></figure>
+<p>dddd</p>
+<h2 id="sad"><a href="#sad" class="headerlink" title="sad"></a>sad</h2><p><img src="https://cdn.nlark.com/yuque/0/2021/png/20362568/1618114853890-8e5f21b2-56a8-42e1-a6e0-f178bb39b331.png#align=left&display=inline&height=1080&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=168047&status=done&style=none&width=1920" alt="image.png"></p>
+]]></content>
+      <tags>
+        <tag>收藏</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OSCP总结</title>
     <url>/2021/02/18/OSCP%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>20年11月中旬，我正式开始了OSCP认证，在这之前也做了一些vulnhub上的靶场，其中的笔记也在博客上发布了，但是跟OSCP相比，那些都还是属于非常简单没有任何难度的。<br>提交材料审核付款过后，官方给的教材PDF是非常有用的，个人觉得可以作为高校的教科书来使用，其中涉及的技术基本涵盖了一个渗透工程师所需要的所有技能，包括主被动信息收集、web漏洞、win/linux缓冲区溢出、客户端攻击（包含社工）、文件传输及bypass、av bypass、提权、端口转发及隧道、内网域、密码、powershell等各种知识，虽然大家在做渗透的过程中都会用到，但是你绝对想象不到官方的教材有多么的细致及全面。我有时候看PDF都会觉得：卧槽，还有这种东西？ 不得不说这钱是花的非常值得的，光是PDF就受益良多。另外官方的实验靶场也是非常有意思，官方为实验室新手准备的攻击路径手册，其大致就是告诉新人该从哪些机器开始做，官方论坛中会有公开的这个手册前两题的解题过程，跟着帖子走，你会发现满满7页的解题过程居然要注意那么多细节，尽管它还是属于easy难度的题目。官方会从IP着手，教你如何找到内网中的DNS服务器，并且找到目标的机器名（每台机器都会有一个特别的名字，并且这个名字可能是某种提示），以及如何更好的扫描端口等各种信息收集。针对端口，官方会指引你怎么找到这个端口更具体的版本信息，以及是否存在合适的漏洞。看完第一题的解题思路就花了我2天的时间，其中不乏要反复理解官方用意和渗透的思路。这是官方想要教会你的东西。毕竟每一台机器都是不一样的，每一台机器的解决方法都是不一样的。同一套方法不能一直使用下去，那如何在渗透过程中获取思路是至关重要的。<br>常规的机器，你可能花费1天时间就能做完，简单的web题一天也许能做3台。但是实验室中还有很多需要找到“朋友”才能做的机器，这些无非是目标和其他的机器有关联，你可能需要其他机器的账号密码凭证或者需要通过其他机器社工发送恶意文档又或者“朋友”上运行了和目标同样的服务，该服务需要通过溢出才能拿到shell等等。这些都十分的有意思并且做起来也十分的痛苦。但注意细节就是官方一直在教授你的东西，正如真实环境中的渗透一样，任何一个小小的细节也许就是你成功的机会。并且克服困难所带来的成就感会让你信心倍增。<br>我买了3个月的实验室靶场时间，在做了50多题之后预约了考试，当时实验室还有大半个月的时间，我是想着如果第一次没考过，那还有剩余的时间做练习，不用再重新花钱买。本着试一试的心态，加上疯狂的复习和看PDF，一次就过了，运气真好。哈哈哈。不过还是告诫一下，靶场至少做30台，这样才会有50%的几率通过考试。<br>下面是一些做的过程中留下来的笔记，由于官方不允许将实验室靶场的解题过程公开，所以这里就放一下小tips。都是在做题目时留下来的一些需要注意的小东西，都是能在网上找到并且具有详细说明的东西。<br>有进一步想要交流的小伙伴，可以mail我。</p><a id="more"></a>
@@ -4755,18 +4768,6 @@
       </tags>
   </entry>
   <entry>
-    <title>各大厂商设备默认密码</title>
-    <url>/2019/09/15/%E5%90%84%E5%A4%A7%E5%8E%82%E5%95%86%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254 用户名:superman 密码:talent 技术支持热线：8008105119</span><br><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254：8080 用户名:superman 密码:talent！23 遇到设备需要把旧设备配置备份下来，再倒入新设备基于console口登陆，用户名，密码跟web界面一致 system config reset 清除配置 save 保存 联想网御防火墙，需要证书（最好用IE浏览器登录）</span><br><span class="line">登录地址:https://10.1.5.254:8889 用户名:admin 密码:leadsec@7766、administrator、bane@7766 技术支持热线：4008107766 010-56632666</span><br><span class="line">深信服防火墙（注安全设备管理地址不是唯一的） https://10.251.251.251</span><br><span class="line">https://10.254.254.254 用户名：admin 密码：admin 技术支持热线：4006306430</span><br><span class="line">启明星辰 https://10.1.5.254:8889 用户名：admin 密码：bane@7766</span><br><span class="line">https://10.50.10.45:8889 用户名：admin 密码：admin@123 电脑端IP：10.50.10.44/255.255.255.0 技术支持热线：4006243900</span><br><span class="line">juniper 登录地址:https://192.168.1.1 用户名:netscreen 密码:netscreen</span><br><span class="line">Cisco 登录地址:https://192.168.0.1 用户名:admin 密码:cisco</span><br><span class="line">Huawei 登录地址:http://192.168.0.1 用户名:admin 密码:Admin@123</span><br><span class="line">H3C 登录地址:http://192.168.0.1 用户名:admin 密码:admin 技术支持热线：4006306430</span><br><span class="line">绿盟IPS https://192.168.1.101 用户名: weboper 密码: weboper 配置重启生效</span><br><span class="line">网神防火墙GE1口 https://10.50.10.45 用户名：admin 密码：firewall 技术支持热线：4006108220</span><br><span class="line">深信服VPN： 51111端口 delanrecover</span><br><span class="line">华为VPN：账号：root 密码：mduadmin</span><br><span class="line">华为防火墙： admin Admin@123 eudemon</span><br><span class="line">eudemon Juniper防火墙： netscreen netscreen</span><br><span class="line">迪普 192.168.0.1 默认的用户名和密码（admin/admin_default)</span><br><span class="line">山石 192.168.1.1 默认的管理账号为hillstone，密码为hillstone</span><br><span class="line">安恒的明御防火墙 admin/adminadmin</span><br><span class="line">某堡垒机 shterm/shterm</span><br><span class="line">天融信的vpn test/123456</span><br></pre></td></tr></table></figure><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">绿盟安全产品默认密码排查列表</span><br><span class="line"></span><br><span class="line">IPS入侵防御系统、SAS­H运维安全管理系统、SAS安全审计系统、DAS数据库审计系统、RSAS远程安全评估系统、WAF WEB应用防护系统</span><br><span class="line">sysauditor/sysauditor</span><br><span class="line">sysmanager/sysmanager</span><br><span class="line">supervisor/supervisor</span><br><span class="line">maintainer/maintainer</span><br><span class="line">webpolicy/webpolicy</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/conadmin</span><br><span class="line">supervis/supervis</span><br><span class="line">webaudit/webaudit</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/nsfocus</span><br><span class="line">weboper/weboper</span><br><span class="line">auditor/auditor</span><br><span class="line">weboper/weboper</span><br><span class="line">nsadmin/nsadmin</span><br><span class="line">admin/nsfocus</span><br><span class="line">admin/admin</span><br><span class="line">shell/shell</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/09/19/mt4nfPpGKLvEiBh.png" alt="WechatIMG30.png"></p>
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>后渗透权限维持–SharPersist</title>
     <url>/2019/09/15/%E5%90%8E%E6%B8%97%E9%80%8F%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E2%80%93SharPersist/</url>
     <content><![CDATA[<p>我从github上下载下来，放在virscan上和virustotal上查杀了一下，以下为对比信息。</p><a id="more"></a>
@@ -4789,6 +4790,18 @@
 ]]></content>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>各大厂商设备默认密码</title>
+    <url>/2019/09/15/%E5%90%84%E5%A4%A7%E5%8E%82%E5%95%86%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254 用户名:superman 密码:talent 技术支持热线：8008105119</span><br><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254：8080 用户名:superman 密码:talent！23 遇到设备需要把旧设备配置备份下来，再倒入新设备基于console口登陆，用户名，密码跟web界面一致 system config reset 清除配置 save 保存 联想网御防火墙，需要证书（最好用IE浏览器登录）</span><br><span class="line">登录地址:https://10.1.5.254:8889 用户名:admin 密码:leadsec@7766、administrator、bane@7766 技术支持热线：4008107766 010-56632666</span><br><span class="line">深信服防火墙（注安全设备管理地址不是唯一的） https://10.251.251.251</span><br><span class="line">https://10.254.254.254 用户名：admin 密码：admin 技术支持热线：4006306430</span><br><span class="line">启明星辰 https://10.1.5.254:8889 用户名：admin 密码：bane@7766</span><br><span class="line">https://10.50.10.45:8889 用户名：admin 密码：admin@123 电脑端IP：10.50.10.44/255.255.255.0 技术支持热线：4006243900</span><br><span class="line">juniper 登录地址:https://192.168.1.1 用户名:netscreen 密码:netscreen</span><br><span class="line">Cisco 登录地址:https://192.168.0.1 用户名:admin 密码:cisco</span><br><span class="line">Huawei 登录地址:http://192.168.0.1 用户名:admin 密码:Admin@123</span><br><span class="line">H3C 登录地址:http://192.168.0.1 用户名:admin 密码:admin 技术支持热线：4006306430</span><br><span class="line">绿盟IPS https://192.168.1.101 用户名: weboper 密码: weboper 配置重启生效</span><br><span class="line">网神防火墙GE1口 https://10.50.10.45 用户名：admin 密码：firewall 技术支持热线：4006108220</span><br><span class="line">深信服VPN： 51111端口 delanrecover</span><br><span class="line">华为VPN：账号：root 密码：mduadmin</span><br><span class="line">华为防火墙： admin Admin@123 eudemon</span><br><span class="line">eudemon Juniper防火墙： netscreen netscreen</span><br><span class="line">迪普 192.168.0.1 默认的用户名和密码（admin/admin_default)</span><br><span class="line">山石 192.168.1.1 默认的管理账号为hillstone，密码为hillstone</span><br><span class="line">安恒的明御防火墙 admin/adminadmin</span><br><span class="line">某堡垒机 shterm/shterm</span><br><span class="line">天融信的vpn test/123456</span><br></pre></td></tr></table></figure><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">绿盟安全产品默认密码排查列表</span><br><span class="line"></span><br><span class="line">IPS入侵防御系统、SAS­H运维安全管理系统、SAS安全审计系统、DAS数据库审计系统、RSAS远程安全评估系统、WAF WEB应用防护系统</span><br><span class="line">sysauditor/sysauditor</span><br><span class="line">sysmanager/sysmanager</span><br><span class="line">supervisor/supervisor</span><br><span class="line">maintainer/maintainer</span><br><span class="line">webpolicy/webpolicy</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/conadmin</span><br><span class="line">supervis/supervis</span><br><span class="line">webaudit/webaudit</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/nsfocus</span><br><span class="line">weboper/weboper</span><br><span class="line">auditor/auditor</span><br><span class="line">weboper/weboper</span><br><span class="line">nsadmin/nsadmin</span><br><span class="line">admin/nsfocus</span><br><span class="line">admin/admin</span><br><span class="line">shell/shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/09/19/mt4nfPpGKLvEiBh.png" alt="WechatIMG30.png"></p>
+]]></content>
+      <tags>
+        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
@@ -5075,27 +5088,39 @@
       </tags>
   </entry>
   <entry>
-    <title>（一）渗透技巧—web</title>
-    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
-<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
-<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
-<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
-<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
-<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5171,92 +5196,27 @@
       </tags>
   </entry>
   <entry>
-    <title>（二）渗透技巧—常见运维系统</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
+    <title>（一）渗透技巧—web</title>
+    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
-<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
-<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
-<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
-<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
-<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
-<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
-<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
+<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
+<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
+<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
+<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
+<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
 
 
 
@@ -5302,6 +5262,59 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>（二）渗透技巧—常见运维系统</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
+<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
+<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
+<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
+<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
+<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
+<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
+<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
 
 
 
