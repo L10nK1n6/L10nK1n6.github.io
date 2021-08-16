@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前言免杀生成器的用途旨在攻防对抗中快速生成符合环境需求的免杀木马，减少因更换shellcode、加密方式或免杀方式被记录特征等因素而需从源码上进行修改编译的时间、学习成本。遂编写一款属于自己的免杀生成器形成自己的武器库是一件十分有意义的事情。">
+<meta name="keywords" content="免杀">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从0到1编写免杀生成器">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;23&#x2F;%E4%BB%8E0%E5%88%B01%E7%BC%96%E5%86%99%E5%85%8D%E6%9D%80%E7%94%9F%E6%88%90%E5%99%A8&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="前言免杀生成器的用途旨在攻防对抗中快速生成符合环境需求的免杀木马，减少因更换shellcode、加密方式或免杀方式被记录特征等因素而需从源码上进行修改编译的时间、学习成本。遂编写一款属于自己的免杀生成器形成自己的武器库是一件十分有意义的事情。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2021&#x2F;png&#x2F;20362568&#x2F;1627010122698-e747a135-95b1-44df-ad37-f120790e7251.png#align=left&amp;display=inline&amp;height=287&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=574&amp;originWidth=1808&amp;size=116434&amp;status=done&amp;style=none&amp;width=904">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2021&#x2F;png&#x2F;20362568&#x2F;1627011094864-ef9301d4-3569-45d5-9553-ad2c34717106.png#align=left&amp;display=inline&amp;height=186&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=372&amp;originWidth=670&amp;size=38395&amp;status=done&amp;style=none&amp;width=335">
+<meta property="og:updated_time" content="2021-08-16T05:30:08.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2021&#x2F;png&#x2F;20362568&#x2F;1627010122698-e747a135-95b1-44df-ad37-f120790e7251.png#align=left&amp;display=inline&amp;height=287&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=574&amp;originWidth=1808&amp;size=116434&amp;status=done&amp;style=none&amp;width=904">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/23/%E4%BB%8E0%E5%88%B01%E7%BC%96%E5%86%99%E5%85%8D%E6%9D%80%E7%94%9F%E6%88%90%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>从0到1编写免杀生成器 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/23/%E4%BB%8E0%E5%88%B01%E7%BC%96%E5%86%99%E5%85%8D%E6%9D%80%E7%94%9F%E6%88%90%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从0到1编写免杀生成器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-23 23:10:29" itemprop="dateCreated datePublished" datetime="2021-07-23T23:10:29+08:00">2021-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 13:30:08" itemprop="dateModified" datetime="2021-08-16T13:30:08+08:00">2021-08-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>免杀生成器的用途旨在攻防对抗中快速生成符合环境需求的免杀木马，减少因更换shellcode、加密方式或免杀方式被记录特征等因素而需从源码上进行修改编译的时间、学习成本。遂编写一款属于自己的免杀生成器形成自己的武器库是一件十分有意义的事情。<br></p><a id="more"></a>
+<h3 id="倒着走"><a href="#倒着走" class="headerlink" title="倒着走"></a>倒着走</h3><h4 id="一、免杀源码"><a href="#一、免杀源码" class="headerlink" title="一、免杀源码"></a>一、免杀源码</h4><p>免杀的源码网上有很多，源码中大致分为几块：shellcode、反沙箱、混淆加密方式、执行方式。<br>此处以C++源码为例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> ....</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = <span class="string">"shellcode"</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">    		反沙箱代码</span><br><span class="line">                </span><br><span class="line">            混淆加密方式</span><br><span class="line">                </span><br><span class="line">            执行方式</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>网上有很多大佬们都分享过自己的思路，可以针对这几部分内容针对性的做自己需要的修改，此处不细讲。<br>参考：<br><a href="https://www.ired.team/" target="_blank" rel="noopener">https://www.ired.team/</a><br><a href="https://idiotc4t.com/" target="_blank" rel="noopener">https://idiotc4t.com/</a><br></p>
+<h4 id="二、编译源码"><a href="#二、编译源码" class="headerlink" title="二、编译源码"></a>二、编译源码</h4><p>有了C++免杀源码，那在平常项目中也可以使用Visual Studio或其他方式进行编译，但这不是本文本意。所以我们需要用C#写一个免杀生成器的框架，在后续使用中即可直接生成所需要配置的免杀木马。<br>为什么用C#而不用C++编写框架？第一是因为C#上手要比C++快（个人觉得），代码没有C++那么复杂，学习成本低。第二是因为在微软的文档中并未找到关于在程序中对C++代码编译的实现，所以编译C++免杀源码时依旧需要使用GCC。第三是如果后续对于免杀方式的源码类型有新的需求，例如除C++语言的免杀源码外还想加入C#语言的免杀源码时，正好可以使用微软已经实现的CSharpCodeProvider类来方便C#代码编译操作。没错[破涕为笑]，微软实现了C#代码的编译，但是没实现C++的。。。<br><img src="https://cdn.nlark.com/yuque/0/2021/png/20362568/1627010122698-e747a135-95b1-44df-ad37-f120790e7251.png#align=left&display=inline&height=287&margin=%5Bobject%20Object%5D&name=image.png&originHeight=574&originWidth=1808&size=116434&status=done&style=none&width=904" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2021/png/20362568/1627011094864-ef9301d4-3569-45d5-9553-ad2c34717106.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&name=image.png&originHeight=372&originWidth=670&size=38395&status=done&style=none&width=335" alt="image.png"><br>对于在C#程序中调用gcc编译C++代码，我们可以先将C++代码写一个类里，如下C#代码：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CPP_Direct.cs</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">test</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">CPP_Direct</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> Base_Code = <span class="string">@"</span></span><br><span class="line"><span class="string">#include ....</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">unsigned char buf[] = "</span>shellcode<span class="string">";</span></span><br><span class="line"><span class="string">int main()</span></span><br><span class="line"><span class="string">		&#123;</span></span><br><span class="line"><span class="string">    		反沙箱代码</span></span><br><span class="line"><span class="string">                </span></span><br><span class="line"><span class="string">            混淆加密方式</span></span><br><span class="line"><span class="string">                </span></span><br><span class="line"><span class="string">            执行方式</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">			return 0;</span></span><br><span class="line"><span class="string">		&#125;</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        "</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是使用@符号时，2个双引号在输出时候等价于1个双引号，即@”….”;内的代码（C++/C#源代码）要把单引号再加一个单引号进行转义，另外比如shellcode段可以用两个花括号括起来，以便后面替换数据。修改后的代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.....</span><br><span class="line">    </span><br><span class="line">unsigned <span class="keyword">char</span> buf[] = <span class="string">""</span>&#123;&#123;shellcode&#125;&#125;<span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+<p>编译的代码是使用命令行调用GCC/C++来编译，示例如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//common.cs</span></span><br><span class="line"><span class="comment">//执行系统命令</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">Execute_Cmd</span>(<span class="params"><span class="keyword">string</span> cmd</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">string</span> output = <span class="string">""</span>;</span><br><span class="line">            System.Diagnostics.Process p = <span class="keyword">new</span> System.Diagnostics.Process();</span><br><span class="line">            p.StartInfo.FileName = <span class="string">"cmd.exe"</span>;</span><br><span class="line">            p.StartInfo.UseShellExecute = <span class="literal">false</span>;    <span class="comment">//是否使用操作系统shell启动</span></span><br><span class="line">            p.StartInfo.RedirectStandardInput = <span class="literal">true</span>;<span class="comment">//接受来自调用程序的输入信息</span></span><br><span class="line">            p.StartInfo.RedirectStandardOutput = <span class="literal">true</span>;<span class="comment">//由调用程序获取输出信息</span></span><br><span class="line">            p.StartInfo.RedirectStandardError = <span class="literal">true</span>;<span class="comment">//重定向标准错误输出</span></span><br><span class="line">            p.StartInfo.CreateNoWindow = <span class="literal">true</span>;<span class="comment">//不显示程序窗口</span></span><br><span class="line">            p.Start();<span class="comment">//启动程序</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//向cmd窗口发送输入信息</span></span><br><span class="line">            p.StandardInput.WriteLine(cmd + <span class="string">"&amp;exit"</span>);</span><br><span class="line"></span><br><span class="line">            p.StandardInput.AutoFlush = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//获取cmd窗口的输出信息</span></span><br><span class="line">            output = p.StandardOutput.ReadToEnd();</span><br><span class="line"></span><br><span class="line">            p.WaitForExit();<span class="comment">//等待程序执行完退出进程</span></span><br><span class="line">            p.Close();</span><br><span class="line">            <span class="keyword">return</span> output;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//core.cs</span></span><br><span class="line"><span class="comment">//编译cpp源码</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">CPP_Compiler</span>(<span class="params"><span class="keyword">string</span> arch, <span class="keyword">string</span> source_path, <span class="keyword">string</span> save_path, <span class="keyword">bool</span> res = <span class="literal">false</span></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">string</span> arch_cmd = <span class="string">" -m"</span> + arch.Substring(<span class="number">0</span>, <span class="number">2</span>);</span><br><span class="line">            <span class="keyword">string</span> compile_cmd = <span class="string">@"c++ -mwindows -o """</span> + save_path + <span class="string">@""""</span> + arch_cmd + <span class="string">@" """</span> + source_path + <span class="string">@""""</span>;</span><br><span class="line">            <span class="keyword">if</span> (res)</span><br><span class="line">            &#123;</span><br><span class="line">                compile_cmd += <span class="string">@" C:\\res.o"</span>;</span><br><span class="line">             </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!Common.Execute_Cmd(compile_cmd).Contains(<span class="string">"rror:"</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="三、生成源码"><a href="#三、生成源码" class="headerlink" title="三、生成源码"></a>三、生成源码</h4><p>有了免杀源码和编译方式，后面就需要前两者组合起来，将免杀的源码生成出来并且编译。<br>主要过程有生成随机的编译信息以及将免杀源码中”“段进行替换，随后将完整代码生成出来编译。<br>示例如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//core.cs</span></span><br><span class="line"><span class="comment">//生成CPP_Direct源码并编译</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">Gen_CPP_Direct</span>(<span class="params"><span class="keyword">string</span> shellcode, <span class="keyword">string</span> arch, <span class="keyword">string</span> path</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;<span class="comment">//需要修改</span></span><br><span class="line">            <span class="keyword">string</span> finalcode;</span><br><span class="line">            <span class="comment">//生产随机编译信息</span></span><br><span class="line">            Random r = <span class="keyword">new</span> Random();</span><br><span class="line">            <span class="keyword">int</span> n = r.Next(<span class="number">0</span>, Global.Company_name.Length - <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">string</span> comname = Global.Company_name[n];</span><br><span class="line">            <span class="keyword">string</span> c_compile_info = Global.compile_info.Replace(<span class="string">"&#123;&#123;companyname&#125;&#125;"</span>, comname);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//写入文件</span></span><br><span class="line">            System.IO.File.WriteAllText(<span class="string">"C:\\res.rc"</span>, c_compile_info);</span><br><span class="line">            <span class="keyword">string</span> res_cmd = <span class="string">"windres C:\\res.rc C:\\res.o"</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//位数判断</span></span><br><span class="line">            <span class="keyword">if</span> (arch.StartsWith(<span class="string">"32"</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                res_cmd += <span class="string">" --target=pe-i386"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            Common.Execute_Cmd(res_cmd);</span><br><span class="line">            <span class="keyword">bool</span> icon_set = System.IO.File.Exists(<span class="string">"C:\\res.o"</span>);</span><br><span class="line"></span><br><span class="line">            finalcode = CPP_Direct.Base_Code.Replace(<span class="string">"&#123;&#123;shellcode&#125;&#125;"</span>, shellcode)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//保存代码到临时文件</span></span><br><span class="line">            <span class="keyword">string</span> temp_path = <span class="string">@"C:\TEMP_"</span> + Common.GetRandomString(<span class="number">6</span>, <span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>, <span class="string">""</span>) + <span class="string">".cpp"</span>;</span><br><span class="line">            System.IO.File.WriteAllText(temp_path, finalcode);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//编译</span></span><br><span class="line">            <span class="keyword">if</span> (CPP_Compiler(arch, temp_path, path, icon_set))</span><br><span class="line">            &#123;</span><br><span class="line">                System.IO.File.Delete(temp_path); <span class="comment">//测试时记得注释掉这段，可以在C盘下看到源码</span></span><br><span class="line">                System.IO.File.Delete(<span class="string">"C:\\res.o"</span>);</span><br><span class="line">                System.IO.File.Delete(<span class="string">"C:\\res.rc"</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                System.IO.File.Delete(temp_path);</span><br><span class="line">                System.IO.File.Delete(<span class="string">"C:\\res.o"</span>);</span><br><span class="line">                System.IO.File.Delete(<span class="string">"C:\\res.rc"</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="四、触发事件"><a href="#四、触发事件" class="headerlink" title="四、触发事件"></a>四、触发事件</h4><p>以上流程都走完后，我们就需要画一个窗体应用程序，可以加上自己所需要的功能进行开发。<br>以此处为例就只需要一个填写shellcode的文本框、一个生成按钮以及一个保存文件位置的控件。<br>画好后双击生成按钮进入编写触发事件的代码：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Form1.cs </span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">button1_Click</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            saveFileDialog1.Filter = <span class="string">"可执行文件|*.exe"</span>;</span><br><span class="line">            <span class="keyword">if</span> ((saveFileDialog1.ShowDialog() == DialogResult.OK) &amp;&amp; (saveFileDialog1.FileName != <span class="string">""</span>) &amp;&amp; (richTextBox1.Text.Trim() != <span class="string">""</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">bool</span> result = <span class="literal">false</span>;</span><br><span class="line">				<span class="keyword">if</span> (comboBox2.Text == <span class="string">"CPP_Direct"</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    result = Core.Gen_CPP_Direct(richTextBox1.Text, comboBox1.Text, saveFileDialog1.FileName);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (result)</span><br><span class="line">                &#123;</span><br><span class="line">                    MessageBox.Show(<span class="string">"生成成功！"</span>, <span class="string">"成功"</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    MessageBox.Show(<span class="string">"生成失败！请检查你的输入"</span>, <span class="string">"失败"</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="五、C-免杀代码编译"><a href="#五、C-免杀代码编译" class="headerlink" title="五、C#免杀代码编译"></a>五、C#免杀代码编译</h4><p>上面都是用C#窗体程序编译C++做的演示，如果需要添加C#语言的免杀源码。我们可以使用CSharpCodeProvider类来操作。<br>首先创建一个用来编译C#语言免杀代码的类（下面代码抄就完事了）：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//compiler.cs</span></span><br><span class="line"><span class="keyword">using</span> Microsoft.CSharp;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.CodeDom.Compiler;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">A</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Compiler</span></span><br><span class="line">    &#123;</span><br><span class="line">        CSharpCodeProvider provider = <span class="keyword">new</span> CSharpCodeProvider();</span><br><span class="line">        CompilerParameters parameters = <span class="keyword">new</span> CompilerParameters();</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Compiler</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            parameters.ReferencedAssemblies.Add(<span class="string">"System.Core.dll"</span>);</span><br><span class="line">            parameters.GenerateInMemory = <span class="literal">false</span>;</span><br><span class="line">            parameters.GenerateExecutable = <span class="literal">true</span>;</span><br><span class="line">            parameters.IncludeDebugInformation = <span class="literal">false</span>;</span><br><span class="line">            parameters.ReferencedAssemblies.Add(<span class="string">"mscorlib.dll"</span>);</span><br><span class="line">            parameters.ReferencedAssemblies.Add(<span class="string">"System.dll"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compileToExe</span>(<span class="params">String code, String Arch, String filePath</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line"></span><br><span class="line">            parameters.OutputAssembly = filePath;</span><br><span class="line">            parameters.CompilerOptions = Arch;</span><br><span class="line"></span><br><span class="line">            CompilerResults results = provider.CompileAssemblyFromSource(parameters, code);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (results.Errors.HasErrors)</span><br><span class="line">            &#123;</span><br><span class="line">                StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">foreach</span> (CompilerError error <span class="keyword">in</span> results.Errors)</span><br><span class="line">                &#123;</span><br><span class="line">                    sb.AppendLine(String.Format(<span class="string">"Error (&#123;0&#125;): &#123;1&#125;"</span>, error.ErrorNumber, error.ErrorText));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidOperationException(sb.ToString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>C#免杀代码同样也是放在一个类里，如上二的前半部分，修改好单引号问题和加双花括号做标记。不同的是编译时直接调用上面写好的Compiler类直接生成，跳过源码生成输出本地的步骤。示例代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//core.cs        </span></span><br><span class="line"><span class="comment">//生成CS源码并编译</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">Gen_CS_Base</span>(<span class="params"><span class="keyword">string</span> xor_shellcode,  <span class="keyword">string</span> arch, <span class="keyword">string</span> path</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">string</span> target_arch = <span class="string">"/platform:x86 /optimize /target:winexe "</span>;</span><br><span class="line">            <span class="keyword">if</span> (arch.StartsWith(<span class="string">"6"</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                target_arch = target_arch.Replace(<span class="string">"86"</span>, <span class="string">"64"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">string</span> finalcode = <span class="string">""</span>;</span><br><span class="line">            finalcode = CS_Base.Base_Code.Replace(<span class="string">"&#123;&#123;xor_shellcode&#125;&#125;"</span>, xor_shellcode)<span class="comment">//替换添加shellcode</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//编译</span></span><br><span class="line">            Compiler compiler = <span class="keyword">new</span> Compiler();</span><br><span class="line">            compiler.compileToExe(finalcode, target_arch, path);</span><br><span class="line">            <span class="comment">//System.IO.File.WriteAllText(@"C:\22222222222222222222code.txt", finalcode);//需要看源码对不对就取消注释</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>最后在加上生成按钮的触发事件即可。</p>
+<h3 id="回头看"><a href="#回头看" class="headerlink" title="回头看"></a>回头看</h3><p>通过以上，一个简陋的生成器便做好了，整体过程如下：<br>填写shellcode-&gt;触发生成按钮事件-&gt;替换shellcode数据进源码-&gt;生成源码文件（C#跳过）-&gt;编译源码<br>根据这个流程，我们可以在此基础上添加自己需要的其他功能，如shellcode混淆加密、反沙箱、生成dll文件等等。<br>另外可以将混淆加密方式独立成一个类，选择不同的加密方式时只需将对应的代码替换进相应的源码，随后编译即可，同理也可以将执行方式和反沙箱方式都独立出来。<br></p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="https://github.com/1y0n/AV_Evasion_Tool" target="_blank" rel="noopener">https://github.com/1y0n/AV_Evasion_Tool</a><br><a href="https://github.com/knownsec/shellcodeloader" target="_blank" rel="noopener">https://github.com/knownsec/shellcodeloader</a><br><a href="https://www.ired.team/" target="_blank" rel="noopener">https://www.ired.team/</a><br><a href="https://idiotc4t.com/" target="_blank" rel="noopener">https://idiotc4t.com/</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%85%8D%E6%9D%80/" rel="tag"><i class="fa fa-tag"></i> 免杀</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/02/18/OSCP%E6%80%BB%E7%BB%93/" rel="next" title="OSCP总结">
+                  <i class="fa fa-chevron-left"></i> OSCP总结
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#倒着走"><span class="nav-number">2.</span> <span class="nav-text">倒着走</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、免杀源码"><span class="nav-number">2.1.</span> <span class="nav-text">一、免杀源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、编译源码"><span class="nav-number">2.2.</span> <span class="nav-text">二、编译源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、生成源码"><span class="nav-number">2.3.</span> <span class="nav-text">三、生成源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、触发事件"><span class="nav-number">2.4.</span> <span class="nav-text">四、触发事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、C-免杀代码编译"><span class="nav-number">2.5.</span> <span class="nav-text">五、C#免杀代码编译</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回头看"><span class="nav-number">3.</span> <span class="nav-text">回头看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>
