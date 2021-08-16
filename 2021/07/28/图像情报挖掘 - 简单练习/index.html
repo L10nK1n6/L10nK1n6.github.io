@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="在贴吧偶然看到一个吧友发出求照片位置的帖子，贴文如下：所给信息已有">
+<meta name="keywords" content="情报">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图像情报挖掘 - 简单练习">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;07&#x2F;28&#x2F;%E5%9B%BE%E5%83%8F%E6%83%85%E6%8A%A5%E6%8C%96%E6%8E%98%20-%20%E7%AE%80%E5%8D%95%E7%BB%83%E4%B9%A0&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="在贴吧偶然看到一个吧友发出求照片位置的帖子，贴文如下：所给信息已有">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;PfgoxcYR1WpLaez.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;sKWU6nVQEBcLRov.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;C2birLIdgRYMDpH.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;SP9Mm6rGWuLnlh8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;miT7p548sbV9wER.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;qAPc4VE8pj7WvdH.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;tbRcPCH9qySIJEg.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;EJOBgj8AS4zmYMX.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;Ng7MzqkblInQdX8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;FlTu1izvkqVGaW2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;2z87FeJ5MjIA1Y3.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;Whz5vOx92SNFADQ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;67Swzq2XUDdThA9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;yJ7A9nOrcoLeq4Y.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;TBOCbzENjwtDoWv.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;hJMs9H7B48y2WR1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;IjPEKxJRdhHYbCD.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;QunmhEVWBDMXjFv.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;5fV32WDeLUjawNi.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;bULhj7CcFVBRvOY.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;YTP67xf9mlkyjrZ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;2KfDCpyRzgmq5eH.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;jZALoeEzDOyRVr8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;5QehBcRCpAJGm1v.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;COdesWfkm9t6Dou.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;k2JNATusQBCH6pd.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;6qk7oWsDQlxcyBH.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;Av3nr5Wxf1upZ6b.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;EF56PlVeUtqCIkJ.png">
+<meta property="og:updated_time" content="2021-08-16T06:11:09.514Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;PfgoxcYR1WpLaez.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/28/%E5%9B%BE%E5%83%8F%E6%83%85%E6%8A%A5%E6%8C%96%E6%8E%98%20-%20%E7%AE%80%E5%8D%95%E7%BB%83%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>图像情报挖掘 - 简单练习 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/28/%E5%9B%BE%E5%83%8F%E6%83%85%E6%8A%A5%E6%8C%96%E6%8E%98%20-%20%E7%AE%80%E5%8D%95%E7%BB%83%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图像情报挖掘 - 简单练习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-28 23:10:29" itemprop="dateCreated datePublished" datetime="2021-07-28T23:10:29+08:00">2021-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 14:11:09" itemprop="dateModified" datetime="2021-08-16T14:11:09+08:00">2021-08-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在贴吧偶然看到一个吧友发出求照片位置的帖子，贴文如下：<br><img src="https://i.loli.net/2021/08/16/PfgoxcYR1WpLaez.png" alt="image.png"><br>所给信息已有</p><a id="more"></a>
+<ul>
+<li>拍摄城市在重庆</li>
+<li>图片中泥黄色河流为嘉陵江</li>
+<li>发帖时间为2021年7月26日下午15点48分</li>
+</ul>
+<p>再瞧瞧这张图片中有什么信息，原图如下：<br><img src="https://i.loli.net/2021/08/16/sKWU6nVQEBcLRov.jpg" alt="f04bb2a1cd11728bae092794dffcc3cec3fd2c2f.jpg"><br>1、我们可以看到一个很明显的标志性信号塔及一个存在圆顶的建筑。由于楼顶的大字招牌模糊不清，所以暂不考虑，但可以确定的是为4个字<br><img src="https://i.loli.net/2021/08/16/C2birLIdgRYMDpH.png" alt="image.png"><br>2、一条地铁和一条沿江公路<br><img src="https://i.loli.net/2021/08/16/SP9Mm6rGWuLnlh8.png" alt="image.png"><br>PS：起初以为下面那条沿江公路也是地跌线路，因为中间有一部分很像是地铁（箭头左边一点），但是放大细看并不是。并且图中有很多红蓝色素块干扰，导致不细看的话就会产生误导。<br>原因如下：<br>1）、红蓝色素块<br>放大图片到一定程度，我们可以发现图片中存在许多红蓝色素块，这是由于受强光（如太阳反光）或其他环境因素影响，使得摄像头内的 cmos 传感器受损，轻则影响成像，出现坏点，所以应当排除红蓝色素块影响。参考：<a href="https://www.gjy5.com/article/381.html" target="_blank" rel="noopener">https://www.gjy5.com/article/381.html</a><br></p>
+<p><img src="https://i.loli.net/2021/08/16/miT7p548sbV9wER.png" alt="image-1.png"><br>2）、车辆<br>在同方向道路上，若真为地铁线路，那为何会有汽车、公交等车辆出现<br></p>
+<p><img src="https://i.loli.net/2021/08/16/qAPc4VE8pj7WvdH.png" alt="image-2.png"><br>综上两点，断定这条路为公路，不为地铁线路<br>3、拍摄者所在楼前有一个相对低矮的楼，且存在突出的圆形阳台<br></p>
+<p><img src="https://i.loli.net/2021/08/16/tbRcPCH9qySIJEg.png" alt="image-3.png"><br>4、图中有一大片绿色树林，猜测大致为公园类<br></p>
+<p><img src="https://i.loli.net/2021/08/16/EJOBgj8AS4zmYMX.png" alt="image.png"><br>所有能看出来的信息大致为以上4点，下面开始找位置。<br>首先使用百度地图，搜索“重庆市嘉陵江”。搜索结果存在很多，我们需要沿着这条江结合地图一路找下去。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/Ng7MzqkblInQdX8.png" alt="image-1.png"><br>点开第一个位置，巧合的是，这个位置刚好有一个公园和一个地铁线路<br></p>
+<p><img src="https://i.loli.net/2021/08/16/FlTu1izvkqVGaW2.png" alt="image-2.png"><br>点开全景地图去看实地场景，emmmmmm<br></p>
+<p><img src="https://i.loli.net/2021/08/16/2z87FeJ5MjIA1Y3.png" alt="image-3.png"><br>居然就是我们要找的目标。信号塔，地铁线路和沿江公路都对的上。<br>调转角度，看向正后方，发现是一个小区，而这个小区便是拍摄者所在的位置。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/Whz5vOx92SNFADQ.png" alt="image.png"><br>使用普通地图，发现该小区叫做“金砂水岸”。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/67Swzq2XUDdThA9.png" alt="image-1.png"><br>但是这个小区有前面3栋矮楼，和后面3栋高一点的楼，哪个才是拍摄者的具体位置呢？<br></p>
+<p><img src="https://i.loli.net/2021/08/16/yJ7A9nOrcoLeq4Y.png" alt="image-2.png"><br>回到原来的拍摄者图片，发现信号塔（大致上）处于图片的正中间位置，所以可以知道拍摄者的手机一定是正对着信号塔的。（手画的，将就着看吧，红色是想象中的手机）<br></p>
+<p><img src="https://i.loli.net/2021/08/16/TBOCbzENjwtDoWv.png" alt="image-3.png"><br>我们只要以信号塔和某个正中间绿线上的点画一条射线，即可找到拍摄者所在的楼。<br>仔细在图中寻找，可以找到一个白色的柱子也同在绿色中间线上<br></p>
+<p><img src="https://i.loli.net/2021/08/16/hJMs9H7B48y2WR1.png" alt="image-4.png"><br>找到了这两个点，剩下就开始在地图上标点划线即可。<br>根据信号塔处在山顶的特征，很快就在卫星地图上找到了信号塔，并且发现旁边确实存在一个圆顶型建筑（卫星地图为俯视图，若看不出来信号塔，可以将图片旋转180度）<br> </p>
+<p><img src="https://i.loli.net/2021/08/16/IjPEKxJRdhHYbCD.png" alt="image.png"><br>关于白色柱子直接用俯视图看肯定是不直观的，因为它有可能是一个点状，我们可以看到原图中白色柱子右边有一个左边矮右边呈阶梯状的楼。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/QunmhEVWBDMXjFv.png" alt="image-1.png"><br>在卫星地图上寻找到了符合这个特征的“畔江楼小区”，而右边的两个阴影部分很有可能是我们所需要的“白柱子”。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/5fV32WDeLUjawNi.png" alt="image-2.png"><br>用全景地图查看，发现应该就是靠右边的这个了。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/bULhj7CcFVBRvOY.png" alt="image-3.png"><br>标号点划线发现恰好穿过2栋楼<br></p>
+<p><img src="https://i.loli.net/2021/08/16/YTP67xf9mlkyjrZ.png" alt="image.png"><br>把图像放大稍作标记，如下图所示。拍摄者应该就是在第6栋了，而他照片里的矮楼就应该是第3栋了<br></p>
+<p><img src="https://i.loli.net/2021/08/16/2KfDCpyRzgmq5eH.png" alt="image-1.png"><br>用全景地图看如下，突出的圆形阳台也同样符合拍摄者的照片<br></p>
+<p><img src="https://i.loli.net/2021/08/16/jZALoeEzDOyRVr8.png" alt="image-2.png"><br>使用搜索引擎搜索“重庆 金砂水岸第6栋户型图”<br></p>
+<p><img src="https://i.loli.net/2021/08/16/5QehBcRCpAJGm1v.png" alt="image-3.png"><br>可以看到有几条结果，其结果中均为房源信息。<br>仔细检索每条信息发现，金砂水岸楼层分别是18层、25层、31、32层等等<br></p>
+<p><img src="https://i.loli.net/2021/08/16/COdesWfkm9t6Dou.png" alt="image.png"><br></p>
+<p><img src="https://i.loli.net/2021/08/16/k2JNATusQBCH6pd.png" alt="image-1.png"><br></p>
+<p><img src="https://i.loli.net/2021/08/16/6qk7oWsDQlxcyBH.png" alt="image-2.png"></p>
+<p>最高的就不用管了，我们只需要看哪个楼层符合“第3栋”楼层，打开全景地图找个清晰的角度查看“第3栋”楼，大致数了一下肯定超过18层楼。那暂且给他按个25层的帽子吧。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/Av3nr5Wxf1upZ6b.png" alt="image-3.png"><br>而拍摄者的照片可以看到一定高于“第3栋”楼，那么拍摄者所处的位置应该为25层往上。（感觉快到顶楼了）<br></p>
+<p><img src="https://i.loli.net/2021/08/16/EF56PlVeUtqCIkJ.png" alt="image-4.png"><br><br><br><br><br><br><br><br><br></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%83%85%E6%8A%A5/" rel="tag"><i class="fa fa-tag"></i> 情报</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/07/23/%E4%BB%8E0%E5%88%B01%E7%BC%96%E5%86%99%E5%85%8D%E6%9D%80%E7%94%9F%E6%88%90%E5%99%A8/" rel="next" title="从0到1编写免杀生成器">
+                  <i class="fa fa-chevron-left"></i> 从0到1编写免杀生成器
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/08/09/Golang%20fyne%E5%BA%93%E4%B8%AD%E6%96%87%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88/" rel="prev" title="Golang fyne库中文修复方案">
+                  Golang fyne库中文修复方案 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>

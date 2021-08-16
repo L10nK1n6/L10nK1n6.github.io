@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前言：最近一直在学习GO语言，突发奇想想尝试GO的GUI开发，找了关于GUI的适用性和开发难度都比较适宜的库做对比发现还是fyne好一点。以下为关于GO语言GUI库的归档，参考：https:&#x2F;&#x2F;github.com&#x2F;jobbole&#x2F;awesome-go-cn&#x2F;#gui">
+<meta name="keywords" content="Golang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang fyne库中文修复方案">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;09&#x2F;Golang%20fyne%E5%BA%93%E4%B8%AD%E6%96%87%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="前言：最近一直在学习GO语言，突发奇想想尝试GO的GUI开发，找了关于GUI的适用性和开发难度都比较适宜的库做对比发现还是fyne好一点。以下为关于GO语言GUI库的归档，参考：https:&#x2F;&#x2F;github.com&#x2F;jobbole&#x2F;awesome-go-cn&#x2F;#gui">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;o4afp9kHFVPceGs.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;wR4rcLTIKxouJdG.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;lmLH6cMUpXPQF4N.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;oRqcNZHVgUMjPJh.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;3UL8eWkQbFDvEXx.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;qixJsKQlkLH8yM2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;EAmSaJNz1VRMy8W.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;OHjebgi6Gm3Xa9n.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;ObEq9dN265MY3LX.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;pIUKwxomhLOVCta.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;Gd2bNope1XFzscf.png">
+<meta property="og:updated_time" content="2021-08-16T06:17:31.715Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;o4afp9kHFVPceGs.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/09/Golang%20fyne%E5%BA%93%E4%B8%AD%E6%96%87%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Golang fyne库中文修复方案 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/09/Golang%20fyne%E5%BA%93%E4%B8%AD%E6%96%87%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Golang fyne库中文修复方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-09 23:10:29" itemprop="dateCreated datePublished" datetime="2021-08-09T23:10:29+08:00">2021-08-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 14:17:31" itemprop="dateModified" datetime="2021-08-16T14:17:31+08:00">2021-08-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>最近一直在学习GO语言，突发奇想想尝试GO的GUI开发，找了关于GUI的适用性和开发难度都比较适宜的库做对比发现还是fyne好一点。以下为关于GO语言GUI库的归档，参考：<a href="https://github.com/jobbole/awesome-go-cn/#gui" target="_blank" rel="noopener">https://github.com/jobbole/awesome-go-cn/#gui</a><br></p><a id="more"></a>
+<p><img src="https://i.loli.net/2021/08/16/o4afp9kHFVPceGs.png" alt="image.png"></p>
+<h3 id="fyne安装"><a href="#fyne安装" class="headerlink" title="fyne安装"></a>fyne安装</h3><p>首先需要检查GOPATH，若GOPATH不是当前项目的目录则需要修改一下<br>临时修改方法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export GOPATH=<span class="string">"/Users/xxxxx/GoProjects/fynetest"</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/08/16/wR4rcLTIKxouJdG.png" alt="image-1.png"><br>随后开始安装<br>使用git上的方法安装v2版本的fyne（需要终端挂上代理），当src目录出现完整的fyne库文件才算下载好。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get fyne.io/fyne/v2</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/08/16/lmLH6cMUpXPQF4N.png" alt="image-2.png"></p>
+<h3 id="fyne-demo"><a href="#fyne-demo" class="headerlink" title="fyne_demo"></a>fyne_demo</h3><p>采用Github上的示例demo代码做简单演示</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/app"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/container"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/widget"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a := app.New()</span><br><span class="line">	w := a.NewWindow(<span class="string">"Hello"</span>)</span><br><span class="line"></span><br><span class="line">	hello := widget.NewLabel(<span class="string">"Hello Fyne!"</span>)</span><br><span class="line">	w.SetContent(container.NewVBox(</span><br><span class="line">		hello,</span><br><span class="line">		widget.NewButton(<span class="string">"Hi!"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			hello.SetText(<span class="string">"Welcome :)"</span>)</span><br><span class="line">		&#125;),</span><br><span class="line">	))</span><br><span class="line"></span><br><span class="line">	w.ShowAndRun()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>go run运行之后即可看到一个简单的窗口。<br><img src="https://i.loli.net/2021/08/16/oRqcNZHVgUMjPJh.png" alt="image-3.png"><br>由于需求原因，想写一个中文的GUI界面，在尝试将几个关键字修改为中文之后发现程序出现乱码。<br><img src="https://i.loli.net/2021/08/16/3UL8eWkQbFDvEXx.png" alt="image-4.png"></p>
+<h3 id="修复中文问题"><a href="#修复中文问题" class="headerlink" title="修复中文问题"></a>修复中文问题</h3><h4 id="方法一：引入系统字体设置成环境变量"><a href="#方法一：引入系统字体设置成环境变量" class="headerlink" title="方法一：引入系统字体设置成环境变量"></a>方法一：引入系统字体设置成环境变量</h4><p>首先通过遍历系统字体库来查找合适的字体文件<br>示例代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"github.com/flopp/go-findfont"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fontPaths := findfont.List()</span><br><span class="line">	<span class="keyword">for</span> _, path := <span class="keyword">range</span> fontPaths &#123;</span><br><span class="line">		fmt.Println(path)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：该方式需要引入github.com/flopp/go-findfont库，需要自行下载该库<br>运行后可以发现终端输出了很多字体文件的路径<br><img src="https://i.loli.net/2021/08/16/qixJsKQlkLH8yM2.png" alt="image-5.png"><br>通过对比寻找发现在mac上”/System/Library/Fonts/STHeiti Medium.ttc”字体库适用于中文窗体<br>windows上同理，可找到”simkai.ttf”字体库<br>随后修改程序代码，添加”os.Setenv()”设置环境变量，代码如下:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/app"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/container"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/widget"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	os.Setenv(<span class="string">"FYNE_FONT"</span>, <span class="string">"/System/Library/Fonts/STHeiti Medium.ttc"</span>) <span class="comment">//设置字体环境</span></span><br><span class="line">	a := app.New()</span><br><span class="line">	w := a.NewWindow(<span class="string">"Hello"</span>)</span><br><span class="line"></span><br><span class="line">	hello := widget.NewLabel(<span class="string">"Fyne测试1"</span>)</span><br><span class="line">	w.SetContent(container.NewVBox(</span><br><span class="line">		hello,</span><br><span class="line">		widget.NewButton(<span class="string">"点击!"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			hello.SetText(<span class="string">"Welcome :)"</span>)</span><br><span class="line">		&#125;),</span><br><span class="line">	))</span><br><span class="line"></span><br><span class="line">	w.ShowAndRun()</span><br><span class="line">	os.Unsetenv(<span class="string">"FYNE_FONT"</span>) <span class="comment">//取消环境变量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>需要注意的是在程序末尾要添加”os.Unsetenv(“FYNE_FONT”)”取消环境变量。<br>运行代码即可看到程序已正常显示中文<br><img src="https://i.loli.net/2021/08/16/EAmSaJNz1VRMy8W.png" alt="image.png"><br>但是该方法存在一个问题就是当跨平台时可能存在找不到字体文件而导致字体依旧乱码。该方法适合调试时使用，不适合编译后跨平台使用。</p>
+<h4 id="方法二：将字体文件编译进程序"><a href="#方法二：将字体文件编译进程序" class="headerlink" title="方法二：将字体文件编译进程序"></a>方法二：将字体文件编译进程序</h4><p>首先需要下载阿里巴巴普惠体文件Alibaba-PuHuiTi-Medium.ttf以及fyne官方cmd工具，见文末附件<br>先将普惠字体文件转换成go文件</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fyne bundle Alibaba-PuHuiTi-Medium.ttf &gt; bundle.<span class="keyword">go</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/08/16/OHjebgi6Gm3Xa9n.png" alt="image-1.png"><br>检查bundle.go文件发现是将字体文件转换成二进制并定义resourceAlibabaPuHuiTiMediumTtf调用<br><img src="https://i.loli.net/2021/08/16/ObEq9dN265MY3LX.png" alt="image-2.png"><br>修改bundle.go中package包名为theme，新建一个theme目录并且在其中新建theme.go文件<br><img src="https://i.loli.net/2021/08/16/pIUKwxomhLOVCta.png" alt="image-3.png"><br>theme.go代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> theme</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fyne.io/fyne/v2"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/theme"</span></span><br><span class="line">	<span class="string">"image/color"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MyTheme <span class="keyword">struct</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _ fyne.Theme = (*MyTheme)(<span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyTheme)</span> <span class="title">Font</span><span class="params">(s fyne.TextStyle)</span> <span class="title">fyne</span>.<span class="title">Resource</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ResourceAlibabaPuHuiTiMediumTtf <span class="comment">//ResourceSourceHanSansTtf 即是 bundle.go 文件中 var 的变量名</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*MyTheme)</span> <span class="title">Color</span><span class="params">(n fyne.ThemeColorName, v fyne.ThemeVariant)</span> <span class="title">color</span>.<span class="title">Color</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> theme.DefaultTheme().Color(n, v)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*MyTheme)</span> <span class="title">Icon</span><span class="params">(n fyne.ThemeIconName)</span> <span class="title">fyne</span>.<span class="title">Resource</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> theme.DefaultTheme().Icon(n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*MyTheme)</span> <span class="title">Size</span><span class="params">(n fyne.ThemeSizeName)</span> <span class="title">float32</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> theme.DefaultTheme().Size(n)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：theme.go 中ResourceAlibabaPuHuiTiMediumTtf会报红，但是不影响编译运行<br>随后在main.go窗体程序运行过程中引入中文字体主题的theme.go代码，在头文件中也需要导入theme包，完整代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"./theme"</span><span class="comment">//导入theme包</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/app"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/container"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/widget"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	a := app.New()</span><br><span class="line">	a.Settings().SetTheme(&amp;theme.MyTheme&#123;&#125;)<span class="comment">//引入中文主题</span></span><br><span class="line">	w := a.NewWindow(<span class="string">"Hello"</span>)</span><br><span class="line"></span><br><span class="line">	hello := widget.NewLabel(<span class="string">"Fyne测试1"</span>)</span><br><span class="line">	w.SetContent(container.NewVBox(</span><br><span class="line">		hello,</span><br><span class="line">		widget.NewButton(<span class="string">"点击!"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			hello.SetText(<span class="string">"Welcome :)"</span>)</span><br><span class="line">		&#125;),</span><br><span class="line">	))</span><br><span class="line"></span><br><span class="line">	w.ShowAndRun()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>go build编译程序并运行，程序即正常显示中文。<br><img src="https://i.loli.net/2021/08/16/Gd2bNope1XFzscf.png" alt="image-4.png"><br>该方法适合编译跨平台程序使用，但是有个不足是因为将字体文件（大小24M）编译进程序的原因，所以编译一个简单的程序都会有24M体积。<br>以上两种方式各有各的好处，根据需求取舍。</p>
+<h3 id="思考："><a href="#思考：" class="headerlink" title="思考："></a>思考：</h3><p>写完这篇文章的时候突然想到可以根据第一种方法的扩展，那就是先找好win、mac、linux等自己需要跨平台系统上字体文件的具体路径，然后使用runtime.GOOS判断操作系统类型，根据类型调用相应的字体文件来达到不需要将字体文件编译进程序即可正常显示中文字体的目的，并且还减少了因字体文件过大导致程序也相应过大的问题。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Golang/" rel="tag"><i class="fa fa-tag"></i> Golang</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/07/28/%E5%9B%BE%E5%83%8F%E6%83%85%E6%8A%A5%E6%8C%96%E6%8E%98%20-%20%E7%AE%80%E5%8D%95%E7%BB%83%E4%B9%A0/" rel="next" title="图像情报挖掘 - 简单练习">
+                  <i class="fa fa-chevron-left"></i> 图像情报挖掘 - 简单练习
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/08/16/GO%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E8%87%AA%E5%88%B6%E5%B0%8F%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6/" rel="prev" title="GO语言开发自制小工具框架">
+                  GO语言开发自制小工具框架 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fyne安装"><span class="nav-number">2.</span> <span class="nav-text">fyne安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fyne-demo"><span class="nav-number">3.</span> <span class="nav-text">fyne_demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修复中文问题"><span class="nav-number">4.</span> <span class="nav-text">修复中文问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一：引入系统字体设置成环境变量"><span class="nav-number">4.1.</span> <span class="nav-text">方法一：引入系统字体设置成环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二：将字体文件编译进程序"><span class="nav-number">4.2.</span> <span class="nav-text">方法二：将字体文件编译进程序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考："><span class="nav-number">5.</span> <span class="nav-text">思考：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>

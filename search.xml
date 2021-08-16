@@ -110,6 +110,120 @@
       </tags>
   </entry>
   <entry>
+    <title>GO语言开发自制小工具框架</title>
+    <url>/2021/08/16/GO%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E8%87%AA%E5%88%B6%E5%B0%8F%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>接上一篇使用fyne解决GUI库中文问题之后，打算落地些小工具来提升实战中的需求。本文以执行本地命令为引子探究fyne库的使用方式。<br></p><a id="more"></a>
+<h3 id="一：优化后的中文问题"><a href="#一：优化后的中文问题" class="headerlink" title="一：优化后的中文问题"></a>一：优化后的中文问题</h3><p>上一篇中最后思考部分中提到的解决方式在本文中得以实践，发现该方法确实要比编译二进制到程序中快捷简便的多。<br></p>
+<blockquote>
+<p>写完这篇文章的时候突然想到可以根据第一种方法的扩展，那就是先找好win、mac、linux等自己需要跨平台系统上字体文件的具体路径，然后使用runtime.GOOS判断操作系统类型，根据类型调用相应的字体文件来达到不需要将字体文件编译进程序即可正常显示中文字体的目的，并且还减少了因字体文件过大导致程序也相应过大的问题。</p>
+</blockquote>
+<p><br>完整代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">sysType := runtime.GOOS</span><br><span class="line">	<span class="keyword">switch</span> sysType &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"darwin"</span>:</span><br><span class="line">		fmt.Printf(<span class="string">"当前操作系统为: %s，自动替换字体文件\n"</span>, sysType)</span><br><span class="line">		os.Setenv(<span class="string">"FYNE_FONT"</span>, <span class="string">"/System/Library/Fonts/STHeiti Medium.ttc"</span>) <span class="comment">//设置mac字体环境</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"windows"</span>:</span><br><span class="line">		fmt.Printf(<span class="string">"当前操作系统为: %s，自动替换字体文件\n"</span>, sysType)</span><br><span class="line">		os.Setenv(<span class="string">"FYNE_FONT"</span>, <span class="string">"C:\\Windows\\Fonts\\simhei.ttf"</span>) <span class="comment">//设置win字体环境</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"linux"</span>:</span><br><span class="line">		fmt.Printf(<span class="string">"当前操作系统为: %s，自动替换字体文件\n"</span>, sysType)</span><br><span class="line">		<span class="comment">//os.Setenv("FYNE_FONT", "linux上字体路径") //设置linux字体环境，暂时没找字体，等以后在找</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> os.Unsetenv(<span class="string">"FYNE_FONT"</span>)           <span class="comment">//取消环境变量</span></span><br></pre></td></tr></table></figure>
+<p>使用switch语句将runtime.GOOS判断出操作系统的类型进行划分，再将提前找好的对应字体文件设置为环境变量，最后的defer语句作为延迟执行取消环境变量。该处fmt.Printf会在终端中打印出提示信息，在实际使用过程中可注释该句。</p>
+<h3 id="二：总框架设计"><a href="#二：总框架设计" class="headerlink" title="二：总框架设计"></a>二：总框架设计</h3><p>fyne的使用需要先创建应用程序对象和窗口对象，如下代码所示前两行。随后调用整体框架的GUI界面，考虑以后可能需要多种窗口界面，这里我放到了另外一个LoadUI函数中。最后3行是对窗体的已经基本设置，可自行更改。<br>代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">myapp := app.New()                       <span class="comment">//应用程序对象</span></span><br><span class="line">mywin := myapp.NewWindow(<span class="string">"测试版"</span>) <span class="comment">//创建窗口对象,标题</span></span><br><span class="line"></span><br><span class="line">window.LoadUI(mywin)</span><br><span class="line"></span><br><span class="line">mywin.Resize(fyne.NewSize(<span class="number">1000</span>, <span class="number">600</span>)) <span class="comment">//设置初始窗体大小</span></span><br><span class="line">mywin.CenterOnScreen() <span class="comment">//设置中心位置</span></span><br><span class="line">mywin.ShowAndRun()                    <span class="comment">//运行程序</span></span><br></pre></td></tr></table></figure>
+<p>在LoadUI中，使用了最为方便的AppTabs（选项卡）方法来设计窗体样式。其结构体如下所示</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// AppTabs container is used to split your application into various different areas identified by tabs.</span></span><br><span class="line"><span class="comment">// The tabs contain text and/or an icon and allow the user to switch between the content specified in each TabItem.</span></span><br><span class="line"><span class="comment">// Each item is represented by a button at the edge of the container.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Since: 1.4</span></span><br><span class="line"><span class="keyword">type</span> AppTabs <span class="keyword">struct</span> &#123;</span><br><span class="line">	widget.BaseWidget</span><br><span class="line"></span><br><span class="line">	Items           []*TabItem</span><br><span class="line">	OnChanged       <span class="function"><span class="keyword">func</span><span class="params">(tab *TabItem)</span></span></span><br><span class="line">	current         <span class="keyword">int</span></span><br><span class="line">	tabLocation     TabLocation</span><br><span class="line">	isTransitioning <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<p>本文中只需要用到Items和OnChanged来标注tab名称和对应事件。其样式如下：<br><img src="https://i.loli.net/2021/08/16/2N7woqrpdWPSu6R.png" alt="image.png"><br>代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//总窗体设计，让main调用加载</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">LoadUI</span><span class="params">(mywin fyne.Window)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">////页面布局</span></span><br><span class="line">	content := container.NewAppTabs(container.NewTabItem(<span class="string">"命令执行"</span>, execUI(mywin)),</span><br><span class="line">		container.NewTabItem(<span class="string">"1"</span>, loginBtn1),<span class="comment">//以下占位，可忽略</span></span><br><span class="line">		container.NewTabItem(<span class="string">"2"</span>, loginBtn2),</span><br><span class="line">		container.NewTabItem(<span class="string">"3"</span>, nameBox),</span><br><span class="line">		container.NewTabItem(<span class="string">"4"</span>, Display),</span><br><span class="line">	)</span><br><span class="line">	mywin.SetContent(content)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在第一个tab中命名为”命令执行”，并且使用execUI函数来载入选项卡内的界面。<br></p>
+<h3 id="三：命令执行模块界面设计"><a href="#三：命令执行模块界面设计" class="headerlink" title="三：命令执行模块界面设计"></a>三：命令执行模块界面设计</h3><p>fyne的界面设计就像洋葱一样一层套一层。上面设计完框架整体的UI界面，接下来就需要对每一个选项卡里的界面进行设计。<br>这里创建了一个单行文本框cmdin := widget.NewEntry()作为命令输入框，并且使用SetPlaceHolder()来设置只读属性的提示信息。<br>然后创建了一个多行文本框cmdout := widget.NewMultiLineEntry()作为命令输出显示框，并且使用fyne.TextWrapWord属性将超出窗体最大宽度的文本内容可以用垂直滚动条来展示。<br>该处设计原本是使用label标签来显示的，但是后面发现执行一条ifconfig命令变将整个窗口撑出了屏幕之外，体验十分不好，且影响使用。后经过查找多方资料和看fyne源码才找到了现在的这种方法。<br>最后创建了一个响应单击事件的执行命令按钮cmdbtn := widget.NewButton()。在按钮中需要传入两个参数，一个是该按钮的显示名称和一个单击事件函数，如下代码所示：<br>在单击事件的匿名函数中调用了command.ExecForSys()，该函数接收cmdin中的文本作为命令执行并将结果输出（后面会介绍该函数）。随后cmdout.SetText(output)将输出的结果显示到cmdout中。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">execUI</span><span class="params">(mywin fyne.Window)</span> <span class="title">fyne</span>.<span class="title">CanvasObject</span></span> &#123;</span><br><span class="line">	<span class="comment">////命令执行模块</span></span><br><span class="line">	cmdin := widget.NewEntry()</span><br><span class="line">	cmdin.SetPlaceHolder(<span class="string">"commands"</span>)</span><br><span class="line">    </span><br><span class="line">	cmdout := widget.NewMultiLineEntry()</span><br><span class="line">	cmdout.Wrapping = fyne.TextWrapWord</span><br><span class="line">    </span><br><span class="line">	cmdbtn := widget.NewButton(<span class="string">"执行"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		output := command.ExecForSys(cmdin.Text)</span><br><span class="line">		cmdout.SetText(output)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将按钮和输入框设置在同一行,设置按钮最小大小在右边，输入框自动填充</span></span><br><span class="line">	oneline := fyne.NewContainerWithLayout(layout.NewBorderLayout(<span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>, cmdbtn), cmdin, cmdbtn)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置oneline位置最小大小在上，输出框自动填充</span></span><br><span class="line">	<span class="keyword">return</span> fyne.NewContainerWithLayout(layout.NewBorderLayout(oneline, <span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>), oneline, cmdout)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>oneline这句<br>layout.NewBorderLayout()函数使得传入的控件放入上、下、左、右位置，并且将其他未传入的控件自动延展满整个布局。使用该函数可以将命令输入的单行文本框cmdin和按钮控件cmdbtn放在同一布局，并且将cmdbtn该布局的最右边，而左侧单行文本框则自动拉伸。<br>所得到的样式如下：<br><img src="https://i.loli.net/2021/08/16/Fevx2q4OBQaoW9u.png" alt="image-1.png"><br>如不使用的话，就会每个控件单独一行，如下所示：<br><img src="https://i.loli.net/2021/08/16/1scNphjBr837Wlx.png" alt="image-2.png"><br>最后返回了一个整体布局，在return中，将单行文本框cmdin和按钮控件cmdbtn作为一个整体，与显示结果的多行文本框cmdout进行上下排列。<br>整体样式如下：<br><img src="https://i.loli.net/2021/08/16/f7CxTukVQNzivnB.png" alt="image-3.png"></p>
+<h3 id="四：执行命令功能的实现"><a href="#四：执行命令功能的实现" class="headerlink" title="四：执行命令功能的实现"></a>四：执行命令功能的实现</h3><p>上面做好整体的样式布局，剩下的就实现command.ExecForSys()函数的功能即可。<br>因为不同的操作系统命令有所不同，所以这里还是使用runtime.GOOS来判断系统类型，如下代码所示：<br>fallthrough用来强制执行后面的case中的代码，即macOS执行与linux同样一套代码。<br>另外在实验windows的时候，发现如果没有使用chcp 65001编码，那么输出的结果将会导致程序溢出而崩溃。<br>将传入的命令拼接好在使用exec.Command执行命令再将标准输出return.</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">osExec</span><span class="params">(cmdin <span class="keyword">string</span>)</span> <span class="params">(output <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cmds []<span class="keyword">string</span></span><br><span class="line">	cmdinPrefix := <span class="string">""</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> runtime.GOOS &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"darwin"</span>:</span><br><span class="line">		<span class="keyword">fallthrough</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"linux"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"/bin/sh"</span>, <span class="string">"-c"</span>)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"windows"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"cmd"</span>, <span class="string">"/c"</span>)</span><br><span class="line">		cmdinPrefix = <span class="string">"chcp 65001 &amp;&amp; "</span></span><br><span class="line">	&#125;</span><br><span class="line">	cmds = <span class="built_in">append</span>(cmds, cmdinPrefix+cmdin)</span><br><span class="line">	c := exec.Command(cmds[<span class="number">0</span>], cmds[<span class="number">1</span>:]...)</span><br><span class="line">	<span class="comment">// 获取输出对象，可以从该对象中读取输出结果</span></span><br><span class="line">	stdout, err := c.StdoutPipe()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 运行命令</span></span><br><span class="line">	<span class="keyword">if</span> err := c.Start(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	outputBytes, _ := ioutil.ReadAll(stdout)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">string</span>(outputBytes)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数大体结构如此。command包的完整代码如下，即添加了一下置顶的tips。然后合并了tips()和osExec()输出。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> command</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"runtime"</span></span><br><span class="line">	<span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tips</span><span class="params">()</span> <span class="params">(tip <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	timeUnix := time.Now().Unix() <span class="comment">//已知的时间戳</span></span><br><span class="line">	formatTimeStr := time.Unix(timeUnix, <span class="number">0</span>).Format(<span class="string">"2006-01-02 15:04:05"</span>)</span><br><span class="line"></span><br><span class="line">	tip = <span class="keyword">string</span>(<span class="string">"操作系统："</span> + runtime.GOOS + <span class="string">"\n"</span> +</span><br><span class="line">		<span class="string">"系统架构："</span> + runtime.GOARCH + <span class="string">"\n"</span> +</span><br><span class="line">		<span class="string">"系统时间："</span> + formatTimeStr + <span class="string">"\n"</span> +</span><br><span class="line">		<span class="string">"\n"</span>)</span><br><span class="line">	<span class="keyword">return</span> tip</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ExecForSys</span><span class="params">(cmdin <span class="keyword">string</span>)</span> <span class="params">(output <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> tips() + osExec(cmdin)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">osExec</span><span class="params">(cmdin <span class="keyword">string</span>)</span> <span class="params">(output <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cmds []<span class="keyword">string</span></span><br><span class="line">	cmdinPrefix := <span class="string">""</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> runtime.GOOS &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"darwin"</span>:</span><br><span class="line">		<span class="keyword">fallthrough</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"linux"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"/bin/sh"</span>, <span class="string">"-c"</span>)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"windows"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"cmd"</span>, <span class="string">"/c"</span>)</span><br><span class="line">		cmdinPrefix = <span class="string">"chcp 65001 &amp;&amp; "</span></span><br><span class="line">	&#125;</span><br><span class="line">	cmds = <span class="built_in">append</span>(cmds, cmdinPrefix+cmdin)</span><br><span class="line">	c := exec.Command(cmds[<span class="number">0</span>], cmds[<span class="number">1</span>:]...)</span><br><span class="line">	<span class="comment">// 获取输出对象，可以从该对象中读取输出结果</span></span><br><span class="line">	stdout, err := c.StdoutPipe()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 运行命令</span></span><br><span class="line">	<span class="keyword">if</span> err := c.Start(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	outputBytes, _ := ioutil.ReadAll(stdout)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">string</span>(outputBytes)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="五：整体效果"><a href="#五：整体效果" class="headerlink" title="五：整体效果"></a>五：整体效果</h3><p>以上整体的框架所展示的效果如下。各位可以根据该篇思路来编写自己的工具形成武器库扩展。<br><img src="https://i.loli.net/2021/08/16/XqoGjIKCUlVv28k.png" alt="image-4.png"></p>
+<h3 id="六：思考"><a href="#六：思考" class="headerlink" title="六：思考"></a>六：思考</h3><p>在该篇文章中，主要体现fyne的使用方法和设计思路。关于执行命令的模块编写只是一个引子，该执行本地命令模块个人觉得没啥卵用，各位可以抛砖引玉应用到POC验证、EXP利用等方面会有更好的效果。另外我也在思考如何将执行本地命令模块拆分成含有服务端、用户端、agent端的C2式模块框架，目前还在研究当中…<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Golang fyne库中文修复方案</title>
+    <url>/2021/08/09/Golang%20fyne%E5%BA%93%E4%B8%AD%E6%96%87%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>最近一直在学习GO语言，突发奇想想尝试GO的GUI开发，找了关于GUI的适用性和开发难度都比较适宜的库做对比发现还是fyne好一点。以下为关于GO语言GUI库的归档，参考：<a href="https://github.com/jobbole/awesome-go-cn/#gui" target="_blank" rel="noopener">https://github.com/jobbole/awesome-go-cn/#gui</a><br></p><a id="more"></a>
+<p><img src="https://i.loli.net/2021/08/16/o4afp9kHFVPceGs.png" alt="image.png"></p>
+<h3 id="fyne安装"><a href="#fyne安装" class="headerlink" title="fyne安装"></a>fyne安装</h3><p>首先需要检查GOPATH，若GOPATH不是当前项目的目录则需要修改一下<br>临时修改方法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">export GOPATH=<span class="string">"/Users/xxxxx/GoProjects/fynetest"</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/08/16/wR4rcLTIKxouJdG.png" alt="image-1.png"><br>随后开始安装<br>使用git上的方法安装v2版本的fyne（需要终端挂上代理），当src目录出现完整的fyne库文件才算下载好。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> get fyne.io/fyne/v2</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/08/16/lmLH6cMUpXPQF4N.png" alt="image-2.png"></p>
+<h3 id="fyne-demo"><a href="#fyne-demo" class="headerlink" title="fyne_demo"></a>fyne_demo</h3><p>采用Github上的示例demo代码做简单演示</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/app"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/container"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/widget"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a := app.New()</span><br><span class="line">	w := a.NewWindow(<span class="string">"Hello"</span>)</span><br><span class="line"></span><br><span class="line">	hello := widget.NewLabel(<span class="string">"Hello Fyne!"</span>)</span><br><span class="line">	w.SetContent(container.NewVBox(</span><br><span class="line">		hello,</span><br><span class="line">		widget.NewButton(<span class="string">"Hi!"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			hello.SetText(<span class="string">"Welcome :)"</span>)</span><br><span class="line">		&#125;),</span><br><span class="line">	))</span><br><span class="line"></span><br><span class="line">	w.ShowAndRun()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>go run运行之后即可看到一个简单的窗口。<br><img src="https://i.loli.net/2021/08/16/oRqcNZHVgUMjPJh.png" alt="image-3.png"><br>由于需求原因，想写一个中文的GUI界面，在尝试将几个关键字修改为中文之后发现程序出现乱码。<br><img src="https://i.loli.net/2021/08/16/3UL8eWkQbFDvEXx.png" alt="image-4.png"></p>
+<h3 id="修复中文问题"><a href="#修复中文问题" class="headerlink" title="修复中文问题"></a>修复中文问题</h3><h4 id="方法一：引入系统字体设置成环境变量"><a href="#方法一：引入系统字体设置成环境变量" class="headerlink" title="方法一：引入系统字体设置成环境变量"></a>方法一：引入系统字体设置成环境变量</h4><p>首先通过遍历系统字体库来查找合适的字体文件<br>示例代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"github.com/flopp/go-findfont"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fontPaths := findfont.List()</span><br><span class="line">	<span class="keyword">for</span> _, path := <span class="keyword">range</span> fontPaths &#123;</span><br><span class="line">		fmt.Println(path)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：该方式需要引入github.com/flopp/go-findfont库，需要自行下载该库<br>运行后可以发现终端输出了很多字体文件的路径<br><img src="https://i.loli.net/2021/08/16/qixJsKQlkLH8yM2.png" alt="image-5.png"><br>通过对比寻找发现在mac上”/System/Library/Fonts/STHeiti Medium.ttc”字体库适用于中文窗体<br>windows上同理，可找到”simkai.ttf”字体库<br>随后修改程序代码，添加”os.Setenv()”设置环境变量，代码如下:</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/app"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/container"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/widget"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	os.Setenv(<span class="string">"FYNE_FONT"</span>, <span class="string">"/System/Library/Fonts/STHeiti Medium.ttc"</span>) <span class="comment">//设置字体环境</span></span><br><span class="line">	a := app.New()</span><br><span class="line">	w := a.NewWindow(<span class="string">"Hello"</span>)</span><br><span class="line"></span><br><span class="line">	hello := widget.NewLabel(<span class="string">"Fyne测试1"</span>)</span><br><span class="line">	w.SetContent(container.NewVBox(</span><br><span class="line">		hello,</span><br><span class="line">		widget.NewButton(<span class="string">"点击!"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			hello.SetText(<span class="string">"Welcome :)"</span>)</span><br><span class="line">		&#125;),</span><br><span class="line">	))</span><br><span class="line"></span><br><span class="line">	w.ShowAndRun()</span><br><span class="line">	os.Unsetenv(<span class="string">"FYNE_FONT"</span>) <span class="comment">//取消环境变量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>需要注意的是在程序末尾要添加”os.Unsetenv(“FYNE_FONT”)”取消环境变量。<br>运行代码即可看到程序已正常显示中文<br><img src="https://i.loli.net/2021/08/16/EAmSaJNz1VRMy8W.png" alt="image.png"><br>但是该方法存在一个问题就是当跨平台时可能存在找不到字体文件而导致字体依旧乱码。该方法适合调试时使用，不适合编译后跨平台使用。</p>
+<h4 id="方法二：将字体文件编译进程序"><a href="#方法二：将字体文件编译进程序" class="headerlink" title="方法二：将字体文件编译进程序"></a>方法二：将字体文件编译进程序</h4><p>首先需要下载阿里巴巴普惠体文件Alibaba-PuHuiTi-Medium.ttf以及fyne官方cmd工具，见文末附件<br>先将普惠字体文件转换成go文件</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fyne bundle Alibaba-PuHuiTi-Medium.ttf &gt; bundle.<span class="keyword">go</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/08/16/OHjebgi6Gm3Xa9n.png" alt="image-1.png"><br>检查bundle.go文件发现是将字体文件转换成二进制并定义resourceAlibabaPuHuiTiMediumTtf调用<br><img src="https://i.loli.net/2021/08/16/ObEq9dN265MY3LX.png" alt="image-2.png"><br>修改bundle.go中package包名为theme，新建一个theme目录并且在其中新建theme.go文件<br><img src="https://i.loli.net/2021/08/16/pIUKwxomhLOVCta.png" alt="image-3.png"><br>theme.go代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> theme</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fyne.io/fyne/v2"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/theme"</span></span><br><span class="line">	<span class="string">"image/color"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MyTheme <span class="keyword">struct</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _ fyne.Theme = (*MyTheme)(<span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyTheme)</span> <span class="title">Font</span><span class="params">(s fyne.TextStyle)</span> <span class="title">fyne</span>.<span class="title">Resource</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ResourceAlibabaPuHuiTiMediumTtf <span class="comment">//ResourceSourceHanSansTtf 即是 bundle.go 文件中 var 的变量名</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*MyTheme)</span> <span class="title">Color</span><span class="params">(n fyne.ThemeColorName, v fyne.ThemeVariant)</span> <span class="title">color</span>.<span class="title">Color</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> theme.DefaultTheme().Color(n, v)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*MyTheme)</span> <span class="title">Icon</span><span class="params">(n fyne.ThemeIconName)</span> <span class="title">fyne</span>.<span class="title">Resource</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> theme.DefaultTheme().Icon(n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*MyTheme)</span> <span class="title">Size</span><span class="params">(n fyne.ThemeSizeName)</span> <span class="title">float32</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> theme.DefaultTheme().Size(n)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：theme.go 中ResourceAlibabaPuHuiTiMediumTtf会报红，但是不影响编译运行<br>随后在main.go窗体程序运行过程中引入中文字体主题的theme.go代码，在头文件中也需要导入theme包，完整代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"./theme"</span><span class="comment">//导入theme包</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/app"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/container"</span></span><br><span class="line">	<span class="string">"fyne.io/fyne/v2/widget"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	a := app.New()</span><br><span class="line">	a.Settings().SetTheme(&amp;theme.MyTheme&#123;&#125;)<span class="comment">//引入中文主题</span></span><br><span class="line">	w := a.NewWindow(<span class="string">"Hello"</span>)</span><br><span class="line"></span><br><span class="line">	hello := widget.NewLabel(<span class="string">"Fyne测试1"</span>)</span><br><span class="line">	w.SetContent(container.NewVBox(</span><br><span class="line">		hello,</span><br><span class="line">		widget.NewButton(<span class="string">"点击!"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			hello.SetText(<span class="string">"Welcome :)"</span>)</span><br><span class="line">		&#125;),</span><br><span class="line">	))</span><br><span class="line"></span><br><span class="line">	w.ShowAndRun()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>go build编译程序并运行，程序即正常显示中文。<br><img src="https://i.loli.net/2021/08/16/Gd2bNope1XFzscf.png" alt="image-4.png"><br>该方法适合编译跨平台程序使用，但是有个不足是因为将字体文件（大小24M）编译进程序的原因，所以编译一个简单的程序都会有24M体积。<br>以上两种方式各有各的好处，根据需求取舍。</p>
+<h3 id="思考："><a href="#思考：" class="headerlink" title="思考："></a>思考：</h3><p>写完这篇文章的时候突然想到可以根据第一种方法的扩展，那就是先找好win、mac、linux等自己需要跨平台系统上字体文件的具体路径，然后使用runtime.GOOS判断操作系统类型，根据类型调用相应的字体文件来达到不需要将字体文件编译进程序即可正常显示中文字体的目的，并且还减少了因字体文件过大导致程序也相应过大的问题。</p>
+]]></content>
+      <tags>
+        <tag>Golang</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图像情报挖掘 - 简单练习</title>
+    <url>/2021/07/28/%E5%9B%BE%E5%83%8F%E6%83%85%E6%8A%A5%E6%8C%96%E6%8E%98%20-%20%E7%AE%80%E5%8D%95%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<p>在贴吧偶然看到一个吧友发出求照片位置的帖子，贴文如下：<br><img src="https://i.loli.net/2021/08/16/PfgoxcYR1WpLaez.png" alt="image.png"><br>所给信息已有</p><a id="more"></a>
+<ul>
+<li>拍摄城市在重庆</li>
+<li>图片中泥黄色河流为嘉陵江</li>
+<li>发帖时间为2021年7月26日下午15点48分</li>
+</ul>
+<p>再瞧瞧这张图片中有什么信息，原图如下：<br><img src="https://i.loli.net/2021/08/16/sKWU6nVQEBcLRov.jpg" alt="f04bb2a1cd11728bae092794dffcc3cec3fd2c2f.jpg"><br>1、我们可以看到一个很明显的标志性信号塔及一个存在圆顶的建筑。由于楼顶的大字招牌模糊不清，所以暂不考虑，但可以确定的是为4个字<br><img src="https://i.loli.net/2021/08/16/C2birLIdgRYMDpH.png" alt="image.png"><br>2、一条地铁和一条沿江公路<br><img src="https://i.loli.net/2021/08/16/SP9Mm6rGWuLnlh8.png" alt="image.png"><br>PS：起初以为下面那条沿江公路也是地跌线路，因为中间有一部分很像是地铁（箭头左边一点），但是放大细看并不是。并且图中有很多红蓝色素块干扰，导致不细看的话就会产生误导。<br>原因如下：<br>1）、红蓝色素块<br>放大图片到一定程度，我们可以发现图片中存在许多红蓝色素块，这是由于受强光（如太阳反光）或其他环境因素影响，使得摄像头内的 cmos 传感器受损，轻则影响成像，出现坏点，所以应当排除红蓝色素块影响。参考：<a href="https://www.gjy5.com/article/381.html" target="_blank" rel="noopener">https://www.gjy5.com/article/381.html</a><br></p>
+<p><img src="https://i.loli.net/2021/08/16/miT7p548sbV9wER.png" alt="image-1.png"><br>2）、车辆<br>在同方向道路上，若真为地铁线路，那为何会有汽车、公交等车辆出现<br></p>
+<p><img src="https://i.loli.net/2021/08/16/qAPc4VE8pj7WvdH.png" alt="image-2.png"><br>综上两点，断定这条路为公路，不为地铁线路<br>3、拍摄者所在楼前有一个相对低矮的楼，且存在突出的圆形阳台<br></p>
+<p><img src="https://i.loli.net/2021/08/16/tbRcPCH9qySIJEg.png" alt="image-3.png"><br>4、图中有一大片绿色树林，猜测大致为公园类<br></p>
+<p><img src="https://i.loli.net/2021/08/16/EJOBgj8AS4zmYMX.png" alt="image.png"><br>所有能看出来的信息大致为以上4点，下面开始找位置。<br>首先使用百度地图，搜索“重庆市嘉陵江”。搜索结果存在很多，我们需要沿着这条江结合地图一路找下去。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/Ng7MzqkblInQdX8.png" alt="image-1.png"><br>点开第一个位置，巧合的是，这个位置刚好有一个公园和一个地铁线路<br></p>
+<p><img src="https://i.loli.net/2021/08/16/FlTu1izvkqVGaW2.png" alt="image-2.png"><br>点开全景地图去看实地场景，emmmmmm<br></p>
+<p><img src="https://i.loli.net/2021/08/16/2z87FeJ5MjIA1Y3.png" alt="image-3.png"><br>居然就是我们要找的目标。信号塔，地铁线路和沿江公路都对的上。<br>调转角度，看向正后方，发现是一个小区，而这个小区便是拍摄者所在的位置。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/Whz5vOx92SNFADQ.png" alt="image.png"><br>使用普通地图，发现该小区叫做“金砂水岸”。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/67Swzq2XUDdThA9.png" alt="image-1.png"><br>但是这个小区有前面3栋矮楼，和后面3栋高一点的楼，哪个才是拍摄者的具体位置呢？<br></p>
+<p><img src="https://i.loli.net/2021/08/16/yJ7A9nOrcoLeq4Y.png" alt="image-2.png"><br>回到原来的拍摄者图片，发现信号塔（大致上）处于图片的正中间位置，所以可以知道拍摄者的手机一定是正对着信号塔的。（手画的，将就着看吧，红色是想象中的手机）<br></p>
+<p><img src="https://i.loli.net/2021/08/16/TBOCbzENjwtDoWv.png" alt="image-3.png"><br>我们只要以信号塔和某个正中间绿线上的点画一条射线，即可找到拍摄者所在的楼。<br>仔细在图中寻找，可以找到一个白色的柱子也同在绿色中间线上<br></p>
+<p><img src="https://i.loli.net/2021/08/16/hJMs9H7B48y2WR1.png" alt="image-4.png"><br>找到了这两个点，剩下就开始在地图上标点划线即可。<br>根据信号塔处在山顶的特征，很快就在卫星地图上找到了信号塔，并且发现旁边确实存在一个圆顶型建筑（卫星地图为俯视图，若看不出来信号塔，可以将图片旋转180度）<br> </p>
+<p><img src="https://i.loli.net/2021/08/16/IjPEKxJRdhHYbCD.png" alt="image.png"><br>关于白色柱子直接用俯视图看肯定是不直观的，因为它有可能是一个点状，我们可以看到原图中白色柱子右边有一个左边矮右边呈阶梯状的楼。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/QunmhEVWBDMXjFv.png" alt="image-1.png"><br>在卫星地图上寻找到了符合这个特征的“畔江楼小区”，而右边的两个阴影部分很有可能是我们所需要的“白柱子”。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/5fV32WDeLUjawNi.png" alt="image-2.png"><br>用全景地图查看，发现应该就是靠右边的这个了。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/bULhj7CcFVBRvOY.png" alt="image-3.png"><br>标号点划线发现恰好穿过2栋楼<br></p>
+<p><img src="https://i.loli.net/2021/08/16/YTP67xf9mlkyjrZ.png" alt="image.png"><br>把图像放大稍作标记，如下图所示。拍摄者应该就是在第6栋了，而他照片里的矮楼就应该是第3栋了<br></p>
+<p><img src="https://i.loli.net/2021/08/16/2KfDCpyRzgmq5eH.png" alt="image-1.png"><br>用全景地图看如下，突出的圆形阳台也同样符合拍摄者的照片<br></p>
+<p><img src="https://i.loli.net/2021/08/16/jZALoeEzDOyRVr8.png" alt="image-2.png"><br>使用搜索引擎搜索“重庆 金砂水岸第6栋户型图”<br></p>
+<p><img src="https://i.loli.net/2021/08/16/5QehBcRCpAJGm1v.png" alt="image-3.png"><br>可以看到有几条结果，其结果中均为房源信息。<br>仔细检索每条信息发现，金砂水岸楼层分别是18层、25层、31、32层等等<br></p>
+<p><img src="https://i.loli.net/2021/08/16/COdesWfkm9t6Dou.png" alt="image.png"><br></p>
+<p><img src="https://i.loli.net/2021/08/16/k2JNATusQBCH6pd.png" alt="image-1.png"><br></p>
+<p><img src="https://i.loli.net/2021/08/16/6qk7oWsDQlxcyBH.png" alt="image-2.png"></p>
+<p>最高的就不用管了，我们只需要看哪个楼层符合“第3栋”楼层，打开全景地图找个清晰的角度查看“第3栋”楼，大致数了一下肯定超过18层楼。那暂且给他按个25层的帽子吧。<br></p>
+<p><img src="https://i.loli.net/2021/08/16/Av3nr5Wxf1upZ6b.png" alt="image-3.png"><br>而拍摄者的照片可以看到一定高于“第3栋”楼，那么拍摄者所处的位置应该为25层往上。（感觉快到顶楼了）<br></p>
+<p><img src="https://i.loli.net/2021/08/16/EF56PlVeUtqCIkJ.png" alt="image-4.png"><br><br><br><br><br><br><br><br><br></p>
+]]></content>
+      <tags>
+        <tag>情报</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从0到1编写免杀生成器</title>
     <url>/2021/07/23/%E4%BB%8E0%E5%88%B01%E7%BC%96%E5%86%99%E5%85%8D%E6%9D%80%E7%94%9F%E6%88%90%E5%99%A8/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>免杀生成器的用途旨在攻防对抗中快速生成符合环境需求的免杀木马，减少因更换shellcode、加密方式或免杀方式被记录特征等因素而需从源码上进行修改编译的时间、学习成本。遂编写一款属于自己的免杀生成器形成自己的武器库是一件十分有意义的事情。<br></p><a id="more"></a>
@@ -2561,155 +2675,6 @@
       </tags>
   </entry>
   <entry>
-    <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
-    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
-    <content><![CDATA[<blockquote>
-<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md</a></p>
-</blockquote><a id="more"></a>
-<ul>
-<li><a href="#面试问题记录">面试问题记录</a><ul>
-<li><a href="#360">360</a><ul>
-<li><a href="#sql的存储引擎">SQL的存储引擎</a></li>
-<li><a href="#sql注入写shell的条件用法">SQL注入写shell的条件，用法</a></li>
-<li><a href="#gpc是什么开启了怎么绕过">GPC是什么？开启了怎么绕过</a></li>
-<li><a href="#mysql一个和两个什么区别">Mysql一个@和两个@什么区别</a></li>
-<li><a href="#iis解析漏洞不同版本有什么漏洞还有什么容器解析漏洞">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</a></li>
-<li><a href="#wireshark抓包数据报经过三层交换机路由的变化nat协议描述地址进入内网怎么变化">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</a></li>
-<li><a href="#linux计划任务黑客隐藏自己的计划任务会怎么做windows计划任务怎么设定">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</a></li>
-<li><a href="#挖过最难的漏洞是什么">挖过最难的漏洞是什么</a></li>
-</ul>
-</li>
-<li><a href="#ukelink">ukelink</a><ul>
-<li><a href="#病毒和蠕虫的区别">病毒和蠕虫的区别</a></li>
-<li><a href="#dns欺骗是什么">DNS欺骗是什么</a></li>
-<li><a href="#DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</a></li>
-<li><a href="#陆地land攻击是什么">陆地land攻击是什么</a></li>
-<li><a href="#xss有什么执行存储型的xss的危害和原理">xss有什么？执行存储型的xss的危害和原理</a></li>
-<li><a href="#渗透测试流程不够清晰太浅显">渗透测试流程？（不够清晰，太浅显</a></li>
-<li><a href="#有没有移动端的调试经验-apkipa包分析">有没有移动端的调试经验 apk,ipa包分析</a></li>
-<li><a href="#对于云安全的理解">对于云安全的理解</a></li>
-<li><a href="#虚拟机逃逸的理解">虚拟机逃逸的理解</a></li>
-<li><a href="#英语介绍一下自己">英语介绍一下自己</a></li>
-<li><a href="#职业路径">职业路径</a></li>
-<li><a href="#大学做过什么相关的事情">大学做过什么相关的事情</a></li>
-<li><a href="#在工作会做什么来不断提高自己的能力">在工作会做什么来不断提高自己的能力</a></li>
-</ul>
-</li>
-<li><a href="#卓望">卓望</a><ul>
-<li><a href="#渗透测试流程">渗透测试流程</a></li>
-<li><a href="#描述渗透项目做了什么">描述渗透项目，做了什么</a></li>
-<li><a href="#xss漏洞类型详情修复方案">xss漏洞类型、详情、修复方案</a></li>
-<li><a href="#sql注入原理类型waf绕过写shell提权修复方案">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</a></li>
-<li><a href="#终端的渗透经验">终端的渗透经验</a></li>
-<li><a href="#了解什么比较新的漏洞">了解什么比较新的漏洞</a></li>
-<li><a href="#企业内部安全">企业内部安全</a></li>
-</ul>
-</li>
-<li><a href="#安巽">安巽</a><ul>
-<li><a href="#算法了解过什么排序">算法？了解过什么排序？</a></li>
-<li><a href="#爬虫">爬虫</a><ul>
-<li><a href="#页面存在很多js的时候用什么">页面存在很多js的时候，用什么</a></li>
-<li><a href="#爬虫的待爬取url量级比较大的时候如何对其去重">爬虫的待爬取URL量级比较大的时候，如何对其去重</a></li>
-<li><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么">多线程 异步 协程 多路复用 用哪一个最快 为什么</a></li>
-</ul>
-</li>
-<li><a href="#浏览器的常用编码">浏览器的常用编码</a></li>
-<li><a href="#web常用的加密算法有什么">web常用的加密算法有什么</a></li>
-<li><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</a></li>
-<li><a href="#mysql中like查询会会非常缓慢如何进行优化">mysql中like查询会会非常缓慢，如何进行优化</a></li>
-<li><a href="#做了cdn的网站如何获取真实ip">做了cdn的网站如何获取真实IP</a></li>
-<li><a href="#渗透的时候如何隐藏自己的身份">渗透的时候如何隐藏自己的身份</a></li>
-<li><a href="#主机疑似遭到入侵要看哪里的日志">主机疑似遭到入侵，要看哪里的日志</a></li>
-<li><a href="#sql注入漏洞怎么修复">SQL注入漏洞怎么修复</a></li>
-</ul>
-</li>
-<li><a href="#长亭">长亭</a><ul>
-<li><a href="#安全研究的方面做过哪些渗透测试的工作">安全研究的方面？做过哪些渗透测试的工作？</a></li>
-<li><a href="#只给你一个网址如何进行渗透测试">只给你一个网址，如何进行渗透测试</a></li>
-<li><a href="#SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？">SQL注入，id=1如何检测？order by怎么利用？limit语句怎么利用？盲注有什么？</a></li>
-<li><a href="#sleep被禁用后还能怎么进行sql注入">sleep被禁用后还能怎么进行sql注入</a></li>
-<li><a href="#xss可以控制属性怎么利用">XSS可以控制属性怎么利用</a></li>
-<li><a href="#csrf怎么防护">CSRF怎么防护？</a></li>
-<li><a href="#请求头中哪些是有危害的">请求头中哪些是有危害的？</a></li>
-<li><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</a></li>
-<li><a href="#java中间件的漏洞举几个例子">JAVA中间件的漏洞，举几个例子？</a></li>
-<li><a href="#iis常见的漏洞">IIS常见的漏洞</a></li>
-<li><a href="#python有哪些框架其中出现过哪些漏洞">python有哪些框架，其中出现过哪些漏洞</a></li>
-<li><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</a></li>
-<li><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</a></li>
-<li><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</a></li>
-</ul>
-</li>
-<li><a href="#盛邦">盛邦</a><ul>
-<li><a href="#有没有做过协议分析和抓包分析">有没有做过协议分析和抓包分析</a></li>
-</ul>
-</li>
-<li><a href="#翼果">翼果</a><ul>
-<li><a href="#mysql查看版本">mysql查看版本？</a></li>
-<li><a href="#过安全狗">过安全狗</a></li>
-<li><a href="#编程能力平台逆向修改程序入口rootkit有没有研究过">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="面试问题记录"><a href="#面试问题记录" class="headerlink" title="面试问题记录"></a>面试问题记录</h1><blockquote>
-<p>CONTACT ME: github.com/leezj9671</p>
-</blockquote>
-<h2 id="360"><a href="#360" class="headerlink" title="360"></a>360</h2><h3 id="SQL的存储引擎"><a href="#SQL的存储引擎" class="headerlink" title="SQL的存储引擎"></a>SQL的存储引擎</h3><h3 id="SQL注入写shell的条件，用法"><a href="#SQL注入写shell的条件，用法" class="headerlink" title="SQL注入写shell的条件，用法"></a>SQL注入写shell的条件，用法</h3><h3 id="GPC是什么？开启了怎么绕过"><a href="#GPC是什么？开启了怎么绕过" class="headerlink" title="GPC是什么？开启了怎么绕过"></a>GPC是什么？开启了怎么绕过</h3><h3 id="Mysql一个-和两个-什么区别"><a href="#Mysql一个-和两个-什么区别" class="headerlink" title="Mysql一个@和两个@什么区别"></a>Mysql一个@和两个@什么区别</h3><h3 id="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><a href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞" class="headerlink" title="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"></a>IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</h3><h3 id="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><a href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化" class="headerlink" title="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"></a>wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</h3><h3 id="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><a href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定" class="headerlink" title="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"></a>linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</h3><p>三种主要的at batch cron，一般使用cron在规定的时间执行命令</p>
-<h3 id="挖过最难的漏洞是什么"><a href="#挖过最难的漏洞是什么" class="headerlink" title="挖过最难的漏洞是什么"></a>挖过最难的漏洞是什么</h3><h2 id="ukelink"><a href="#ukelink" class="headerlink" title="ukelink"></a>ukelink</h2><h3 id="病毒和蠕虫的区别"><a href="#病毒和蠕虫的区别" class="headerlink" title="病毒和蠕虫的区别"></a>病毒和蠕虫的区别</h3><h3 id="DNS欺骗是什么"><a href="#DNS欺骗是什么" class="headerlink" title="DNS欺骗是什么"></a>DNS欺骗是什么</h3><p>定义： DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。 原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
-<h3 id="DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><a href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议" class="headerlink" title="DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议"></a>DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</h3><p>SYN攻击 防火墙、特征匹配<br>ACK FLOOD<br>UDP FLOOD<br>ICMP FLOOD<br>CC http的get请求<br>陆地攻击 源IP和目的IP都为同一个<br>UDP DNS QUERY 向被攻击的服务器发送大量的域名解析请求，通常请求解析的域名是随机生成或者是网络世界上根本不存在的域名，被攻击的DNS 服务器在接收到域名解析请求的时候首先会在服务器上查找是否有对应的缓存，如果查找不到并且该域名无法直接由服务器解析的时候，DNS 服务器会向其上层DNS服务器递归查询域名信息</p>
-<h3 id="陆地land攻击是什么"><a href="#陆地land攻击是什么" class="headerlink" title="陆地land攻击是什么"></a>陆地land攻击是什么</h3><h3 id="xss有什么？执行存储型的xss的危害和原理"><a href="#xss有什么？执行存储型的xss的危害和原理" class="headerlink" title="xss有什么？执行存储型的xss的危害和原理"></a>xss有什么？执行存储型的xss的危害和原理</h3><h3 id="渗透测试流程？（不够清晰，太浅显"><a href="#渗透测试流程？（不够清晰，太浅显" class="headerlink" title="渗透测试流程？（不够清晰，太浅显"></a>渗透测试流程？（不够清晰，太浅显</h3><h3 id="有没有移动端的调试经验-apk-ipa包分析"><a href="#有没有移动端的调试经验-apk-ipa包分析" class="headerlink" title="有没有移动端的调试经验 apk,ipa包分析"></a>有没有移动端的调试经验 apk,ipa包分析</h3><h3 id="对于云安全的理解"><a href="#对于云安全的理解" class="headerlink" title="对于云安全的理解"></a>对于云安全的理解</h3><p>权限管理，内网威胁，信息泄露，过于依赖托管厂商</p>
-<h3 id="虚拟机逃逸的理解"><a href="#虚拟机逃逸的理解" class="headerlink" title="虚拟机逃逸的理解"></a>虚拟机逃逸的理解</h3><p>虚拟机之间通信或上层主机的通信</p>
-<h3 id="英语介绍一下自己"><a href="#英语介绍一下自己" class="headerlink" title="英语介绍一下自己"></a>英语介绍一下自己</h3><h3 id="职业路径"><a href="#职业路径" class="headerlink" title="职业路径"></a>职业路径</h3><h3 id="大学做过什么相关的事情"><a href="#大学做过什么相关的事情" class="headerlink" title="大学做过什么相关的事情"></a>大学做过什么相关的事情</h3><h3 id="在工作会做什么来不断提高自己的能力"><a href="#在工作会做什么来不断提高自己的能力" class="headerlink" title="在工作会做什么来不断提高自己的能力"></a>在工作会做什么来不断提高自己的能力</h3><h2 id="卓望"><a href="#卓望" class="headerlink" title="卓望"></a>卓望</h2><h3 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h3><h3 id="描述渗透项目，做了什么"><a href="#描述渗透项目，做了什么" class="headerlink" title="描述渗透项目，做了什么"></a>描述渗透项目，做了什么</h3><h3 id="xss漏洞类型、详情、修复方案"><a href="#xss漏洞类型、详情、修复方案" class="headerlink" title="xss漏洞类型、详情、修复方案"></a>xss漏洞类型、详情、修复方案</h3><h3 id="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><a href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案" class="headerlink" title="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"></a>SQL注入原理、类型，waf绕过，写shell，提权，修复方案</h3><h3 id="终端的渗透经验"><a href="#终端的渗透经验" class="headerlink" title="终端的渗透经验"></a>终端的渗透经验</h3><h3 id="了解什么比较新的漏洞"><a href="#了解什么比较新的漏洞" class="headerlink" title="了解什么比较新的漏洞"></a>了解什么比较新的漏洞</h3><h3 id="企业内部安全"><a href="#企业内部安全" class="headerlink" title="企业内部安全"></a>企业内部安全</h3><p>信息安全管理的本质就是输入和输出。一般防范的风险为物理威胁和网络威胁。<br>防范风险可以从制度和流程（人员入离职流程、权限申请流程）、人员配备和知识积累、风险防范（物理威胁：门禁、监控、禁止USB设备接入、封闭PC、定时巡检；网络威胁：部署行为管控设备、可靠的网络结构、IP和MAC地址绑定，将网络行为分组、限制不必要的软件和通信协议、定期审核日志）</p>
-<h2 id="安巽"><a href="#安巽" class="headerlink" title="安巽"></a>安巽</h2><h3 id="算法？了解过什么排序？"><a href="#算法？了解过什么排序？" class="headerlink" title="算法？了解过什么排序？"></a>算法？了解过什么排序？</h3><p>快速排序 冒泡排序</p>
-<h3 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h3><h4 id="页面存在很多js的时候，用什么"><a href="#页面存在很多js的时候，用什么" class="headerlink" title="页面存在很多js的时候，用什么"></a>页面存在很多js的时候，用什么</h4><p>phnatomJS selenium execjs</p>
-<h4 id="爬虫的待爬取URL量级比较大的时候，如何对其去重"><a href="#爬虫的待爬取URL量级比较大的时候，如何对其去重" class="headerlink" title="爬虫的待爬取URL量级比较大的时候，如何对其去重"></a>爬虫的待爬取URL量级比较大的时候，如何对其去重</h4><ul>
-<li>在数据库中创建字段的UNIQUE属性：对于在数据库中创建字段的UNIQUE属性， 的确是可以避免一些重复性操作。不过在多次MySQL报错之后，程序可能会直接崩溃，因此这种方式不可取</li>
-<li>在数据库中创建一个唯一的索引，在插入数据之前检查待插入的数据是否存在：如果我们要在每一次插入数据之前都去检查待插入的数据是否存在，这样势必会影响程序的效率</li>
-<li>使用Set或HashSet保存数据，确保唯一。可以使用redis，但是内存占用大</li>
-<li>使用Map或是一个定长数组记录某一个URL是否被访问过</li>
-<li>布隆过滤器(bloom filter)，bitmap</li>
-</ul>
-<h4 id="多线程-异步-协程-多路复用-用哪一个最快-为什么"><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么" class="headerlink" title="多线程 异步 协程 多路复用 用哪一个最快 为什么"></a>多线程 异步 协程 多路复用 用哪一个最快 为什么</h4><blockquote>
-<p><a href="https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3" target="_blank" rel="noopener">https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3</a></p>
-</blockquote>
-<p>线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。线程的引入减小了程序并发执行时的开销，提高了操作系统的并发性能。线程没有自己的系统资源。</p>
-<p>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</p>
-<p>协程是一种用户态的轻量级线程，拥有自己的寄存器上下文和栈</p>
-<p>IO多路复用 异步阻塞IO 线程轮询IO</p>
-<h3 id="浏览器的常用编码"><a href="#浏览器的常用编码" class="headerlink" title="浏览器的常用编码"></a>浏览器的常用编码</h3><p>一开始我以为是说字符编码，有UTF8 Unicode GBK。面试官还几番提醒我也没答上来。回来一想，我觉得他应该问的是content-type。 <a href="http://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">http://www.runoob.com/http/http-content-type.html</a> </p>
-<h3 id="web常用的加密算法有什么"><a href="#web常用的加密算法有什么" class="headerlink" title="web常用的加密算法有什么"></a>web常用的加密算法有什么</h3><p>非对称加密  RSA、ElGamal、Rabin<br>对称加密 DES、3DES、AES<br>散列算法 MD5 SHA base64</p>
-<h3 id="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？" class="headerlink" title="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"></a>有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</h3><p>拿下机器后<br>内网渗透使用代理访问内网 windows环境：reGeorg与proxifier Linux（kali-linux）环境：reGeorg与proxychains，使用nmap等工具进行扫描，发现web服务的主机和其它信息。有时这些边界机器上会记录一些内网服务器上的一些信息（用户 ssh known_hosts  hosts 防火墙设置 记录、内网之间好多waf 规则基本都是空，大多数waf防外部威胁  这时候可以拿到探测的内部一些开放的端口判断进行渗透，通常用户这里基本是统一命名的   拿到的各种记录 会暴露出部分内网通讯的ip</p>
-<p>内网内弱口令占大多数 FTP MSSQL 远程桌面链接</p>
-<h3 id="mysql中like查询会会非常缓慢，如何进行优化"><a href="#mysql中like查询会会非常缓慢，如何进行优化" class="headerlink" title="mysql中like查询会会非常缓慢，如何进行优化"></a>mysql中like查询会会非常缓慢，如何进行优化</h3><p>分词索引</p>
-<h3 id="做了cdn的网站如何获取真实IP"><a href="#做了cdn的网站如何获取真实IP" class="headerlink" title="做了cdn的网站如何获取真实IP"></a>做了cdn的网站如何获取真实IP</h3><ol>
-<li>多地ping看是否有cdn</li>
-<li>邮件订阅或者rss订阅</li>
-<li>二级域名可能不会做cdn</li>
-<li>nslookup <a href="http://xxx.com" target="_blank" rel="noopener">http://xxx.com</a> 国外dns</li>
-<li>查找域名历史解析记录，因为域名在上CDN之前用的IP，很有可能就是CDN的真实源IP地址 <a href="https://toolbar.netcraft.com/site_report?url=www.xxx.com" target="_blank" rel="noopener">https://toolbar.netcraft.com/site_report?url=www.xxx.com</a></li>
-<li>phpinfo上显示的信息</li>
-</ol>
-<h3 id="渗透的时候如何隐藏自己的身份"><a href="#渗透的时候如何隐藏自己的身份" class="headerlink" title="渗透的时候如何隐藏自己的身份"></a>渗透的时候如何隐藏自己的身份</h3><h3 id="主机疑似遭到入侵，要看哪里的日志"><a href="#主机疑似遭到入侵，要看哪里的日志" class="headerlink" title="主机疑似遭到入侵，要看哪里的日志"></a>主机疑似遭到入侵，要看哪里的日志</h3><h3 id="SQL注入漏洞怎么修复"><a href="#SQL注入漏洞怎么修复" class="headerlink" title="SQL注入漏洞怎么修复"></a>SQL注入漏洞怎么修复</h3><h2 id="长亭"><a href="#长亭" class="headerlink" title="长亭"></a>长亭</h2><h3 id="安全研究的方面？做过哪些渗透测试的工作？"><a href="#安全研究的方面？做过哪些渗透测试的工作？" class="headerlink" title="安全研究的方面？做过哪些渗透测试的工作？"></a>安全研究的方面？做过哪些渗透测试的工作？</h3><h3 id="只给你一个网址，如何进行渗透测试"><a href="#只给你一个网址，如何进行渗透测试" class="headerlink" title="只给你一个网址，如何进行渗透测试"></a>只给你一个网址，如何进行渗透测试</h3><h3 id="SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><a href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？" class="headerlink" title="SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"></a>SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</h3><h3 id="sleep被禁用后还能怎么进行sql注入"><a href="#sleep被禁用后还能怎么进行sql注入" class="headerlink" title="sleep被禁用后还能怎么进行sql注入"></a>sleep被禁用后还能怎么进行sql注入</h3><p>BENCHMARK，Get_lock函数，当都被禁用后可以用计算量比较大的语句使数据库查询时间变长，从而达到延时注入的效果。<br>mysql：<code>AND (SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.SCHEMATA C);</code></p>
-<h3 id="XSS可以控制属性怎么利用"><a href="#XSS可以控制属性怎么利用" class="headerlink" title="XSS可以控制属性怎么利用"></a>XSS可以控制属性怎么利用</h3><h3 id="CSRF怎么防护？"><a href="#CSRF怎么防护？" class="headerlink" title="CSRF怎么防护？"></a>CSRF怎么防护？</h3><p>尽量使用POST，限制GET；浏览器Cookie策略；加验证码； Referer Check；Anti CSRF Token</p>
-<h3 id="请求头中哪些是有危害的？"><a href="#请求头中哪些是有危害的？" class="headerlink" title="请求头中哪些是有危害的？"></a>请求头中哪些是有危害的？</h3><p>Cookie</p>
-<h3 id="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过" class="headerlink" title="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"></a>XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</h3><p>xxe常见场景是如pdf在线解析、word在线解析、定制协议，留言板等，跟逻辑设计有关而与语言无关，最好是不要让XML作为参数传输或整体结构可被用户篡改。如果一定要使用，至少要禁用DTD、Entity。<br>xxe危害 读取本地文件，执行系统命令，探测内网端口，攻击内网服务<br>探测内网端口的协议有gopher file dict，不同语言支持不同的协议，是具体情况而定 file http ftp是常用的</p>
-<p>防范，python用lxml时可以对resolve_entities设为false。或者过滤用户提交的xml</p>
-<p>客户端也可以有xxe攻击，有的网站会使用office打开docx进行解析<br>Java解析XML的常用三方库，如果不禁用DTD、Entity都会导致XXE漏洞：</p>
-<p>javax.xml.stream.XMLStreamReader;</p>
-<p>javax.xml.parsers.DocumentBuilderFactory;</p>
-<h3 id="JAVA中间件的漏洞，举几个例子？"><a href="#JAVA中间件的漏洞，举几个例子？" class="headerlink" title="JAVA中间件的漏洞，举几个例子？"></a>JAVA中间件的漏洞，举几个例子？</h3><p>常见的是反序列化漏洞</p>
-<h3 id="IIS常见的漏洞"><a href="#IIS常见的漏洞" class="headerlink" title="IIS常见的漏洞"></a>IIS常见的漏洞</h3><p>常见的为解析漏洞，6.0有<br>/test.asp/test.jpg<br>  test.asp;.jpg<br>  7.5有test.jpg/.php，默认后缀IIS默认地还会解析其他后缀的文件为asp文件，比如cer asa cdx<br>  原理大抵是IIS 5.x/6.0在从文件路径中读取文件后缀时，遇到一个“.”后，便进入了一种截断状态，在该状态下遇到特殊符号——“/”和“;”，都会进行截断，只保留特殊符号前的部分，即：“.asp”，从而认为文件后缀为“.asp”。</p>
-<h3 id="python有哪些框架，其中出现过哪些漏洞"><a href="#python有哪些框架，其中出现过哪些漏洞" class="headerlink" title="python有哪些框架，其中出现过哪些漏洞"></a>python有哪些框架，其中出现过哪些漏洞</h3><p>flask的模板注入 模板注入和常见Web注入的成因一样，也是服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。<br>模板字符串中字符串拼接或替换可能会导致敏感信息泄露，获取变量值<br>如果开发者在flask使用字符串格式化，来将用户输入动态地加入到模板字符串中，而不是通过render_template_string函数，该函数不会对输入进行实体转义将URL传递进入模板内容当中，会导致xss的产生。<br>还可以利用模板中html标签属性字段绕过xss过滤。</p>
-<p>Django出现过目录遍历漏洞</p>
-<h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
-<h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>]]></content>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>个人准备渗透测试和安全面试的经验之谈（3）</title>
     <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%883%EF%BC%89/</url>
     <content><![CDATA[<blockquote>
@@ -3663,6 +3628,155 @@
 <p><a href="http://www.4hou.com/technology/9090.html" target="_blank" rel="noopener">http://www.4hou.com/technology/9090.html</a><br><a href="https://blog.csdn.net/quiet_girl/article/details/50716312" target="_blank" rel="noopener">https://blog.csdn.net/quiet_girl/article/details/50716312</a></p>
 </blockquote>
 ]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
+    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
+    <content><![CDATA[<blockquote>
+<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#面试问题记录">面试问题记录</a><ul>
+<li><a href="#360">360</a><ul>
+<li><a href="#sql的存储引擎">SQL的存储引擎</a></li>
+<li><a href="#sql注入写shell的条件用法">SQL注入写shell的条件，用法</a></li>
+<li><a href="#gpc是什么开启了怎么绕过">GPC是什么？开启了怎么绕过</a></li>
+<li><a href="#mysql一个和两个什么区别">Mysql一个@和两个@什么区别</a></li>
+<li><a href="#iis解析漏洞不同版本有什么漏洞还有什么容器解析漏洞">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</a></li>
+<li><a href="#wireshark抓包数据报经过三层交换机路由的变化nat协议描述地址进入内网怎么变化">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</a></li>
+<li><a href="#linux计划任务黑客隐藏自己的计划任务会怎么做windows计划任务怎么设定">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</a></li>
+<li><a href="#挖过最难的漏洞是什么">挖过最难的漏洞是什么</a></li>
+</ul>
+</li>
+<li><a href="#ukelink">ukelink</a><ul>
+<li><a href="#病毒和蠕虫的区别">病毒和蠕虫的区别</a></li>
+<li><a href="#dns欺骗是什么">DNS欺骗是什么</a></li>
+<li><a href="#DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</a></li>
+<li><a href="#陆地land攻击是什么">陆地land攻击是什么</a></li>
+<li><a href="#xss有什么执行存储型的xss的危害和原理">xss有什么？执行存储型的xss的危害和原理</a></li>
+<li><a href="#渗透测试流程不够清晰太浅显">渗透测试流程？（不够清晰，太浅显</a></li>
+<li><a href="#有没有移动端的调试经验-apkipa包分析">有没有移动端的调试经验 apk,ipa包分析</a></li>
+<li><a href="#对于云安全的理解">对于云安全的理解</a></li>
+<li><a href="#虚拟机逃逸的理解">虚拟机逃逸的理解</a></li>
+<li><a href="#英语介绍一下自己">英语介绍一下自己</a></li>
+<li><a href="#职业路径">职业路径</a></li>
+<li><a href="#大学做过什么相关的事情">大学做过什么相关的事情</a></li>
+<li><a href="#在工作会做什么来不断提高自己的能力">在工作会做什么来不断提高自己的能力</a></li>
+</ul>
+</li>
+<li><a href="#卓望">卓望</a><ul>
+<li><a href="#渗透测试流程">渗透测试流程</a></li>
+<li><a href="#描述渗透项目做了什么">描述渗透项目，做了什么</a></li>
+<li><a href="#xss漏洞类型详情修复方案">xss漏洞类型、详情、修复方案</a></li>
+<li><a href="#sql注入原理类型waf绕过写shell提权修复方案">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</a></li>
+<li><a href="#终端的渗透经验">终端的渗透经验</a></li>
+<li><a href="#了解什么比较新的漏洞">了解什么比较新的漏洞</a></li>
+<li><a href="#企业内部安全">企业内部安全</a></li>
+</ul>
+</li>
+<li><a href="#安巽">安巽</a><ul>
+<li><a href="#算法了解过什么排序">算法？了解过什么排序？</a></li>
+<li><a href="#爬虫">爬虫</a><ul>
+<li><a href="#页面存在很多js的时候用什么">页面存在很多js的时候，用什么</a></li>
+<li><a href="#爬虫的待爬取url量级比较大的时候如何对其去重">爬虫的待爬取URL量级比较大的时候，如何对其去重</a></li>
+<li><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么">多线程 异步 协程 多路复用 用哪一个最快 为什么</a></li>
+</ul>
+</li>
+<li><a href="#浏览器的常用编码">浏览器的常用编码</a></li>
+<li><a href="#web常用的加密算法有什么">web常用的加密算法有什么</a></li>
+<li><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</a></li>
+<li><a href="#mysql中like查询会会非常缓慢如何进行优化">mysql中like查询会会非常缓慢，如何进行优化</a></li>
+<li><a href="#做了cdn的网站如何获取真实ip">做了cdn的网站如何获取真实IP</a></li>
+<li><a href="#渗透的时候如何隐藏自己的身份">渗透的时候如何隐藏自己的身份</a></li>
+<li><a href="#主机疑似遭到入侵要看哪里的日志">主机疑似遭到入侵，要看哪里的日志</a></li>
+<li><a href="#sql注入漏洞怎么修复">SQL注入漏洞怎么修复</a></li>
+</ul>
+</li>
+<li><a href="#长亭">长亭</a><ul>
+<li><a href="#安全研究的方面做过哪些渗透测试的工作">安全研究的方面？做过哪些渗透测试的工作？</a></li>
+<li><a href="#只给你一个网址如何进行渗透测试">只给你一个网址，如何进行渗透测试</a></li>
+<li><a href="#SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？">SQL注入，id=1如何检测？order by怎么利用？limit语句怎么利用？盲注有什么？</a></li>
+<li><a href="#sleep被禁用后还能怎么进行sql注入">sleep被禁用后还能怎么进行sql注入</a></li>
+<li><a href="#xss可以控制属性怎么利用">XSS可以控制属性怎么利用</a></li>
+<li><a href="#csrf怎么防护">CSRF怎么防护？</a></li>
+<li><a href="#请求头中哪些是有危害的">请求头中哪些是有危害的？</a></li>
+<li><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</a></li>
+<li><a href="#java中间件的漏洞举几个例子">JAVA中间件的漏洞，举几个例子？</a></li>
+<li><a href="#iis常见的漏洞">IIS常见的漏洞</a></li>
+<li><a href="#python有哪些框架其中出现过哪些漏洞">python有哪些框架，其中出现过哪些漏洞</a></li>
+<li><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</a></li>
+<li><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</a></li>
+<li><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</a></li>
+</ul>
+</li>
+<li><a href="#盛邦">盛邦</a><ul>
+<li><a href="#有没有做过协议分析和抓包分析">有没有做过协议分析和抓包分析</a></li>
+</ul>
+</li>
+<li><a href="#翼果">翼果</a><ul>
+<li><a href="#mysql查看版本">mysql查看版本？</a></li>
+<li><a href="#过安全狗">过安全狗</a></li>
+<li><a href="#编程能力平台逆向修改程序入口rootkit有没有研究过">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="面试问题记录"><a href="#面试问题记录" class="headerlink" title="面试问题记录"></a>面试问题记录</h1><blockquote>
+<p>CONTACT ME: github.com/leezj9671</p>
+</blockquote>
+<h2 id="360"><a href="#360" class="headerlink" title="360"></a>360</h2><h3 id="SQL的存储引擎"><a href="#SQL的存储引擎" class="headerlink" title="SQL的存储引擎"></a>SQL的存储引擎</h3><h3 id="SQL注入写shell的条件，用法"><a href="#SQL注入写shell的条件，用法" class="headerlink" title="SQL注入写shell的条件，用法"></a>SQL注入写shell的条件，用法</h3><h3 id="GPC是什么？开启了怎么绕过"><a href="#GPC是什么？开启了怎么绕过" class="headerlink" title="GPC是什么？开启了怎么绕过"></a>GPC是什么？开启了怎么绕过</h3><h3 id="Mysql一个-和两个-什么区别"><a href="#Mysql一个-和两个-什么区别" class="headerlink" title="Mysql一个@和两个@什么区别"></a>Mysql一个@和两个@什么区别</h3><h3 id="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><a href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞" class="headerlink" title="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"></a>IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</h3><h3 id="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><a href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化" class="headerlink" title="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"></a>wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</h3><h3 id="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><a href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定" class="headerlink" title="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"></a>linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</h3><p>三种主要的at batch cron，一般使用cron在规定的时间执行命令</p>
+<h3 id="挖过最难的漏洞是什么"><a href="#挖过最难的漏洞是什么" class="headerlink" title="挖过最难的漏洞是什么"></a>挖过最难的漏洞是什么</h3><h2 id="ukelink"><a href="#ukelink" class="headerlink" title="ukelink"></a>ukelink</h2><h3 id="病毒和蠕虫的区别"><a href="#病毒和蠕虫的区别" class="headerlink" title="病毒和蠕虫的区别"></a>病毒和蠕虫的区别</h3><h3 id="DNS欺骗是什么"><a href="#DNS欺骗是什么" class="headerlink" title="DNS欺骗是什么"></a>DNS欺骗是什么</h3><p>定义： DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。 原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
+<h3 id="DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><a href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议" class="headerlink" title="DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议"></a>DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</h3><p>SYN攻击 防火墙、特征匹配<br>ACK FLOOD<br>UDP FLOOD<br>ICMP FLOOD<br>CC http的get请求<br>陆地攻击 源IP和目的IP都为同一个<br>UDP DNS QUERY 向被攻击的服务器发送大量的域名解析请求，通常请求解析的域名是随机生成或者是网络世界上根本不存在的域名，被攻击的DNS 服务器在接收到域名解析请求的时候首先会在服务器上查找是否有对应的缓存，如果查找不到并且该域名无法直接由服务器解析的时候，DNS 服务器会向其上层DNS服务器递归查询域名信息</p>
+<h3 id="陆地land攻击是什么"><a href="#陆地land攻击是什么" class="headerlink" title="陆地land攻击是什么"></a>陆地land攻击是什么</h3><h3 id="xss有什么？执行存储型的xss的危害和原理"><a href="#xss有什么？执行存储型的xss的危害和原理" class="headerlink" title="xss有什么？执行存储型的xss的危害和原理"></a>xss有什么？执行存储型的xss的危害和原理</h3><h3 id="渗透测试流程？（不够清晰，太浅显"><a href="#渗透测试流程？（不够清晰，太浅显" class="headerlink" title="渗透测试流程？（不够清晰，太浅显"></a>渗透测试流程？（不够清晰，太浅显</h3><h3 id="有没有移动端的调试经验-apk-ipa包分析"><a href="#有没有移动端的调试经验-apk-ipa包分析" class="headerlink" title="有没有移动端的调试经验 apk,ipa包分析"></a>有没有移动端的调试经验 apk,ipa包分析</h3><h3 id="对于云安全的理解"><a href="#对于云安全的理解" class="headerlink" title="对于云安全的理解"></a>对于云安全的理解</h3><p>权限管理，内网威胁，信息泄露，过于依赖托管厂商</p>
+<h3 id="虚拟机逃逸的理解"><a href="#虚拟机逃逸的理解" class="headerlink" title="虚拟机逃逸的理解"></a>虚拟机逃逸的理解</h3><p>虚拟机之间通信或上层主机的通信</p>
+<h3 id="英语介绍一下自己"><a href="#英语介绍一下自己" class="headerlink" title="英语介绍一下自己"></a>英语介绍一下自己</h3><h3 id="职业路径"><a href="#职业路径" class="headerlink" title="职业路径"></a>职业路径</h3><h3 id="大学做过什么相关的事情"><a href="#大学做过什么相关的事情" class="headerlink" title="大学做过什么相关的事情"></a>大学做过什么相关的事情</h3><h3 id="在工作会做什么来不断提高自己的能力"><a href="#在工作会做什么来不断提高自己的能力" class="headerlink" title="在工作会做什么来不断提高自己的能力"></a>在工作会做什么来不断提高自己的能力</h3><h2 id="卓望"><a href="#卓望" class="headerlink" title="卓望"></a>卓望</h2><h3 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h3><h3 id="描述渗透项目，做了什么"><a href="#描述渗透项目，做了什么" class="headerlink" title="描述渗透项目，做了什么"></a>描述渗透项目，做了什么</h3><h3 id="xss漏洞类型、详情、修复方案"><a href="#xss漏洞类型、详情、修复方案" class="headerlink" title="xss漏洞类型、详情、修复方案"></a>xss漏洞类型、详情、修复方案</h3><h3 id="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><a href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案" class="headerlink" title="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"></a>SQL注入原理、类型，waf绕过，写shell，提权，修复方案</h3><h3 id="终端的渗透经验"><a href="#终端的渗透经验" class="headerlink" title="终端的渗透经验"></a>终端的渗透经验</h3><h3 id="了解什么比较新的漏洞"><a href="#了解什么比较新的漏洞" class="headerlink" title="了解什么比较新的漏洞"></a>了解什么比较新的漏洞</h3><h3 id="企业内部安全"><a href="#企业内部安全" class="headerlink" title="企业内部安全"></a>企业内部安全</h3><p>信息安全管理的本质就是输入和输出。一般防范的风险为物理威胁和网络威胁。<br>防范风险可以从制度和流程（人员入离职流程、权限申请流程）、人员配备和知识积累、风险防范（物理威胁：门禁、监控、禁止USB设备接入、封闭PC、定时巡检；网络威胁：部署行为管控设备、可靠的网络结构、IP和MAC地址绑定，将网络行为分组、限制不必要的软件和通信协议、定期审核日志）</p>
+<h2 id="安巽"><a href="#安巽" class="headerlink" title="安巽"></a>安巽</h2><h3 id="算法？了解过什么排序？"><a href="#算法？了解过什么排序？" class="headerlink" title="算法？了解过什么排序？"></a>算法？了解过什么排序？</h3><p>快速排序 冒泡排序</p>
+<h3 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h3><h4 id="页面存在很多js的时候，用什么"><a href="#页面存在很多js的时候，用什么" class="headerlink" title="页面存在很多js的时候，用什么"></a>页面存在很多js的时候，用什么</h4><p>phnatomJS selenium execjs</p>
+<h4 id="爬虫的待爬取URL量级比较大的时候，如何对其去重"><a href="#爬虫的待爬取URL量级比较大的时候，如何对其去重" class="headerlink" title="爬虫的待爬取URL量级比较大的时候，如何对其去重"></a>爬虫的待爬取URL量级比较大的时候，如何对其去重</h4><ul>
+<li>在数据库中创建字段的UNIQUE属性：对于在数据库中创建字段的UNIQUE属性， 的确是可以避免一些重复性操作。不过在多次MySQL报错之后，程序可能会直接崩溃，因此这种方式不可取</li>
+<li>在数据库中创建一个唯一的索引，在插入数据之前检查待插入的数据是否存在：如果我们要在每一次插入数据之前都去检查待插入的数据是否存在，这样势必会影响程序的效率</li>
+<li>使用Set或HashSet保存数据，确保唯一。可以使用redis，但是内存占用大</li>
+<li>使用Map或是一个定长数组记录某一个URL是否被访问过</li>
+<li>布隆过滤器(bloom filter)，bitmap</li>
+</ul>
+<h4 id="多线程-异步-协程-多路复用-用哪一个最快-为什么"><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么" class="headerlink" title="多线程 异步 协程 多路复用 用哪一个最快 为什么"></a>多线程 异步 协程 多路复用 用哪一个最快 为什么</h4><blockquote>
+<p><a href="https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3" target="_blank" rel="noopener">https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3</a></p>
+</blockquote>
+<p>线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。线程的引入减小了程序并发执行时的开销，提高了操作系统的并发性能。线程没有自己的系统资源。</p>
+<p>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</p>
+<p>协程是一种用户态的轻量级线程，拥有自己的寄存器上下文和栈</p>
+<p>IO多路复用 异步阻塞IO 线程轮询IO</p>
+<h3 id="浏览器的常用编码"><a href="#浏览器的常用编码" class="headerlink" title="浏览器的常用编码"></a>浏览器的常用编码</h3><p>一开始我以为是说字符编码，有UTF8 Unicode GBK。面试官还几番提醒我也没答上来。回来一想，我觉得他应该问的是content-type。 <a href="http://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">http://www.runoob.com/http/http-content-type.html</a> </p>
+<h3 id="web常用的加密算法有什么"><a href="#web常用的加密算法有什么" class="headerlink" title="web常用的加密算法有什么"></a>web常用的加密算法有什么</h3><p>非对称加密  RSA、ElGamal、Rabin<br>对称加密 DES、3DES、AES<br>散列算法 MD5 SHA base64</p>
+<h3 id="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？" class="headerlink" title="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"></a>有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</h3><p>拿下机器后<br>内网渗透使用代理访问内网 windows环境：reGeorg与proxifier Linux（kali-linux）环境：reGeorg与proxychains，使用nmap等工具进行扫描，发现web服务的主机和其它信息。有时这些边界机器上会记录一些内网服务器上的一些信息（用户 ssh known_hosts  hosts 防火墙设置 记录、内网之间好多waf 规则基本都是空，大多数waf防外部威胁  这时候可以拿到探测的内部一些开放的端口判断进行渗透，通常用户这里基本是统一命名的   拿到的各种记录 会暴露出部分内网通讯的ip</p>
+<p>内网内弱口令占大多数 FTP MSSQL 远程桌面链接</p>
+<h3 id="mysql中like查询会会非常缓慢，如何进行优化"><a href="#mysql中like查询会会非常缓慢，如何进行优化" class="headerlink" title="mysql中like查询会会非常缓慢，如何进行优化"></a>mysql中like查询会会非常缓慢，如何进行优化</h3><p>分词索引</p>
+<h3 id="做了cdn的网站如何获取真实IP"><a href="#做了cdn的网站如何获取真实IP" class="headerlink" title="做了cdn的网站如何获取真实IP"></a>做了cdn的网站如何获取真实IP</h3><ol>
+<li>多地ping看是否有cdn</li>
+<li>邮件订阅或者rss订阅</li>
+<li>二级域名可能不会做cdn</li>
+<li>nslookup <a href="http://xxx.com" target="_blank" rel="noopener">http://xxx.com</a> 国外dns</li>
+<li>查找域名历史解析记录，因为域名在上CDN之前用的IP，很有可能就是CDN的真实源IP地址 <a href="https://toolbar.netcraft.com/site_report?url=www.xxx.com" target="_blank" rel="noopener">https://toolbar.netcraft.com/site_report?url=www.xxx.com</a></li>
+<li>phpinfo上显示的信息</li>
+</ol>
+<h3 id="渗透的时候如何隐藏自己的身份"><a href="#渗透的时候如何隐藏自己的身份" class="headerlink" title="渗透的时候如何隐藏自己的身份"></a>渗透的时候如何隐藏自己的身份</h3><h3 id="主机疑似遭到入侵，要看哪里的日志"><a href="#主机疑似遭到入侵，要看哪里的日志" class="headerlink" title="主机疑似遭到入侵，要看哪里的日志"></a>主机疑似遭到入侵，要看哪里的日志</h3><h3 id="SQL注入漏洞怎么修复"><a href="#SQL注入漏洞怎么修复" class="headerlink" title="SQL注入漏洞怎么修复"></a>SQL注入漏洞怎么修复</h3><h2 id="长亭"><a href="#长亭" class="headerlink" title="长亭"></a>长亭</h2><h3 id="安全研究的方面？做过哪些渗透测试的工作？"><a href="#安全研究的方面？做过哪些渗透测试的工作？" class="headerlink" title="安全研究的方面？做过哪些渗透测试的工作？"></a>安全研究的方面？做过哪些渗透测试的工作？</h3><h3 id="只给你一个网址，如何进行渗透测试"><a href="#只给你一个网址，如何进行渗透测试" class="headerlink" title="只给你一个网址，如何进行渗透测试"></a>只给你一个网址，如何进行渗透测试</h3><h3 id="SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><a href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？" class="headerlink" title="SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"></a>SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</h3><h3 id="sleep被禁用后还能怎么进行sql注入"><a href="#sleep被禁用后还能怎么进行sql注入" class="headerlink" title="sleep被禁用后还能怎么进行sql注入"></a>sleep被禁用后还能怎么进行sql注入</h3><p>BENCHMARK，Get_lock函数，当都被禁用后可以用计算量比较大的语句使数据库查询时间变长，从而达到延时注入的效果。<br>mysql：<code>AND (SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.SCHEMATA C);</code></p>
+<h3 id="XSS可以控制属性怎么利用"><a href="#XSS可以控制属性怎么利用" class="headerlink" title="XSS可以控制属性怎么利用"></a>XSS可以控制属性怎么利用</h3><h3 id="CSRF怎么防护？"><a href="#CSRF怎么防护？" class="headerlink" title="CSRF怎么防护？"></a>CSRF怎么防护？</h3><p>尽量使用POST，限制GET；浏览器Cookie策略；加验证码； Referer Check；Anti CSRF Token</p>
+<h3 id="请求头中哪些是有危害的？"><a href="#请求头中哪些是有危害的？" class="headerlink" title="请求头中哪些是有危害的？"></a>请求头中哪些是有危害的？</h3><p>Cookie</p>
+<h3 id="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过" class="headerlink" title="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"></a>XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</h3><p>xxe常见场景是如pdf在线解析、word在线解析、定制协议，留言板等，跟逻辑设计有关而与语言无关，最好是不要让XML作为参数传输或整体结构可被用户篡改。如果一定要使用，至少要禁用DTD、Entity。<br>xxe危害 读取本地文件，执行系统命令，探测内网端口，攻击内网服务<br>探测内网端口的协议有gopher file dict，不同语言支持不同的协议，是具体情况而定 file http ftp是常用的</p>
+<p>防范，python用lxml时可以对resolve_entities设为false。或者过滤用户提交的xml</p>
+<p>客户端也可以有xxe攻击，有的网站会使用office打开docx进行解析<br>Java解析XML的常用三方库，如果不禁用DTD、Entity都会导致XXE漏洞：</p>
+<p>javax.xml.stream.XMLStreamReader;</p>
+<p>javax.xml.parsers.DocumentBuilderFactory;</p>
+<h3 id="JAVA中间件的漏洞，举几个例子？"><a href="#JAVA中间件的漏洞，举几个例子？" class="headerlink" title="JAVA中间件的漏洞，举几个例子？"></a>JAVA中间件的漏洞，举几个例子？</h3><p>常见的是反序列化漏洞</p>
+<h3 id="IIS常见的漏洞"><a href="#IIS常见的漏洞" class="headerlink" title="IIS常见的漏洞"></a>IIS常见的漏洞</h3><p>常见的为解析漏洞，6.0有<br>/test.asp/test.jpg<br>  test.asp;.jpg<br>  7.5有test.jpg/.php，默认后缀IIS默认地还会解析其他后缀的文件为asp文件，比如cer asa cdx<br>  原理大抵是IIS 5.x/6.0在从文件路径中读取文件后缀时，遇到一个“.”后，便进入了一种截断状态，在该状态下遇到特殊符号——“/”和“;”，都会进行截断，只保留特殊符号前的部分，即：“.asp”，从而认为文件后缀为“.asp”。</p>
+<h3 id="python有哪些框架，其中出现过哪些漏洞"><a href="#python有哪些框架，其中出现过哪些漏洞" class="headerlink" title="python有哪些框架，其中出现过哪些漏洞"></a>python有哪些框架，其中出现过哪些漏洞</h3><p>flask的模板注入 模板注入和常见Web注入的成因一样，也是服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。<br>模板字符串中字符串拼接或替换可能会导致敏感信息泄露，获取变量值<br>如果开发者在flask使用字符串格式化，来将用户输入动态地加入到模板字符串中，而不是通过render_template_string函数，该函数不会对输入进行实体转义将URL传递进入模板内容当中，会导致xss的产生。<br>还可以利用模板中html标签属性字段绕过xss过滤。</p>
+<p>Django出现过目录遍历漏洞</p>
+<h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
+<h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>]]></content>
       <tags>
         <tag>面试</tag>
       </tags>
@@ -5207,28 +5321,25 @@
       </tags>
   </entry>
   <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
+    <title>（五）渗透技巧—云环境</title>
+    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
+<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
+<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
+<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
 
 
@@ -5316,31 +5427,35 @@
       </tags>
   </entry>
   <entry>
-    <title>（四）渗透技巧—常见服务、协议</title>
-    <url>/2019/04/15/%EF%BC%88%E5%9B%9B%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E3%80%81%E5%8D%8F%E8%AE%AE/</url>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、FTP-服务"><a href="#1、FTP-服务" class="headerlink" title="1、FTP 服务"></a>1、FTP 服务</h3><p>FTP服务：ftp服务我分为两种情况，第一种是使用系统软件来配置，比如IIS中的FTP文件共享或Linux中的默认服务软件；第二种是通过第三方软件来配置，比如Serv-U还有一些网上写的简易ftp服务器等；</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">20（数据端口）；21（控制端口）；69（tftp小型文件传输协议）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：ftp的爆破工具有很多，这里我推荐owasp的Bruter 以及msf中ftp爆破模块；</span><br><span class="line">•   匿名访问：用户名：anonymous 密码：为空或任意邮箱</span><br><span class="line">•   嗅探：ftp使用明文传输技术（但是嗅探给予局域网并需要欺骗或监听网关）</span><br><span class="line">•   后门 vsftp</span><br><span class="line">•   远程溢出</span><br><span class="line">•   跳转攻击</span><br></pre></td></tr></table></figure>
-<h3 id="2、NFS-服务"><a href="#2、NFS-服务" class="headerlink" title="2、NFS 服务"></a>2、NFS 服务</h3><p>NFS（Network File System）即网络文件系统，是FreeBSD支持的文件系统中的一种，它允许网络中的计算机之间通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。如今NFS具备了防止被利用导出文件夹的功能，但遗留系统中的NFS服务配置不当，则仍可能遭到恶意攻击者的利用。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•未授权访问</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/articles/network/159468.html</span><br><span class="line"></span><br><span class="line">http://www.vuln.cn/6368</span><br></pre></td></tr></table></figure>
-<h3 id="3、Samba服务"><a href="#3、Samba服务" class="headerlink" title="3、Samba服务"></a>3、Samba服务</h3><p>Samba是linux和unix系统上实现SMB/CIFS协议的一个免费软件，由服务器和客户端程序构成。而SMB是局域网支持共享文件和打印机的一种通信协议，为局域网内不同计算机之间提供文件及打印机等资源的共享服务。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   弱口令</span><br><span class="line">•   未授权访问（public）</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.91ri.org/17114.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、SSH-服务"><a href="#4、SSH-服务" class="headerlink" title="4、SSH 服务"></a>4、SSH 服务</h3><p>SSH 是协议，通常使用 OpenSSH 软件实现协议应用。SSH 为 Secure Shell 的缩写，由 IETF 的网络工作小组（Network Working Group）所制定；SSH 为建立在应用层和传输层基础上的安全协议。SSH 是目前较可靠，专为远程登录会话和其它网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：22</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   后门</span><br><span class="line">•   漏洞：28退格漏洞、OpenSSL漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://cloud.tencent.com/developer/article/1078187</span><br></pre></td></tr></table></figure>
-<h3 id="5、Telnet-服务"><a href="#5、Telnet-服务" class="headerlink" title="5、Telnet 服务"></a>5、Telnet 服务</h3><p>Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。在終端使用者的电脑上使用telnet程序，用它连接到服务器。<br>終端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接在服务器的控制台上输入一样。可以在本地就能控制服务器。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：21</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   嗅探</span><br></pre></td></tr></table></figure>
-<h3 id="6、Windows-远程连接（rdp）"><a href="#6、Windows-远程连接（rdp）" class="headerlink" title="6、Windows 远程连接（rdp）"></a>6、Windows 远程连接（rdp）</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：3389</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   Shift粘滞键后门：5次shift后门</span><br><span class="line">•   利用ms12-020攻击3389端口</span><br><span class="line">•   CVE-2019-0708</span><br></pre></td></tr></table></figure>
-<h3 id="7、VNC服务"><a href="#7、VNC服务" class="headerlink" title="7、VNC服务"></a>7、VNC服务</h3><p>VNC（Virtual Network Computing），为一种使用RFB协议的显示屏画面分享及远程操作软件。此软件借由网络，可发送键盘与鼠标的动作及即时的显示屏画面。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">5900+桌面ID（5901；5902）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   认证口令绕过：</span><br><span class="line">•   拒绝服务攻击：（CVE-2015-5239）</span><br><span class="line">•   权限提升：（CVE-2013-6886）</span><br></pre></td></tr></table></figure>
-<h3 id="8、SMTP协议"><a href="#8、SMTP协议" class="headerlink" title="8、SMTP协议"></a>8、SMTP协议</h3><p>smtp：邮件协议，在linux中默认开启这个服务，可以向对方发送钓鱼邮件！</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：25（smtp）、465（smtps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
-<h3 id="9、POP3协议"><a href="#9、POP3协议" class="headerlink" title="9、POP3协议"></a>9、POP3协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：109（POP2）、110（POP3）、995（POP3S）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破；弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
-<h3 id="10、DNS服务"><a href="#10、DNS服务" class="headerlink" title="10、DNS服务"></a>10、DNS服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：53</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   区域传输漏洞</span><br></pre></td></tr></table></figure>
-<h3 id="11、IMAP协议"><a href="#11、IMAP协议" class="headerlink" title="11、IMAP协议"></a>11、IMAP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：143（imap）、993（imaps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   配置不当</span><br></pre></td></tr></table></figure>
-<h3 id="12、SNMP协议"><a href="#12、SNMP协议" class="headerlink" title="12、SNMP协议"></a>12、SNMP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：161</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br></pre></td></tr></table></figure>
-<h3 id="13、DHCP服务"><a href="#13、DHCP服务" class="headerlink" title="13、DHCP服务"></a>13、DHCP服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：67&amp;68、546（DHCP Failover做双机热备的）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   DHCP劫持</span><br></pre></td></tr></table></figure>
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 
 
 
@@ -5368,32 +5483,31 @@
       </tags>
   </entry>
   <entry>
-    <title>（五）渗透技巧—云环境</title>
-    <url>/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/</url>
+    <title>（四）渗透技巧—常见服务、协议</title>
+    <url>/2019/04/15/%EF%BC%88%E5%9B%9B%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E3%80%81%E5%8D%8F%E8%AE%AE/</url>
     <content><![CDATA[<blockquote>
 <p>文章不记得从哪个公众号上拉下来的了</p>
 </blockquote><a id="more"></a>
-<h3 id="1、VMware"><a href="#1、VMware" class="headerlink" title="1、VMware"></a>1、VMware</h3><p>使用 VMware vCloud 可将现有数据中心内的虚拟基础架构资源池化，并将其作为基于目录的服务交付。通过与云计算基础架构的最佳平台 VMware vSphere 配合使用，VMware vCloud Director 可为客户提供构建安全的私有云，从而改变 IT 部门交付和管理基础架构服务以及用户访问和使用这些服务的方式。<br>一般组织中很多独立安装的 Esxi 形式的私有云，或独立部署的虚拟化系统。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口（很多）：</span><br><span class="line">https://kb.vmware.com/s/article/2115330</span><br><span class="line">https://kb.vmware.com/s/article/2081930</span><br><span class="line"></span><br><span class="line">漏洞：</span><br><span class="line">•   主机逃逸</span><br><span class="line">•   CVE-2017-5638</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/348/</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/articles/system/141179.html</span><br><span class="line"></span><br><span class="line">http://www.mottoin.com/100651.html</span><br><span class="line"></span><br><span class="line">http://www.52bug.cn/%E9%BB%91%E5%AE%A2%E6%8A%80%E6%9C%AF/4375.html</span><br><span class="line"></span><br><span class="line">Tweets by VMwareSRC</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=vmware&amp;serverity=%E9%AB%98%E5%8D%B1&amp;page=1</span><br><span class="line"></span><br><span class="line">https://www.vmware.com/cn/security/hardening-guides.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、OpenStack"><a href="#2、OpenStack" class="headerlink" title="2、OpenStack"></a>2、OpenStack</h3><p>OpenStack是基础设施即服务（IaaS）软件，让任何人都可以自行创建和提供云计算服务。此外，OpenStack也用作创建防火墙内的“私有云”（Private Cloud），提供机构或企业内各部门共享资源。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">漏洞，有漏洞但是POC基本没有。检查时候可以参考安全的配置实践。</span><br><span class="line">•   权限绕过漏洞</span><br><span class="line">•   信息泄露</span><br><span class="line">•   代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=openstack&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">https://docs.openstack.org/liberty/zh_CN/install-guide-obs/environment-security.html</span><br><span class="line"></span><br><span class="line">http://www.freebuf.com/news/topnews/107203.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h3><p>Docker是一个开放源代码软件项目，让应用程序布署在软件容器下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。</p>
-<p>Docker利用Linux核心中的资源分脱机制，例如cgroups，以及Linux核心名字空间（name space），来创建独立的软件容器（containers）。这可以在单一Linux实体下运作，避免引导一个虚拟机造成的额外负担。</p>
-<p>Linux核心对名字空间的支持完全隔离了工作环境中应用程序的视野，包括进程树、网络、用户ID与挂载文件系统，而核心的cgroup提供资源隔离，包括CPU、内存、block I/O与网络。</p>
-<p>从0.9版本起，Dockers在使用抽象虚拟是经由libvirt的LXC与systemd - nspawn提供界面的基础上，开始包括libcontainer函数库做为以自己的方式开始直接使用由Linux核心提供的虚拟化的设施。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安全问题（很少有漏洞的POC，安全检查也是基于最佳实践和官方安全建议进行）：</span><br><span class="line">•   CVE-2015-3630 1.6.0 Docker Libcontainer 安全绕过漏洞</span><br><span class="line">•   CVE-2015-3627 1.6.1 Libcontainer和Docker Engine 权限许可和访问控制漏洞CVE-2015-3630 1.6.1 Docker Engine 安全绕过漏洞</span><br><span class="line">•   CVE-2014-9358 1.3.3 Docker 目录遍历漏洞</span><br><span class="line">•   CVE-2014-9357 1.3.2 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-6408 1.3.1 Docker 权限许可和访问控制漏洞</span><br><span class="line">•   CVE-2014-5277 1.3.0 Docker和docker-py 代码注入漏洞</span><br><span class="line">•   内核漏洞（Kernel exploits）容器是基于内核的虚拟化，主机（host）和主机上的所有容器共享一套内核。如果某个容器的操作造成了内核崩溃，那么反过来整台机器上的容器都会受到影响。</span><br><span class="line">•   拒绝服务攻击（Denial-of-service attacks）所有的容器都共享了内核资源，如果一个容器独占了某一个资源（内存、CPU、各种ID），可能会造成其他容器因为资源匮乏无法工作（形成DoS攻击）。</span><br><span class="line">•   容器突破（Container breakouts）Linux的namespace机制是容器的核心之一，它允许容器内部拥有一个PID=1的进程而在容器外部这个进程号又是不一样的（比如1234）。现在问题在于如果一个PID=1的进程突破了namespace的限制，那么他将会在主机上获得root权限。</span><br><span class="line">•   有毒镜像（Poisoned images）主要是考虑到镜像本身的安全性，没太多好说的。</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://toutiao.io/posts/2y9xx8/preview</span><br><span class="line"></span><br><span class="line">http://www.yunweipai.com/archives/21610.html</span><br><span class="line"></span><br><span class="line">http://www.91ri.org/15837.html</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/ruidu_doer/article/details/53401523</span><br><span class="line"></span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=docker&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://dockone.io/article/150</span><br><span class="line"></span><br><span class="line">http://www.dockerinfo.net/docker/docker%E5%AE%89%E5%85%A8</span><br><span class="line"></span><br><span class="line">https://blog.waterstrong.me/docker-security/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
+<h3 id="1、FTP-服务"><a href="#1、FTP-服务" class="headerlink" title="1、FTP 服务"></a>1、FTP 服务</h3><p>FTP服务：ftp服务我分为两种情况，第一种是使用系统软件来配置，比如IIS中的FTP文件共享或Linux中的默认服务软件；第二种是通过第三方软件来配置，比如Serv-U还有一些网上写的简易ftp服务器等；</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">20（数据端口）；21（控制端口）；69（tftp小型文件传输协议）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：ftp的爆破工具有很多，这里我推荐owasp的Bruter 以及msf中ftp爆破模块；</span><br><span class="line">•   匿名访问：用户名：anonymous 密码：为空或任意邮箱</span><br><span class="line">•   嗅探：ftp使用明文传输技术（但是嗅探给予局域网并需要欺骗或监听网关）</span><br><span class="line">•   后门 vsftp</span><br><span class="line">•   远程溢出</span><br><span class="line">•   跳转攻击</span><br></pre></td></tr></table></figure>
+<h3 id="2、NFS-服务"><a href="#2、NFS-服务" class="headerlink" title="2、NFS 服务"></a>2、NFS 服务</h3><p>NFS（Network File System）即网络文件系统，是FreeBSD支持的文件系统中的一种，它允许网络中的计算机之间通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。如今NFS具备了防止被利用导出文件夹的功能，但遗留系统中的NFS服务配置不当，则仍可能遭到恶意攻击者的利用。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•未授权访问</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/articles/network/159468.html</span><br><span class="line"></span><br><span class="line">http://www.vuln.cn/6368</span><br></pre></td></tr></table></figure>
+<h3 id="3、Samba服务"><a href="#3、Samba服务" class="headerlink" title="3、Samba服务"></a>3、Samba服务</h3><p>Samba是linux和unix系统上实现SMB/CIFS协议的一个免费软件，由服务器和客户端程序构成。而SMB是局域网支持共享文件和打印机的一种通信协议，为局域网内不同计算机之间提供文件及打印机等资源的共享服务。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">攻击方法：</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   弱口令</span><br><span class="line">•   未授权访问（public）</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.91ri.org/17114.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、SSH-服务"><a href="#4、SSH-服务" class="headerlink" title="4、SSH 服务"></a>4、SSH 服务</h3><p>SSH 是协议，通常使用 OpenSSH 软件实现协议应用。SSH 为 Secure Shell 的缩写，由 IETF 的网络工作小组（Network Working Group）所制定；SSH 为建立在应用层和传输层基础上的安全协议。SSH 是目前较可靠，专为远程登录会话和其它网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：22</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   后门</span><br><span class="line">•   漏洞：28退格漏洞、OpenSSL漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://cloud.tencent.com/developer/article/1078187</span><br></pre></td></tr></table></figure>
+<h3 id="5、Telnet-服务"><a href="#5、Telnet-服务" class="headerlink" title="5、Telnet 服务"></a>5、Telnet 服务</h3><p>Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。在終端使用者的电脑上使用telnet程序，用它连接到服务器。<br>終端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接在服务器的控制台上输入一样。可以在本地就能控制服务器。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：21</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   嗅探</span><br></pre></td></tr></table></figure>
+<h3 id="6、Windows-远程连接（rdp）"><a href="#6、Windows-远程连接（rdp）" class="headerlink" title="6、Windows 远程连接（rdp）"></a>6、Windows 远程连接（rdp）</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：3389</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   爆破</span><br><span class="line">•   Shift粘滞键后门：5次shift后门</span><br><span class="line">•   利用ms12-020攻击3389端口</span><br><span class="line">•   CVE-2019-0708</span><br></pre></td></tr></table></figure>
+<h3 id="7、VNC服务"><a href="#7、VNC服务" class="headerlink" title="7、VNC服务"></a>7、VNC服务</h3><p>VNC（Virtual Network Computing），为一种使用RFB协议的显示屏画面分享及远程操作软件。此软件借由网络，可发送键盘与鼠标的动作及即时的显示屏画面。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：</span><br><span class="line">5900+桌面ID（5901；5902）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   认证口令绕过：</span><br><span class="line">•   拒绝服务攻击：（CVE-2015-5239）</span><br><span class="line">•   权限提升：（CVE-2013-6886）</span><br></pre></td></tr></table></figure>
+<h3 id="8、SMTP协议"><a href="#8、SMTP协议" class="headerlink" title="8、SMTP协议"></a>8、SMTP协议</h3><p>smtp：邮件协议，在linux中默认开启这个服务，可以向对方发送钓鱼邮件！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：25（smtp）、465（smtps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
+<h3 id="9、POP3协议"><a href="#9、POP3协议" class="headerlink" title="9、POP3协议"></a>9、POP3协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：109（POP2）、110（POP3）、995（POP3S）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破；弱口令</span><br><span class="line">•   未授权访问</span><br></pre></td></tr></table></figure>
+<h3 id="10、DNS服务"><a href="#10、DNS服务" class="headerlink" title="10、DNS服务"></a>10、DNS服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：53</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   区域传输漏洞</span><br></pre></td></tr></table></figure>
+<h3 id="11、IMAP协议"><a href="#11、IMAP协议" class="headerlink" title="11、IMAP协议"></a>11、IMAP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：143（imap）、993（imaps）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br><span class="line">•   配置不当</span><br></pre></td></tr></table></figure>
+<h3 id="12、SNMP协议"><a href="#12、SNMP协议" class="headerlink" title="12、SNMP协议"></a>12、SNMP协议</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：161</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   爆破：弱口令</span><br></pre></td></tr></table></figure>
+<h3 id="13、DHCP服务"><a href="#13、DHCP服务" class="headerlink" title="13、DHCP服务"></a>13、DHCP服务</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：67&amp;68、546（DHCP Failover做双机热备的）</span><br><span class="line"></span><br><span class="line">攻击方式：</span><br><span class="line">•   DHCP劫持</span><br></pre></td></tr></table></figure>
 
 
 

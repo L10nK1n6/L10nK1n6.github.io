@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前言接上一篇使用fyne解决GUI库中文问题之后，打算落地些小工具来提升实战中的需求。本文以执行本地命令为引子探究fyne库的使用方式。">
+<meta name="keywords" content="Python,渗透,Red Team,内网,红队,研究">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GO语言开发自制小工具框架">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;08&#x2F;16&#x2F;GO%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E8%87%AA%E5%88%B6%E5%B0%8F%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6&#x2F;index.html">
+<meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="前言接上一篇使用fyne解决GUI库中文问题之后，打算落地些小工具来提升实战中的需求。本文以执行本地命令为引子探究fyne库的使用方式。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;2N7woqrpdWPSu6R.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;Fevx2q4OBQaoW9u.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;1scNphjBr837Wlx.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;f7CxTukVQNzivnB.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;XqoGjIKCUlVv28k.png">
+<meta property="og:updated_time" content="2021-08-16T06:19:58.633Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;08&#x2F;16&#x2F;2N7woqrpdWPSu6R.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/16/GO%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E8%87%AA%E5%88%B6%E5%B0%8F%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>GO语言开发自制小工具框架 | LionKing</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LionKing</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">安全小白成长之路</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/16/GO%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91%E8%87%AA%E5%88%B6%E5%B0%8F%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GO语言开发自制小工具框架
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-16 13:24:22 / 修改时间：14:19:58" itemprop="dateCreated datePublished" datetime="2021-08-16T13:24:22+08:00">2021-08-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>接上一篇使用fyne解决GUI库中文问题之后，打算落地些小工具来提升实战中的需求。本文以执行本地命令为引子探究fyne库的使用方式。<br></p><a id="more"></a>
+<h3 id="一：优化后的中文问题"><a href="#一：优化后的中文问题" class="headerlink" title="一：优化后的中文问题"></a>一：优化后的中文问题</h3><p>上一篇中最后思考部分中提到的解决方式在本文中得以实践，发现该方法确实要比编译二进制到程序中快捷简便的多。<br></p>
+<blockquote>
+<p>写完这篇文章的时候突然想到可以根据第一种方法的扩展，那就是先找好win、mac、linux等自己需要跨平台系统上字体文件的具体路径，然后使用runtime.GOOS判断操作系统类型，根据类型调用相应的字体文件来达到不需要将字体文件编译进程序即可正常显示中文字体的目的，并且还减少了因字体文件过大导致程序也相应过大的问题。</p>
+</blockquote>
+<p><br>完整代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sysType := runtime.GOOS</span><br><span class="line">	<span class="keyword">switch</span> sysType &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"darwin"</span>:</span><br><span class="line">		fmt.Printf(<span class="string">"当前操作系统为: %s，自动替换字体文件\n"</span>, sysType)</span><br><span class="line">		os.Setenv(<span class="string">"FYNE_FONT"</span>, <span class="string">"/System/Library/Fonts/STHeiti Medium.ttc"</span>) <span class="comment">//设置mac字体环境</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"windows"</span>:</span><br><span class="line">		fmt.Printf(<span class="string">"当前操作系统为: %s，自动替换字体文件\n"</span>, sysType)</span><br><span class="line">		os.Setenv(<span class="string">"FYNE_FONT"</span>, <span class="string">"C:\\Windows\\Fonts\\simhei.ttf"</span>) <span class="comment">//设置win字体环境</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"linux"</span>:</span><br><span class="line">		fmt.Printf(<span class="string">"当前操作系统为: %s，自动替换字体文件\n"</span>, sysType)</span><br><span class="line">		<span class="comment">//os.Setenv("FYNE_FONT", "linux上字体路径") //设置linux字体环境，暂时没找字体，等以后在找</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> os.Unsetenv(<span class="string">"FYNE_FONT"</span>)           <span class="comment">//取消环境变量</span></span><br></pre></td></tr></table></figure>
+<p>使用switch语句将runtime.GOOS判断出操作系统的类型进行划分，再将提前找好的对应字体文件设置为环境变量，最后的defer语句作为延迟执行取消环境变量。该处fmt.Printf会在终端中打印出提示信息，在实际使用过程中可注释该句。</p>
+<h3 id="二：总框架设计"><a href="#二：总框架设计" class="headerlink" title="二：总框架设计"></a>二：总框架设计</h3><p>fyne的使用需要先创建应用程序对象和窗口对象，如下代码所示前两行。随后调用整体框架的GUI界面，考虑以后可能需要多种窗口界面，这里我放到了另外一个LoadUI函数中。最后3行是对窗体的已经基本设置，可自行更改。<br>代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">myapp := app.New()                       <span class="comment">//应用程序对象</span></span><br><span class="line">mywin := myapp.NewWindow(<span class="string">"测试版"</span>) <span class="comment">//创建窗口对象,标题</span></span><br><span class="line"></span><br><span class="line">window.LoadUI(mywin)</span><br><span class="line"></span><br><span class="line">mywin.Resize(fyne.NewSize(<span class="number">1000</span>, <span class="number">600</span>)) <span class="comment">//设置初始窗体大小</span></span><br><span class="line">mywin.CenterOnScreen() <span class="comment">//设置中心位置</span></span><br><span class="line">mywin.ShowAndRun()                    <span class="comment">//运行程序</span></span><br></pre></td></tr></table></figure>
+<p>在LoadUI中，使用了最为方便的AppTabs（选项卡）方法来设计窗体样式。其结构体如下所示</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AppTabs container is used to split your application into various different areas identified by tabs.</span></span><br><span class="line"><span class="comment">// The tabs contain text and/or an icon and allow the user to switch between the content specified in each TabItem.</span></span><br><span class="line"><span class="comment">// Each item is represented by a button at the edge of the container.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Since: 1.4</span></span><br><span class="line"><span class="keyword">type</span> AppTabs <span class="keyword">struct</span> &#123;</span><br><span class="line">	widget.BaseWidget</span><br><span class="line"></span><br><span class="line">	Items           []*TabItem</span><br><span class="line">	OnChanged       <span class="function"><span class="keyword">func</span><span class="params">(tab *TabItem)</span></span></span><br><span class="line">	current         <span class="keyword">int</span></span><br><span class="line">	tabLocation     TabLocation</span><br><span class="line">	isTransitioning <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<p>本文中只需要用到Items和OnChanged来标注tab名称和对应事件。其样式如下：<br><img src="https://i.loli.net/2021/08/16/2N7woqrpdWPSu6R.png" alt="image.png"><br>代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//总窗体设计，让main调用加载</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">LoadUI</span><span class="params">(mywin fyne.Window)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">////页面布局</span></span><br><span class="line">	content := container.NewAppTabs(container.NewTabItem(<span class="string">"命令执行"</span>, execUI(mywin)),</span><br><span class="line">		container.NewTabItem(<span class="string">"1"</span>, loginBtn1),<span class="comment">//以下占位，可忽略</span></span><br><span class="line">		container.NewTabItem(<span class="string">"2"</span>, loginBtn2),</span><br><span class="line">		container.NewTabItem(<span class="string">"3"</span>, nameBox),</span><br><span class="line">		container.NewTabItem(<span class="string">"4"</span>, Display),</span><br><span class="line">	)</span><br><span class="line">	mywin.SetContent(content)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在第一个tab中命名为”命令执行”，并且使用execUI函数来载入选项卡内的界面。<br></p>
+<h3 id="三：命令执行模块界面设计"><a href="#三：命令执行模块界面设计" class="headerlink" title="三：命令执行模块界面设计"></a>三：命令执行模块界面设计</h3><p>fyne的界面设计就像洋葱一样一层套一层。上面设计完框架整体的UI界面，接下来就需要对每一个选项卡里的界面进行设计。<br>这里创建了一个单行文本框cmdin := widget.NewEntry()作为命令输入框，并且使用SetPlaceHolder()来设置只读属性的提示信息。<br>然后创建了一个多行文本框cmdout := widget.NewMultiLineEntry()作为命令输出显示框，并且使用fyne.TextWrapWord属性将超出窗体最大宽度的文本内容可以用垂直滚动条来展示。<br>该处设计原本是使用label标签来显示的，但是后面发现执行一条ifconfig命令变将整个窗口撑出了屏幕之外，体验十分不好，且影响使用。后经过查找多方资料和看fyne源码才找到了现在的这种方法。<br>最后创建了一个响应单击事件的执行命令按钮cmdbtn := widget.NewButton()。在按钮中需要传入两个参数，一个是该按钮的显示名称和一个单击事件函数，如下代码所示：<br>在单击事件的匿名函数中调用了command.ExecForSys()，该函数接收cmdin中的文本作为命令执行并将结果输出（后面会介绍该函数）。随后cmdout.SetText(output)将输出的结果显示到cmdout中。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">execUI</span><span class="params">(mywin fyne.Window)</span> <span class="title">fyne</span>.<span class="title">CanvasObject</span></span> &#123;</span><br><span class="line">	<span class="comment">////命令执行模块</span></span><br><span class="line">	cmdin := widget.NewEntry()</span><br><span class="line">	cmdin.SetPlaceHolder(<span class="string">"commands"</span>)</span><br><span class="line">    </span><br><span class="line">	cmdout := widget.NewMultiLineEntry()</span><br><span class="line">	cmdout.Wrapping = fyne.TextWrapWord</span><br><span class="line">    </span><br><span class="line">	cmdbtn := widget.NewButton(<span class="string">"执行"</span>, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		output := command.ExecForSys(cmdin.Text)</span><br><span class="line">		cmdout.SetText(output)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将按钮和输入框设置在同一行,设置按钮最小大小在右边，输入框自动填充</span></span><br><span class="line">	oneline := fyne.NewContainerWithLayout(layout.NewBorderLayout(<span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>, cmdbtn), cmdin, cmdbtn)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置oneline位置最小大小在上，输出框自动填充</span></span><br><span class="line">	<span class="keyword">return</span> fyne.NewContainerWithLayout(layout.NewBorderLayout(oneline, <span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>), oneline, cmdout)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>oneline这句<br>layout.NewBorderLayout()函数使得传入的控件放入上、下、左、右位置，并且将其他未传入的控件自动延展满整个布局。使用该函数可以将命令输入的单行文本框cmdin和按钮控件cmdbtn放在同一布局，并且将cmdbtn该布局的最右边，而左侧单行文本框则自动拉伸。<br>所得到的样式如下：<br><img src="https://i.loli.net/2021/08/16/Fevx2q4OBQaoW9u.png" alt="image-1.png"><br>如不使用的话，就会每个控件单独一行，如下所示：<br><img src="https://i.loli.net/2021/08/16/1scNphjBr837Wlx.png" alt="image-2.png"><br>最后返回了一个整体布局，在return中，将单行文本框cmdin和按钮控件cmdbtn作为一个整体，与显示结果的多行文本框cmdout进行上下排列。<br>整体样式如下：<br><img src="https://i.loli.net/2021/08/16/f7CxTukVQNzivnB.png" alt="image-3.png"></p>
+<h3 id="四：执行命令功能的实现"><a href="#四：执行命令功能的实现" class="headerlink" title="四：执行命令功能的实现"></a>四：执行命令功能的实现</h3><p>上面做好整体的样式布局，剩下的就实现command.ExecForSys()函数的功能即可。<br>因为不同的操作系统命令有所不同，所以这里还是使用runtime.GOOS来判断系统类型，如下代码所示：<br>fallthrough用来强制执行后面的case中的代码，即macOS执行与linux同样一套代码。<br>另外在实验windows的时候，发现如果没有使用chcp 65001编码，那么输出的结果将会导致程序溢出而崩溃。<br>将传入的命令拼接好在使用exec.Command执行命令再将标准输出return.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">osExec</span><span class="params">(cmdin <span class="keyword">string</span>)</span> <span class="params">(output <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cmds []<span class="keyword">string</span></span><br><span class="line">	cmdinPrefix := <span class="string">""</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> runtime.GOOS &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"darwin"</span>:</span><br><span class="line">		<span class="keyword">fallthrough</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"linux"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"/bin/sh"</span>, <span class="string">"-c"</span>)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"windows"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"cmd"</span>, <span class="string">"/c"</span>)</span><br><span class="line">		cmdinPrefix = <span class="string">"chcp 65001 &amp;&amp; "</span></span><br><span class="line">	&#125;</span><br><span class="line">	cmds = <span class="built_in">append</span>(cmds, cmdinPrefix+cmdin)</span><br><span class="line">	c := exec.Command(cmds[<span class="number">0</span>], cmds[<span class="number">1</span>:]...)</span><br><span class="line">	<span class="comment">// 获取输出对象，可以从该对象中读取输出结果</span></span><br><span class="line">	stdout, err := c.StdoutPipe()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 运行命令</span></span><br><span class="line">	<span class="keyword">if</span> err := c.Start(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	outputBytes, _ := ioutil.ReadAll(stdout)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">string</span>(outputBytes)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数大体结构如此。command包的完整代码如下，即添加了一下置顶的tips。然后合并了tips()和osExec()输出。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> command</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"runtime"</span></span><br><span class="line">	<span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tips</span><span class="params">()</span> <span class="params">(tip <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	timeUnix := time.Now().Unix() <span class="comment">//已知的时间戳</span></span><br><span class="line">	formatTimeStr := time.Unix(timeUnix, <span class="number">0</span>).Format(<span class="string">"2006-01-02 15:04:05"</span>)</span><br><span class="line"></span><br><span class="line">	tip = <span class="keyword">string</span>(<span class="string">"操作系统："</span> + runtime.GOOS + <span class="string">"\n"</span> +</span><br><span class="line">		<span class="string">"系统架构："</span> + runtime.GOARCH + <span class="string">"\n"</span> +</span><br><span class="line">		<span class="string">"系统时间："</span> + formatTimeStr + <span class="string">"\n"</span> +</span><br><span class="line">		<span class="string">"\n"</span>)</span><br><span class="line">	<span class="keyword">return</span> tip</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ExecForSys</span><span class="params">(cmdin <span class="keyword">string</span>)</span> <span class="params">(output <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> tips() + osExec(cmdin)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">osExec</span><span class="params">(cmdin <span class="keyword">string</span>)</span> <span class="params">(output <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cmds []<span class="keyword">string</span></span><br><span class="line">	cmdinPrefix := <span class="string">""</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> runtime.GOOS &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"darwin"</span>:</span><br><span class="line">		<span class="keyword">fallthrough</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"linux"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"/bin/sh"</span>, <span class="string">"-c"</span>)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"windows"</span>:</span><br><span class="line">		cmds = <span class="built_in">append</span>(cmds, <span class="string">"cmd"</span>, <span class="string">"/c"</span>)</span><br><span class="line">		cmdinPrefix = <span class="string">"chcp 65001 &amp;&amp; "</span></span><br><span class="line">	&#125;</span><br><span class="line">	cmds = <span class="built_in">append</span>(cmds, cmdinPrefix+cmdin)</span><br><span class="line">	c := exec.Command(cmds[<span class="number">0</span>], cmds[<span class="number">1</span>:]...)</span><br><span class="line">	<span class="comment">// 获取输出对象，可以从该对象中读取输出结果</span></span><br><span class="line">	stdout, err := c.StdoutPipe()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 运行命令</span></span><br><span class="line">	<span class="keyword">if</span> err := c.Start(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	outputBytes, _ := ioutil.ReadAll(stdout)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">string</span>(outputBytes)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="五：整体效果"><a href="#五：整体效果" class="headerlink" title="五：整体效果"></a>五：整体效果</h3><p>以上整体的框架所展示的效果如下。各位可以根据该篇思路来编写自己的工具形成武器库扩展。<br><img src="https://i.loli.net/2021/08/16/XqoGjIKCUlVv28k.png" alt="image-4.png"></p>
+<h3 id="六：思考"><a href="#六：思考" class="headerlink" title="六：思考"></a>六：思考</h3><p>在该篇文章中，主要体现fyne的使用方法和设计思路。关于执行命令的模块编写只是一个引子，该执行本地命令模块个人觉得没啥卵用，各位可以抛砖引玉应用到POC验证、EXP利用等方面会有更好的效果。另外我也在思考如何将执行本地命令模块拆分成含有服务端、用户端、agent端的C2式模块框架，目前还在研究当中…<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/08/09/Golang%20fyne%E5%BA%93%E4%B8%AD%E6%96%87%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88/" rel="next" title="Golang fyne库中文修复方案">
+                  <i class="fa fa-chevron-left"></i> Golang fyne库中文修复方案
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一：优化后的中文问题"><span class="nav-number">2.</span> <span class="nav-text">一：优化后的中文问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二：总框架设计"><span class="nav-number">3.</span> <span class="nav-text">二：总框架设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三：命令执行模块界面设计"><span class="nav-number">4.</span> <span class="nav-text">三：命令执行模块界面设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四：执行命令功能的实现"><span class="nav-number">5.</span> <span class="nav-text">四：执行命令功能的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五：整体效果"><span class="nav-number">6.</span> <span class="nav-text">五：整体效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六：思考"><span class="nav-number">7.</span> <span class="nav-text">六：思考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="LionKing"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">LionKing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://3gstudent.github.io/" title="https:&#x2F;&#x2F;3gstudent.github.io&#x2F;" rel="noopener" target="_blank">3gstudent</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.hl0rey.com/archives/" title="https:&#x2F;&#x2F;blog.hl0rey.com&#x2F;archives&#x2F;" rel="noopener" target="_blank">hl0rey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/micr067/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;micr067&#x2F;" rel="noopener" target="_blank">Micr067</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://patrilic.top/archives/" title="https:&#x2F;&#x2F;patrilic.top&#x2F;archives&#x2F;" rel="noopener" target="_blank">Patrilic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/qq_29647709" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;qq_29647709" rel="noopener" target="_blank">tdcoming</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://uknowsec.cn/" title="https:&#x2F;&#x2F;uknowsec.cn&#x2F;" rel="noopener" target="_blank">uknow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://422926799.github.io/" title="https:&#x2F;&#x2F;422926799.github.io&#x2F;" rel="noopener" target="_blank">九世</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://payloads.online/" title="https:&#x2F;&#x2F;payloads.online&#x2F;" rel="noopener" target="_blank">倾旋</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://wiki.17-apt.tk/" title="https:&#x2F;&#x2F;wiki.17-apt.tk&#x2F;" rel="noopener" target="_blank">BugMan</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.se7ensec.cn/" title="http:&#x2F;&#x2F;www.se7ensec.cn&#x2F;" rel="noopener" target="_blank">se7en</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://attack.mitre.org/matrices/enterprise/" title="https:&#x2F;&#x2F;attack.mitre.org&#x2F;matrices&#x2F;enterprise&#x2F;" rel="noopener" target="_blank">ATT&CK</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fireeye.com/blog.html" title="https:&#x2F;&#x2F;www.fireeye.com&#x2F;blog.html" rel="noopener" target="_blank">FireEye</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://vincentyiu.com/" title="https:&#x2F;&#x2F;vincentyiu.com&#x2F;" rel="noopener" target="_blank">Vincent Yiu</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LionKing</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+-->
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+</body>
+</html>
