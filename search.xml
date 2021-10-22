@@ -110,6 +110,24 @@
       </tags>
   </entry>
   <entry>
+    <title>记《寻觅意义》</title>
+    <url>/2021/10/22/%E8%AE%B0%E3%80%8A%E5%AF%BB%E8%A7%85%E6%84%8F%E4%B9%89%E3%80%8B/</url>
+    <content><![CDATA[<p>《寻觅意义》- 王德峰</p><a id="more"></a>
+<ul>
+<li>我们总是拿科学与巫术对比，说巫术是一种愚昧。但我们误解了巫术的本质。巫术并不是人类在没有科学武装之前用愚昧的方法妄图使自然听从自己。不，巫术原就不是为了呼风唤雨，不是为了降服自然。原始人在行驶巫术之后便去劳动，去耕作或狩猎，并不以为举行了巫术仪式之后就可以回家睡觉，土壤就会自行长出稻谷来，野兽就会任人宰割。生活资料的果实必须用劳动的汗水来换取，原始人是懂得这一点的，他们并不是用巫术来取代劳动，而是用巫术表达他们对部落共同体的自我认同感，表达劳动的勇气和热情，用英国哲学家柯林伍德的话来说，巫术是原始社会的生命情感的“发电机”。</li>
+<li>如果说我们今天的人对西方古典音乐已有一种陌生感的话，那是因为我们已经失去了一种渴望，即一种把我们个人的心灵的愿望置入一个理想世界中去的渴望。我们发现这是不可能的，我们甚至认为这是虚伪的，不真实的。这不怪我们，因为我们所处的社会世界进入了二维平面化的生存方式之中–一维是“经济增长的效率”，另一维是“利益分配的合理性”。在这种状况中，我们不再拥有一个崇高的、可以让我们向上攀登的目标。所以，尼采说“上帝死了。”这个“上帝”就是整整一个超感性的世界，不仅是指基督教的上帝。这个超感性世界的崩塌使得西方古典艺术，不仅是古典音乐，而是西方近代的整个审美理想的瓦解。这真是一种莫大的损失！</li>
+<li>在普遍的幸福与和谐中，不会产生伟大的艺术。孤独的个人要求普遍的真理。</li>
+<li>究天人之际，通今古之变，成一家之言–司马迁</li>
+<li>假如你对维新变法运动的失败感到悲哀，你一定感悟了什么。本来你与维新变法的年代相距很远，何需悲喜？但你确实有了悲喜，这就证明你对某种超越性存在产生了感悟，你感悟到了我们民族的近代命运。</li>
+<li>但是，我们又发现，今天的许多人文知识分子正逐渐把学术研究变成一种纯粹知识的探究，成为一种很专门的职业。这是很让人感到悲哀的。在这种状况中，我们所能成就的至多是专业的知识，而不是对真理的探寻。</li>
+<li>蒲松龄评论说，“性痴则志疑，故书痴者文必恭，艺痴者技必良，世之落魄而无成者，皆自谓不痴也。以是慧黠而过，乃是真痴。”</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>？？？</title>
     <url>/2021/08/31/%EF%BC%9F%EF%BC%9F%EF%BC%9F/</url>
     <content><![CDATA[<p>2021.08.31-&gt;2021.09.01</p><a id="more"></a>
@@ -5352,6 +5370,62 @@
       </tags>
   </entry>
   <entry>
+    <title>（六）渗透技巧—大数据</title>
+    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
+<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
+<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
+<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
+<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
+<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
+<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
+<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
+<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
+<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
+<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>（二）渗透技巧—常见运维系统</title>
     <url>/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<blockquote>
@@ -5424,62 +5498,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>（六）渗透技巧—大数据</title>
-    <url>/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h3 id="1、Elsaticsearch"><a href="#1、Elsaticsearch" class="headerlink" title="1、Elsaticsearch"></a>1、Elsaticsearch</h3><p>Elasticsearch 是一个分布式的搜索和分析引擎，可以用于全文检索、结构化检索和分析，并能将这三者结合起来。Elasticsearch 基于 Lucene 开发，现在是使用最广的开源搜索引擎之一，Wikipedia、Stack Overflow、GitHub 等都基于 Elasticsearch 来构建他们的搜索引擎。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">默认端口：9200、9300</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   未授权访问；</span><br><span class="line">•   远程命令执行；</span><br><span class="line">•   文件遍历；</span><br><span class="line">•   低版本webshell植入；</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.freebuf.com/sectool/38025.html</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/5401.html</span><br></pre></td></tr></table></figure>
-<h3 id="2、hadoop"><a href="#2、hadoop" class="headerlink" title="2、hadoop"></a>2、hadoop</h3><p>Hadoop是一个开源的框架，可编写和运行分布式应用处理大规模数据，是专为离线和大规模数据分析而设计的，并不适合那种对几个记录随机读写的在线事务处理模式。</p>
-<p>Hadoop=HDFS（文件系统，数据存储技术相关）+ Mapreduce（数据处理），Hadoop的数据来源可以是任何形式，在处理半结构化和非结构化数据上与关系型数据库相比有更好的性能，具有更灵活的处理能力，不管任何数据形式最终会转化为key/value，key/value是基本数据单元。</p>
-<p>用函数式变成Mapreduce代替SQL，SQL是查询语句，而Mapreduce则是使用脚本和代码，而对于适用于关系型数据库，习惯SQL的Hadoop有开源工具hive代替。 Hadoop就是一个分布式计算的解决方案。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://tech.meituan.com/hadoop-security-practice.html</span><br><span class="line"></span><br><span class="line">https://zhuanlan.zhihu.com/p/33525241</span><br><span class="line"></span><br><span class="line">https://www.anquanke.com/post/id/85343</span><br><span class="line"></span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-0-x/CDH5-Security-Guide/cdh5sg_hadoop_security_intro.html</span><br></pre></td></tr></table></figure>
-<h3 id="3、Hive"><a href="#3、Hive" class="headerlink" title="3、Hive"></a>3、Hive</h3><p>Hive是Hadoop家族中一款数据仓库产品，Hive最大的特点就是提供了类SQL的语法，封装了底层的MapReduce过程，让有SQL基础的业务人员，也可以直接利用Hadoop进行大数据的操作。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://cwiki.apache.org/confluence/display/Hive/Security</span><br><span class="line"></span><br><span class="line">https://www.cnblogs.com/yejibigdata/p/6394719.html</span><br></pre></td></tr></table></figure>
-<h3 id="4、Sqoop"><a href="#4、Sqoop" class="headerlink" title="4、Sqoop"></a>4、Sqoop</h3><p>Apache Sqoop（SQL-to-Hadoop） 项目旨在协助 RDBMS 与 Hadoop 之间进行高效的大数据交流。</p>
-<p>用户可以在 Sqoop 的帮助下，轻松地把关系型数据库的数据导入到 Hadoop 与其相关的系统 (如HBase和Hive)中；同时也可以把数据从 Hadoop 系统里抽取并导出到关系型数据库里。除了这些主要的功能外，Sqoop 也提供了一些诸如查看数据库表等实用的小工具。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://sqoop.apache.org/docs/1.99.7/security.html</span><br></pre></td></tr></table></figure>
-<h3 id="5、HBase"><a href="#5、HBase" class="headerlink" title="5、HBase"></a>5、HBase</h3><p>HBase建立在HDFS之上，提供高可靠性、高性能、列存储、可伸缩、实时读写的数据库系统。</p>
-<p>它介于NoSQL和RDBMS之间，仅能通过行键(row key)和行键序列来检索数据，仅支持单行事务(可通过Hive支持来实现多表联合等复杂操作)。主要用来存储非结构化和半结构化的松散数据。</p>
-<p>与Hadoop一样，HBase目标主要依靠横向扩展，通过不断增加廉价的商用服务器，来增加计算和存储能力。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/admin_hbase_security.html</span><br><span class="line">https://www.cloudera.com/documentation/cdh/5-1-x/CDH5-Security-Guide/cdh5sg_hbase_security.html</span><br></pre></td></tr></table></figure>
-<h3 id="6、Spark"><a href="#6、Spark" class="headerlink" title="6、Spark"></a>6、Spark</h3><p>Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用的并行计算框架，Spark基于map reduce算法实现的分布式计算，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写HDFS。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">参考：</span><br><span class="line">http://cwiki.apachecn.org/pages/viewpage.action?pageId=2887905</span><br></pre></td></tr></table></figure>
 
 
 
