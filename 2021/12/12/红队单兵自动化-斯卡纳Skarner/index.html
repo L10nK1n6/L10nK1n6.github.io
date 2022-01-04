@@ -48,15 +48,20 @@
   };
 </script>
 
-  <meta name="keywords" content="Python,渗透,Red Team,内网,红队,研究">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LionKing">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;page&#x2F;7&#x2F;index.html">
+  <meta name="description" content="2019年在手机备忘录上写了一句“开发自动化信息收集工具”。想法的萌生起因于当时在第一家公司的时候，他们开发了一个信息收集的产品，看着真不错呀。但是各种复杂的原因，该产品总是不尽人意，或者说不尽我意（虽然开发那个产品的各位大佬们真的辛苦了），另外我也知道我不可能一直待在那家公司，也不可能对该产品拥有永久使用权，所以想着还是自己着手搞一个吧。后来，我尝试二开bayonet&#x2F;Watchdog，也尝试以">
+<meta name="keywords" content="工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红队单兵自动化-斯卡纳Skarner">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;12&#x2F;12&#x2F;%E7%BA%A2%E9%98%9F%E5%8D%95%E5%85%B5%E8%87%AA%E5%8A%A8%E5%8C%96-%E6%96%AF%E5%8D%A1%E7%BA%B3Skarner&#x2F;index.html">
 <meta property="og:site_name" content="LionKing">
+<meta property="og:description" content="2019年在手机备忘录上写了一句“开发自动化信息收集工具”。想法的萌生起因于当时在第一家公司的时候，他们开发了一个信息收集的产品，看着真不错呀。但是各种复杂的原因，该产品总是不尽人意，或者说不尽我意（虽然开发那个产品的各位大佬们真的辛苦了），另外我也知道我不可能一直待在那家公司，也不可能对该产品拥有永久使用权，所以想着还是自己着手搞一个吧。后来，我尝试二开bayonet&#x2F;Watchdog，也尝试以">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2021&#x2F;jpeg&#x2F;20362568&#x2F;1635224930074-a2f45332-7863-4e46-b348-bb5cbb1eaae4.jpeg#clientId=u54e033ae-acc5-4&amp;from=drop&amp;id=u7b02a7d7&amp;margin=%5Bobject%20Object%5D&amp;name=%E8%B4%B4%E5%9B%BE.jpg&amp;originHeight=1080&amp;originWidth=1920&amp;originalType=binary&amp;ratio=1&amp;size=618394&amp;status=done&amp;style=none&amp;taskId=ud9577530-393a-4f4d-ae1c-5400b61fa6e">
+<meta property="og:updated_time" content="2022-01-04T07:19:42.732Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cdn.nlark.com&#x2F;yuque&#x2F;0&#x2F;2021&#x2F;jpeg&#x2F;20362568&#x2F;1635224930074-a2f45332-7863-4e46-b348-bb5cbb1eaae4.jpeg#clientId=u54e033ae-acc5-4&amp;from=drop&amp;id=u7b02a7d7&amp;margin=%5Bobject%20Object%5D&amp;name=%E8%B4%B4%E5%9B%BE.jpg&amp;originHeight=1080&amp;originWidth=1920&amp;originalType=binary&amp;ratio=1&amp;size=618394&amp;status=done&amp;style=none&amp;taskId=ud9577530-393a-4f4d-ae1c-5400b61fa6e">
 
-<link rel="canonical" href="http://yoursite.com/archives/page/7/">
+<link rel="canonical" href="http://yoursite.com/2021/12/12/%E7%BA%A2%E9%98%9F%E5%8D%95%E5%85%B5%E8%87%AA%E5%8A%A8%E5%8C%96-%E6%96%AF%E5%8D%A1%E7%BA%B3Skarner/">
 
 
 <script id="page-configurations">
@@ -64,13 +69,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | LionKing</title>
+  <title>红队单兵自动化-斯卡纳Skarner | LionKing</title>
   
 
 
@@ -196,240 +201,109 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">不错! 目前共计 76 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/12/%E7%BA%A2%E9%98%9F%E5%8D%95%E5%85%B5%E8%87%AA%E5%8A%A8%E5%8C%96-%E6%96%AF%E5%8D%A1%E7%BA%B3Skarner/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="LionKing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LionKing">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          红队单兵自动化-斯卡纳Skarner
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-12 23:10:29" itemprop="dateCreated datePublished" datetime="2021-12-12T23:10:29+08:00">2021-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-04 15:19:42" itemprop="dateModified" datetime="2022-01-04T15:19:42+08:00">2022-01-04</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-07-15T23:10:29+08:00"
-              content="2019-07-15">
-          07-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/07/15/nodebb%E8%AE%BA%E5%9D%9B%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B/" itemprop="url">
-            <span itemprop="name">nodebb论坛搭建过程</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-05-26T23:10:29+08:00"
-              content="2019-05-26">
-          05-26
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/05/26/Everything%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/" itemprop="url">
-            <span itemprop="name">Everything目录遍历</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-04-15T23:10:29+08:00"
-              content="2019-04-15">
-          04-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/" itemprop="url">
-            <span itemprop="name">（一）渗透技巧—web</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-04-15T23:10:29+08:00"
-              content="2019-04-15">
-          04-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/04/15/%EF%BC%88%E4%B8%89%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/" itemprop="url">
-            <span itemprop="name">（三）渗透技巧—数据库、缓存、消息服务</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-04-15T23:10:29+08:00"
-              content="2019-04-15">
-          04-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/04/15/%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/" itemprop="url">
-            <span itemprop="name">（二）渗透技巧—常见运维系统</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-04-15T23:10:29+08:00"
-              content="2019-04-15">
-          04-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/04/15/%EF%BC%88%E4%BA%94%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E4%BA%91%E7%8E%AF%E5%A2%83/" itemprop="url">
-            <span itemprop="name">（五）渗透技巧—云环境</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-04-15T23:10:29+08:00"
-              content="2019-04-15">
-          04-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/04/15/%EF%BC%88%E5%85%AD%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url">
-            <span itemprop="name">（六）渗透技巧—大数据</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-04-15T23:10:29+08:00"
-              content="2019-04-15">
-          04-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/04/15/%EF%BC%88%E5%9B%9B%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E3%80%81%E5%8D%8F%E8%AE%AE/" itemprop="url">
-            <span itemprop="name">（四）渗透技巧—常见服务、协议</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-03-18T23:10:29+08:00"
-              content="2019-03-18">
-          03-18
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/03/18/phpinfo%E6%AD%A3%E7%A1%AE%E9%A3%9F%E7%94%A8%E6%96%B9%E5%BC%8F/" itemprop="url">
-            <span itemprop="name">phpinfo正确食用方式</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2018</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2018-11-01T23:10:29+08:00"
-              content="2018-11-01">
-          11-01
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2018/11/01/Redis%E6%9C%8D%E5%8A%A1%EF%BC%886379%E7%AB%AF%E5%8F%A3%EF%BC%89%E5%85%A5%E4%BE%B5/" itemprop="url">
-            <span itemprop="name">Redis服务（6379端口）入侵</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
+        <p>2019年在手机备忘录上写了一句“开发自动化信息收集工具”。想法的萌生起因于当时在第一家公司的时候，他们开发了一个信息收集的产品，看着真不错呀。但是各种复杂的原因，该产品总是不尽人意，或者说不尽我意（虽然开发那个产品的各位大佬们真的辛苦了），另外我也知道我不可能一直待在那家公司，也不可能对该产品拥有永久使用权，所以想着还是自己着手搞一个吧。后来，我尝试二开bayonet/Watchdog，也尝试以goby为基础做一些改进，各种自动化信息收集的开源工具，我都或多或少的尝试改进来达到形成自己的武器库/体系。但是始终在别人的基础上魔改都少点意思，后来干脆自己开发了。在加入水滴之后的一次武器化研究过程中，为了解决hw资产收集不全的痛点，借鉴ENscan的思路开发出了“先锋”，用来快速获取目标单位及下属单位的所有网络资产。“先锋”在后续的使用中确实帮助非常大，节省不少人力和精力用以来帮助红队人员（至少是我）全身心投入打点，而不用管其他杂七杂八的事情。后来“先锋”的路子有点堵了，没有更多的血液加入使得它仿佛就只是个工具，没有灵魂（狗头）。轮子造好了，但只有轮子怎么行，俺还要有车。所以，在“先锋”的基础上进行了大更改，并且接着“先锋”后面做了更多自动化信息收集，只需输入单位名称/域名/IP–&gt;输出所有网络资产和指纹信息，这样只需要看指纹就能快速打点了。另外还顺带接了xray和机器人，来扫扫边角料捡漏。<br></p><a id="more"></a>
+<blockquote>
+<p>该工具仅内部使用<br>该文章仅记录和占位</p>
+</blockquote>
+<p>​</p>
+<p>水晶先锋The Crystal Vanguard / 斯卡纳Skarner</p>
+<hr>
+<p>“我来告诉你什么是怪物”<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/20362568/1635224930074-a2f45332-7863-4e46-b348-bb5cbb1eaae4.jpeg#clientId=u54e033ae-acc5-4&from=drop&id=u7b02a7d7&margin=%5Bobject%20Object%5D&name=%E8%B4%B4%E5%9B%BE.jpg&originHeight=1080&originWidth=1920&originalType=binary&ratio=1&size=618394&status=done&style=none&taskId=ud9577530-393a-4f4d-ae1c-5400b61fa6e" alt="贴图.jpg"><br><br><br>水晶先锋是“先锋”的后续版本。因不满足查询企业信息数据的单一功能，便想着自己动手开发一个能舒服、流畅度过红队项目前期各种信息收集的单兵自动化工具。<br>该工具以输入企业名称、输出该企业所有资产(隐藏资产除外)的指纹识别信息为主，以xray漏扫为辅</p>
 
     </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"><i class="fa fa-tag"></i> 工具</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/10/22/%E8%AE%B0%E3%80%8A%E5%AF%BB%E8%A7%85%E6%84%8F%E4%B9%89%E3%80%8B/" rel="next" title="记《寻觅意义》">
+                  <i class="fa fa-chevron-left"></i> 记《寻觅意义》
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2099/01/01/%E6%94%B6%E8%97%8F%E7%9A%84%E6%96%87%E7%AB%A0/" rel="prev" title="收藏的文章">
+                  收藏的文章 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 
           </div>
           
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzQ3My8yMzk3Mw=="></div>
+  </div>
+  
 
         </div>
           
@@ -628,6 +502,19 @@
 
   
 
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
 
 </body>
 </html>
